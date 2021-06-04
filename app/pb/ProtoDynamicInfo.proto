@@ -1,0 +1,117 @@
+//import "DataCommon.proto";
+package ProtoDynamicInfo;
+
+
+//玩家动态消息
+message DynamicInfo
+{
+	required uint32 id            = 1;//动态ID（唯一标记动态）
+	required uint32 ts            = 2;//动态消息发生时间
+	required uint32 typeId        = 3;//动态消息类型id (4Bytes)
+	
+	optional uint32 opUid         = 4;//对方玩家uid
+	optional uint32 productId	  = 5;//商店物品id
+	optional uint32 coin		  = 6;//卖商品所获取的金币数
+	optional bytes  words		  = 7;//对方回复留言的内容 或者 邀请加入商会的商会名
+	
+}
+//获取动态消息
+message GetDynamicInfoReq
+{
+
+}
+
+//响应获取动态消息
+message GetDynamicInfoResp
+{
+	repeated DynamicInfo arrayDyInfo   = 1;
+}
+//查看动态消息时发送，后台改变是否有动态数据为false并推送回包
+message HasNewDynamicInfoReq
+{
+	
+}
+//响应是否有动态消息
+message HasNewDynamicInfoResp
+{
+	required bool HasNewDy = 1;	//玩家登录推送一次，玩家在线时每当有动态就推送一次
+}
+
+//删除动态
+message DeleteDynamicInfoReq
+{
+	required uint32 id = 1;
+}
+
+//后台跨服访问消息
+message RequestOtherUserMakeDy
+{
+	required uint32 myuid		 = 1;
+	required uint32 othuid 		 = 2;
+	required uint32 typeid 		 = 3;
+	
+	optional uint32 productId 	 = 4;
+	optional uint32 coin 		 = 5;
+	optional bytes  words		 = 6;
+}
+
+//定向请求好友帮助 
+message LocationHelpReq
+{
+	required uint32 typeid    = 1;			//动态类型typeid: 201/202/203
+	repeated uint32 arrayuid  = 2;			//求助好友的uid数组
+}
+
+//处理好友帮助消息 后台收到请求后将其降级为普通消息
+message HandleLocationHelpReq
+{
+	required uint32 id        = 1;         //动态ID（唯一标记动态）
+	required uint32 typeid    = 2;		   //动态类型typeid: 201/202/203/204
+}
+
+//处理好友帮助消息响应
+message HandleLocationHelpResq
+{
+	required uint32 id        = 1;         //动态ID（唯一标记动态）
+	required uint32 newtypeid    = 2;		//新动态类型
+}
+
+//点击好友订单动态请求
+message ClickOrderHelpReq
+{
+	required uint32 id 			 = 1;	//动态ID
+	required uint32 typeId       = 2;	//动态消息类型id (4Bytes)
+}
+
+//点击好友订单动态响应
+message ClickOrderHelpResp
+{
+	required uint32 result	= 1;		//result: 1.跳转到好友订单中，并且该订单存在 2.跳转到好友订单中，但该订单已过期，并被系统删除了
+	optional uint32 index	= 2;		//result=1情况下，对应的好友订单索引
+}
+
+//动态消息typeId与具体内容的对应关系如下：
+//普通动态消息
+//101：访问了你家
+//102：购买了你的xx，获得xx金币
+//103：帮助你装了船
+//104：救活了你的树
+//105：公会捐助已满
+//106：在xx庄园里留言
+//107：回复了你的留言：xxx
+//108: 关注了我
+//109: 帮你浇了水
+
+//未被玩家处理的置顶动态消息  属于置顶动态消息
+//201：亲爱的，我的树都枯萎了，快来帮我浇水吧！
+//202：我的船装不完，你能不能帮我装个箱子呀~
+//203：快快快，快来帮我的友情树浇水！
+//204：我需要xxx个xxx，你有吗？卖给我吧~~
+//205: 邀请你加入商会xxxxx
+
+//已被玩家处理的置顶动态消息  降级为普通动态消息
+//301：亲爱的，我的树都枯萎了，快来帮我浇水吧！
+//302：我的船装不完，你能不能帮我装个箱子呀~
+//303：快快快，快来帮我的友情树浇水！
+//304：我需要xxx个xxx，你有吗？卖给我吧~~
+//305: 邀请你加入商会xxxxx

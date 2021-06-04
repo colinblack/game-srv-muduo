@@ -1,0 +1,26 @@
+package ConfigItem;
+import "CommonGiftConfig.proto";
+
+message PropItem
+{
+	required uint32 id										= 1;
+	required uint32 location 								= 2;   //存放位置
+	required uint32	type									= 3; //类型
+	required uint32 unlock_level 							= 4;  //解锁等级
+	required uint32 time_gain 								= 5;   //收获时间
+	required CommonGiftConfig.CommonModifyItem price		= 6;  //出售价格
+	required uint32 limitnum								= 7;  //数量上限
+	required CommonGiftConfig.CommonModifyItem dimond_cost	= 8;  //钻石购买价格
+	required float coefficient								= 9;	
+	optional CommonGiftConfig.CommonModifyItem material		= 10; //原料
+	optional uint32 speed_price								= 11; //减速价格.1钻能减掉的秒数
+	optional CommonGiftConfig.CommonModifyItem extra_reward	= 12; //额外奖励
+	required uint32 npc_customer_id                         = 13;//npc顾客id
+	optional uint32 equipment                               = 14;
+}
+
+message Items
+{
+	repeated PropItem itemes	= 1; //道具
+	required CommonGiftConfig.CommonModifyItem view_ad_reward	= 2; //看广告奖励
+}

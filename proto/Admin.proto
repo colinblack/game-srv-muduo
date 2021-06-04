@@ -1,0 +1,71 @@
+package Admin;
+
+message AddCash {
+		required uint32 uid 				= 1;
+		required int32 cash 				= 2;
+}
+message ReplyAddCash {
+		required uint32 uid 				= 1;
+		required uint32 cash				= 2;
+}
+
+message AsycItem{
+		required uint32 uid 				= 1;
+		required uint32 id 					= 2;
+		required uint32 count 				= 3;
+}
+message AsycAdd{
+		repeated AsycItem item				= 1;
+}
+
+message AsycAddResp
+{
+	required uint32 ret	=	1;
+}
+
+message RequestForbidTS
+{
+	required uint32 uid 				= 1;
+}
+message ReplyForbidTS
+{
+	required uint32 forbidts			= 1;
+	required bytes reason				= 2;
+}
+message SetForbidTS
+{
+	required uint32 uid 				= 1;
+	required uint32 forbidts			= 2;
+	required bytes reason				= 3;
+}
+
+message AllianceRaceGroupItem
+{
+	required uint32 aid				= 1;	// 组成员的联盟ID
+	required uint32 count			= 2;	// 联盟成员数量
+}
+message AllianceRaceGroup
+{
+	repeated AllianceRaceGroupItem item = 1;
+}
+message SetAllianceRaceGroup
+{
+	required uint32 ts 			     = 1;
+	repeated AllianceRaceGroup group = 2;
+}
+message SetActivity
+{
+	required uint32 actId			     = 1;	// 活动ID
+	required bytes status				= 2;	// 选项(on,off,settle)
+}
+
+message SysMail
+{
+	repeated uint32 uid 				= 1;
+	required bytes sys					= 2;
+	required bytes reward				= 3;
+}
+message ReplySysMail
+{
+	required uint32 ret 				= 1;
+}

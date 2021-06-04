@@ -1,0 +1,43 @@
+package ConfigActivity;
+
+import "CommonGiftConfig.proto";
+
+//每日基金
+message DailyFundCPP
+{
+	required CommonGiftConfig.CommonModifyItem diamond		= 1;  //钻石消耗
+	repeated CommonGiftConfig.CommonModifyItem reward		= 2;  //奖励
+}
+
+//新分享活动(邀请好友领奖励)
+message NewShareCPP
+{
+	repeated uint32 share_cd_time                            = 1;//分享后的冷却cd
+	repeated CommonGiftConfig.CommonModifyItem share_reward  = 2;//分享奖励
+	repeated CommonGiftConfig.CommonModifyItem reward		 = 3;//领取奖励
+}
+
+//4399首冲翻倍活动
+message Recharge4399CPP
+{
+	repeated uint32 limit	= 1;//充值目标
+	repeated CommonGiftConfig.CommonModifyItem reward		 = 3;//领取奖励
+}
+
+//4399每日充值活动
+message Daily4399CPP
+{
+	repeated uint32 limit	= 1;//充值目标
+	repeated CommonGiftConfig.CommonModifyItem reward		 = 2;//领取奖励
+	required CommonGiftConfig.CommonModifyItem month_card	 = 3;//月卡令使用消耗
+	required CommonGiftConfig.CommonModifyItem life_card	 = 4;//终身卡令使用消耗
+}
+
+//活动
+message ActivityCfg
+{
+	required DailyFundCPP  daily_fund     = 1;//每日基金
+	required NewShareCPP   new_share      = 2;//新分享活动
+	required Recharge4399CPP charge_4399  = 3;//首冲翻倍活动
+	required Daily4399CPP daily_4399      = 4;//每日充值活动
+}

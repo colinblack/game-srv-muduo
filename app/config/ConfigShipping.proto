@@ -1,0 +1,61 @@
+package ConfigShipping;
+
+import "CommonGiftConfig.proto";
+
+message BoxItems
+{
+	required uint32 badge_cond	= 1;  //徽章
+	repeated uint32 num_range	= 2; //箱子数目范围
+	required uint32 view_ad_cnt = 3;//看广告次数
+}
+
+message RewardCoefficient
+{
+	required double multiple		= 1;  //倍数
+	repeated uint32 randomk_range 	= 2;  //随机数k范围
+}
+
+message Item
+{
+	required uint32 id		= 1; //物品id
+	repeated uint32 count  	= 2;  //对应4个箱子的不同数量
+}
+
+message LevelItem
+{
+	required uint32 level	= 1;  //用户等级
+	repeated Item items		= 2; //物品
+}
+
+message ShippingItem
+{
+	required uint32 unlock_level 		= 1;	//解锁等级
+	required uint32 unlock_time			= 2;  //解锁时间
+	required uint32 unlock_speed_price 	= 3;  //解锁加速花费
+	required CommonGiftConfig.CommonModifyItem unlock_cost	= 4;   //解锁消耗
+	required uint32 prepare_time		= 5;  //轮船到达前的准备时间
+	required uint32 speed_prepare_price	= 6;  //加速价格
+	required uint32 pack_time			= 7;  //装货时间
+	required uint32 item_kind_num		= 8; //类型数目
+	repeated BoxItems boxes				= 9;  //箱子数目的配置
+	required RewardCoefficient reward_coefficient = 10;
+	required uint32 aid_extra_reward	= 11;  //援助额外奖励
+	required uint32 badge_init			= 12;  //初始徽章
+	required uint32 public_aid_limit	= 13;  //公共援助次数
+	required uint32 commercial_aid_limit= 14; //商会援助次数	
+	repeated LevelItem level_items		= 15; //等级库	
+}
+
+//满箱点券奖励
+message FullBoxPointCPP
+{
+	required uint32  weight                           = 1;
+	required CommonGiftConfig.CommonModifyItem reward = 2;
+}
+
+message Shipping
+{
+	required ShippingItem shipping	= 1;  //航运配置
+	repeated FullBoxPointCPP point  = 2;//点券配置
+}
+

@@ -1,0 +1,6 @@
+package Save;
+
+message SaveTest
+{
+	repeated uint32 test			= 1;
+}

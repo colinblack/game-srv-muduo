@@ -1,0 +1,42 @@
+import "DataCommon.proto";
+package ProtoAssistor;
+
+
+message assistInfoCPP
+{
+    required uint32 level         = 1;//玩家等级
+    required uint32 propsId       = 2;//物品id
+    required uint32 propsCnt      = 3;//物品数量
+}
+
+//价格档次
+message assistGrade
+{
+    required uint32 times          = 1;
+    required uint32 cash           = 2;
+}
+
+//使用助手
+message UseAssistorReq
+{
+    required assistInfoCPP  assistInfo = 1;
+}
+
+
+message UseAssistorResp
+{
+    required uint32             startTs = 1;    //上次使用时间
+    required DataCommon.CommonItemsCPP commons  = 2; //物品 
+}
+
+//开通助手
+message OpenAssistorReq
+{
+    required uint32 grade          = 1; //价格档次
+}
+
+message OpenAssistorResp
+{
+    required uint32     endTs = 1;                    //使用截止时间
+    optional DataCommon.CommonItemsCPP commons  = 2;  //钻石消耗
+}

@@ -1,0 +1,39 @@
+import "DataCommon.proto";
+import "ProtoTheme.proto";
+
+package ProtoReward;
+
+message GetFirstRechargeRewardReq
+{
+}
+message GetFirstRechargeRewardResp
+{
+	required uint32 firstRecharge              = 1;//领取标记(按&1运算:0:未领取,1:已领取)
+	required DataCommon.CommonItemsCPP common  = 2; //通用奖励
+	optional ProtoTheme.ThemeInfoResp    theme = 3;//主题信息
+}
+
+
+message GetFollowPublicRewardReq
+{
+}
+message GetFollowPublicRewardResp
+{
+	required DataCommon.CommonItemsCPP common  = 1; //通用奖励
+}
+message RewardInfo
+{
+	required DataCommon.CommonItemsCPP common  = 1; //通用奖励
+}
+message FetchProductWatchAdsReward
+{
+	required uint32 propsId = 1;	// 物品ID
+	required uint32 count = 2;		// 物品数量
+}
+message FetchProductWatchAdsRewardReq
+{
+}
+message FetchProductWatchAdsRewardResp
+{
+	required DataCommon.CommonItemsCPP common  = 1; //通用奖励
+}

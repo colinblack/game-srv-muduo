@@ -1,0 +1,22 @@
+package ConfigShop;
+
+message ShopCPP
+{
+	repeated uint32 shelf_cnt              = 1;//货架个数下限与上线配置
+	repeated uint32 sell_cnt               = 2;//出售物品下限与上线配置
+	required float  item_base_price        = 3;//计算公式里出售价格的基数
+	required uint32 shelf_base_price       = 4;//计算公式里花钻购买货架的基数
+	required uint32 invite_unlock_shelf_max = 5;//因邀请而能解锁的最大货架数
+}
+
+message NPCShopCPP
+{
+	required uint32 shelf_cnt           = 1;//个人npc商店货架个数
+	repeated uint32 per_shelf_item_cnt  = 2;//每个货架随机生成的物品个数区间
+}
+
+message ShopInfo
+{
+	required ShopCPP   shop       = 1;
+	required NPCShopCPP npcshop   = 2;
+}

@@ -1,0 +1,110 @@
+package UserCfg;
+
+import "CommonGiftConfig.proto";
+
+message UserBase
+{
+	required uint32 coin		= 1;
+	required uint32 cash		= 2;
+	required uint32 level		= 3;
+	required uint32 exp			= 4;
+}
+
+message Build
+{
+	required uint32 buildid = 1;
+	repeated uint32 pos		= 2;
+}
+
+message CriticalInfo
+{
+	required uint32 level									= 1;
+	repeated CommonGiftConfig.CommonModifyItem 	prize		= 2;	
+}
+
+message DailyRewards
+{
+    required uint32 id                                  =   1;
+    required uint32 weight                              =   2;
+    repeated CommonGiftConfig.CommonModifyItem prize    =   3; //奖励  
+}
+
+message ExtraRewards
+{
+    required uint32 day                                 =   1;
+    repeated CommonGiftConfig.CommonModifyItem prize    =   2; //奖励  
+}
+
+
+message DailyShareGifts
+{
+    repeated DailyRewards   rewards                     = 1;
+    repeated ExtraRewards   extra                       = 2;
+}
+
+
+message SignInGifts
+{
+     required uint32 day                                 = 1;
+     repeated CommonGiftConfig.CommonModifyItem prize    = 2; //奖励  
+}
+
+
+message CoinPurchase
+{
+	required uint32 		id								= 1;  //id
+	required CommonGiftConfig.CommonModifyItem 	cost		= 2; //消耗
+	required CommonGiftConfig.CommonModifyItem 	reward		= 3; //奖励
+}
+message FairySpeedUp
+{
+	required uint32 level = 1;		// 小于等于level有效
+	required float cropRate = 2;	// 作物加速比率
+	required float equipRate = 3;	// 设备加速比率
+	required float farmRate = 4;	// 农场加速比率
+}
+
+message NewUserGuideShareCPP
+{
+	required uint32 id                                      = 1;
+	required CommonGiftConfig.CommonModifyItem 	reward		= 2; //奖励
+}
+
+//小米用户奖励
+message XMUserReward
+{
+	required bytes reward  = 1;
+	optional bytes content = 2;
+}
+//小米用户邮件配置
+message XMUserRewardCfg
+{
+	required bytes MailTitle            = 1;//邮件标题
+	required bytes FirstMailMsg         = 2;//首次邮件消息内容
+	required bytes FirstChargeMailMsg   = 3;//首充后邮件消息内容
+	repeated XMUserReward RewardDiamondCnt    = 4;//奖励钻石数目 
+}
+
+//耗钻配置(针对某些功能新增的耗钻配置)
+message CostDiamondCfg
+{
+	required CommonGiftConfig.CommonModifyItem 	xianren_open_cost		= 1;//仙人开启消耗
+	required CommonGiftConfig.CommonModifyItem 	zhushou_open_cost		= 2;//助手开启消耗
+	required CommonGiftConfig.CommonModifyItem 	daocaoren_open_cost		= 3;//稻草人开启消耗
+}
+
+message User
+{
+	required UserBase   user_init 						= 1;  //玩家基本属性
+	repeated uint64	   user_exp							= 2;  //玩家升级经验
+	repeated Build			builds							= 3;  //建筑
+	required CommonGiftConfig.CommonModifyItem initprops 	= 4; //新手初始道具
+	repeated CriticalInfo criticalPoint					= 5; //临界点奖励
+	required DailyShareGifts sharegift	                    = 6; //每日分享奖励
+	repeated CoinPurchase 	coinpurchase				    = 7; //金币购买
+    repeated SignInGifts   SignIn                          = 8; //签到奖励
+	required FairySpeedUp   fairySpeedUp 					= 9;  //仙人加速
+	repeated NewUserGuideShareCPP   newUserGuideShare 	    = 10;  //新手引导分享
+	required XMUserRewardCfg xmUserReward                   = 11;//小米用户奖励
+	required CostDiamondCfg diamondCost                    = 12;//针对某些功能新增的耗钻配置
+}

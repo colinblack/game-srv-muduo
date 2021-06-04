@@ -1,0 +1,163 @@
+package ProtoActivity;
+import "DataCommon.proto";
+
+//通用活动消息
+message GameAcitivityCPP
+{
+	required uint32 id		= 1;  //活动id
+	required uint32 version = 2;  //活动版本
+	repeated uint32 actdata = 3;  //活动数据。以数组的形式存放.根据下标区分不同的数据
+}
+
+//活动集合
+message GameAcitivityAllCPP
+{
+	repeated GameAcitivityCPP activities = 1;  //活动
+}
+
+
+//首冲双倍
+message GameAcitivityRecharge
+{
+    required GameAcitivityCPP    data = 1;   //记录奖励标志和奖励数据
+}
+
+//活动状态
+message GameAcitivityStatusReq{
+    required uint32 id = 1;
+}
+
+
+message GameAcitivityStatusResp{
+	required uint32 status = 1;
+}
+
+//---------------活动基金
+//基金购买
+message FundPurchaseReq
+{
+}
+
+message FundPurchaseResp
+{
+	required GameAcitivityCPP fundActivity  = 1;//GameAcitivityCPP中的actdata第一个元素对应于购买的ts
+														       //actdata中后面的元素按位标记,标记每日登陆的礼包是否已领取过(0:未领取,1:领取)
+	required DataCommon.CommonItemsCPP commons  = 2; //消耗
+}
+
+//领取礼包
+message RewardFundGiftReq
+{
+	required uint32 index = 1;//领取的索引(从1开始)
+}
+
+message RewardFundGiftResp
+{
+	required GameAcitivityCPP fundActivity      = 1;
+	required DataCommon.CommonItemsCPP commons  = 2; //领取奖励
+}
+
+message PushAutoRewardFundMsg
+{
+	repeated DataCommon.CommonItemsCPP commons  = 1; //领取奖励
+}
+
+//---------------4399首冲翻倍
+//领取礼包
+message Reward4399RechargeGiftReq
+{
+	required uint32 index = 1;//领取的索引(从1开始，共6档)
+}
+
+message Reward4399RechargeGiftResp
+{
+	required GameAcitivityCPP rechargeActivity  = 1;//活动数据
+	required DataCommon.CommonItemsCPP commons  = 2; //领取奖励
+}
+
+//首冲一定金额成功后后端返回
+message GameAcitivity4399Recharge
+{
+    required GameAcitivityCPP    data = 1;   //记录奖励标志和奖励数据
+}
+
+//---------------4399每日充值
+//领取礼包
+message Reward4399DailyGiftReq
+{
+	required uint32 index = 1;//领取的索引(从1开始，共n档)
+}
+
+message Reward4399DailyGiftResp
+{
+	required GameAcitivityCPP rechargeActivity  = 1;//活动数据
+	required DataCommon.CommonItemsCPP commons  = 2; //领取奖励
+}
+
+//后端返回时机：1.充值一定金额 2.每日0点在线跨天重置奖励
+message GameAcitivity4399Daily
+{
+    required GameAcitivityCPP    data = 1;   //记录奖励标志和奖励数据
+}
+
+//使用月卡令或者终身卡令
+message UseCardReq
+{
+	required uint32 type = 1;//1:月卡令 2：终身卡令
+}
+message UseCardResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1; //消耗
+}
+
+//------------新分享活动
+
+//好友信息
+message ShareFriendCPP
+{
+	required uint32  friendUid   = 1;//好友uid
+	required uint32  inviteTs    = 2;//邀请好友时的ts
+}
+
+//分享信息
+message NewShareCPP
+{
+	required uint32 nextShareTs         = 1;//下一次可分享的ts
+	required uint32 remainShareCnt      = 2;//剩余分享次数
+}
+
+//获取活动信息
+message GetNewShareInfoReq
+{
+	
+}
+
+message GetNewShareInfoResp
+{
+	repeated ShareFriendCPP  friend     = 1;
+	required NewShareCPP     newShare   = 2;
+	repeated uint32 rewardFlag          = 3;//领取标记,数组索引对应UI上的索引(0:未领取,1:已领取)
+}
+
+//分享
+message NewShareReq
+{
+}
+
+message NewShareResp
+{
+	required DataCommon.CommonItemsCPP common  = 1;//分享奖励
+	required NewShareCPP     newShare   = 2;
+}
+
+//领取奖励
+message RewardNewShareReq
+{
+	required uint32  index  = 1;//领取索引,从0开始
+}
+
+message RewardNewShareResp
+{
+	repeated uint32 rewardFlag                 = 1;//领取标记,数组索引对应UI上的索引(0:未领取,1:已领取)
+	required DataCommon.CommonItemsCPP common  = 2;//领取奖励
+}

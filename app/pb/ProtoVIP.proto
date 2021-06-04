@@ -1,0 +1,81 @@
+import "DataCommon.proto";
+import "ProtoShop.proto";
+import "ProtoProduce.proto";
+
+package ProtoVIP;
+
+message VIPGiftCPP
+{
+	required uint32 propsid  = 1;//物品id
+	required uint32 propscnt = 2;//物品数目
+}
+
+//随机VIP每日礼包
+message RandomVIPGiftReq
+{
+
+}
+message RandomVIPGiftResp
+{
+	repeated VIPGiftCPP item  = 1;//物品礼包
+}
+
+//vip礼包
+message GetVIPGiftReq
+{
+
+}
+message GetVIPGiftResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //属性或者道具的通用修改
+	required uint32 rewardts                    = 2; //领取奖励的ts
+}
+
+//vip 生产设备生产产品加速
+message VIPProductSpeedUpReq
+{
+	required uint32 ud   = 1;//生产设备的ud
+}
+
+message VIPProductSpeedUpResp
+{
+	required uint32 speedupUseCnt               = 1;//每日加速已使用的次数
+}
+
+//vip 祛除删除订单后的cd时间
+message VIPRemoveOrderCDReq
+{
+	required uint32 orderud   = 1;//订单ud
+}
+
+message VIPRemoveOrderCDResp
+{
+	required uint32 speedupUseCnt = 1;//每日加速已使用的次数
+}
+
+//VIP等级改变时,推送信息
+message PushVIPLevel
+{
+	required uint32 newLevel = 1;//新VIP等级
+}
+
+//VIP货架解锁
+message VIPShelfUnLockReq
+{
+}
+
+message VIPShelfUnLockResp
+{
+	required ProtoShop.ShopCPP shop                       = 1;  //新解锁的货架信息
+}
+
+//VIP增加生产队列
+message VIPAddProductQueueReq
+{
+	required uint32 ud             = 1;//生产设备ud
+}
+
+message VIPAddProductQueueResp
+{
+	required ProtoProduce.ProduceEquipCPP equip = 1;
+}

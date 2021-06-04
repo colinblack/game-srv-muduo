@@ -1,0 +1,150 @@
+package ProtoOrder;
+import "DataCommon.proto";
+
+message NeedCost
+{
+	required uint32 id    = 1;//物品id
+	required uint32 count = 2;//物品数量
+}
+message OrderCPP
+{
+    required uint32 slot         = 1;  //槽位号 1~10
+	required uint32 coin		 = 2;
+	required uint32 exp			 = 3;
+    required uint32 end_ts       = 4;  //撕单结束的时间戳
+    repeated NeedCost needcost   = 5;
+    required uint32 discardcdtime  = 6;
+    required uint32 storageid   = 7;  //订单库id
+	required uint32 levelid     = 8;  //槽位号 1~10
+    required bytes orderid     = 9;  //订单ID
+}
+
+message TruckCPP
+{
+	required uint32 state        = 1;  //卡车状态   0:空闲 1:运输中 2:已达到(可领取奖励)
+	required uint32 end_ts       = 2;  //结束时间
+	required uint32 coin		 = 3; //金币
+	required uint32 exp			 = 4;  //经验
+}
+
+//查询订单
+message OrderQueryReq
+{
+	required uint32 uid = 1;  //
+}
+
+//订单状态
+message OrderResp
+{
+    repeated OrderCPP order = 1;  //订单
+}
+
+//查询卡车
+message TruckQueryReq
+{
+	required uint32 uid = 1;  //
+}
+
+//卡车状态
+message TruckResp
+{
+    required TruckCPP truck = 1;  //卡车
+}
+
+//下单
+message StartOrderReq
+{
+    required uint32 slot    = 1;  //槽位号
+}
+
+//下单结果
+message StartOrderResp
+{
+    required bool result    = 1;  //下单结果
+	required DataCommon.CommonItemsCPP commons  = 2;
+	required OrderCPP order = 3;
+	required TruckCPP truck = 4;
+	optional OrderADBonusCPP adBonus            = 5;
+	optional OrderDiamondBonusCPP diamondBounus = 6;
+	optional OrderVIPBonusCPP vipBonus          = 7;
+}
+
+//撕单
+message DeleteOrderReq
+{
+    required uint32 slot    = 1;  //槽位号
+}
+
+//撕单
+message DeleteOrderResp
+{
+	required bool result    = 1;  //撕单结果
+	required OrderCPP order = 2;
+}
+
+//领取
+message RewardOrderReq
+{
+    required uint32 uid    = 1;  
+}
+
+//领取结果
+message RewardOrderResp
+{
+    required bool result    = 1;  //领取结果
+	required DataCommon.CommonItemsCPP commons  = 2;
+	required TruckCPP truck = 3;
+}
+
+//订单广告加成
+message OrderADBonusCPP
+{
+	required uint32 viewedAdCnt        = 1;//当天已观看广告的次数
+	required uint32 remianAdBonusCnt   = 2;//当天剩余广告加成次数
+}
+
+//订单钻石加成
+message OrderDiamondBonusCPP
+{
+	required uint32 remainDiamondBonusCnt  = 1;//当天剩余钻石加成次数
+	required uint32 diamondBonusEndTs      = 2;//钻石特权结束ts
+}
+
+//订单vip加成
+message OrderVIPBonusCPP
+{
+	required uint32 remainVipBonusCnt  = 1;//今日vip订单加成剩余的次数
+}
+
+//获取订单加成信息(登录时获取)
+message GetOrderBonusInfoReq
+{
+}
+
+message GetOrderBonusInfoResp
+{
+	required OrderADBonusCPP adBonus            = 1;
+	required OrderDiamondBonusCPP diamondBounus = 2;
+	optional OrderVIPBonusCPP vipBonus          = 3;
+}
+
+//看广告(观看广告时,若当天观看广告的次数已达当日最大值,前端无需请求此接口)
+message ViewAdReq
+{
+}
+
+message ViewAdResp
+{
+	required OrderADBonusCPP  adBonus  = 1;
+}
+
+//花钻购买订单加成
+message BuyOrderBonusReq
+{
+}
+
+message BuyOrderBonusResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;//消耗
+	required OrderDiamondBonusCPP diamondBounus = 2;
+}

@@ -1,0 +1,60 @@
+package ProtoCard;
+import "DataCommon.proto";
+
+//个人月卡信息
+message MonthCardCPP
+{
+	required uint32 isHaveMonthCard  = 1;//(是否拥有月卡0:未拥有,1:拥有)
+	optional uint32 isReward         = 2;//当天是否已领取月卡奖励(0:没有,1:已领)
+	optional uint32 monthCardEndTs   = 3;//月卡有效截止时间(当前时间 > monthCardEndTs 失效)
+}
+
+//个人终生卡信息
+message LifeCardCPP
+{
+	required uint32 isHaveLifeCard  = 1;//(是否拥有终生0:未拥有,1:拥有)
+	optional uint32 isReward        = 2;//当天是否已领取终生奖励(0:没有,1:已领)
+}
+
+//获取个人月卡月终生卡信息(登录时拉取)
+message GetCardReq
+{
+}
+
+message GetCardResp
+{
+	required MonthCardCPP  monthCard = 1;
+	required LifeCardCPP   lifeCard  = 2;
+}
+
+message PushBuyMonthCardMsg
+{
+	required MonthCardCPP  monthCard            = 1;
+}
+
+message PushBuyLifeCardMsg
+{
+	required LifeCardCPP  lifeCard              = 1;
+}
+
+//领取月卡奖励
+message RewardMonthCardReq
+{
+}
+
+message RewardMonthCardResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1; //奖励
+	required MonthCardCPP  monthCard            = 2;
+}
+
+//领取终生卡奖励
+message RewardLifeCardReq
+{
+}
+
+message RewardLifeCardResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1; //奖励
+	required LifeCardCPP  lifeCard              = 2;
+}

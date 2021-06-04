@@ -1,0 +1,139 @@
+//import "DataCommon.proto";
+package ProtoMessageBoard;
+
+//玩家留言消息
+message MessageInfo
+{
+	required uint32 id            = 1;//留言ID（唯一标记留言）
+	required uint32 ts            = 2;//留言发生时间
+	required uint32 typeId        = 3;//留言类型id
+	
+	required uint32 senderUid     = 4;//发留言的玩家uid
+	required bytes  words		  = 5;//留言的内容
+	required uint32 receiverUid   = 6;//收留言的玩家uid
+}
+//留言类型typeId
+//101:别人的私信留言
+//102:我回复别人的私信留言
+
+//201:别人的公开留言
+//202:我回复别人的公开留言
+
+//获取玩家所有留言
+message GetMessageBoardReq
+{
+	required uint32 masteruid	= 1;//主人的uid. 后台通过比较 请求者uid和masteruid 区分是在自家还是在别人家
+}
+
+//响应获取玩家所有留言
+message GetMessageBoardResp
+{
+	repeated MessageInfo arrayMsgBrd   = 1;//在别人家时，后台只传送公开留言和该玩家的私信留言；在自家时，传送全部的留言
+}
+
+//查看“自己的留言板”时发送,后台改变是否有留言数据为false并推送回包,查看别人家的留言板时不发送
+message HasNewLeaveMessageReq
+{
+	
+}
+
+//响应是否有新留言
+message HasNewLeaveMessageResp
+{
+	required bool HasNewMsg = 1;	//玩家登录推送一次，玩家在线时每当有新留言就推送一次
+}
+
+//删除留言
+message DeleteMessageBoardReq
+{
+	required uint32 masteruid	= 1;//主人的uid
+	required uint32 id 			= 2;//该留言ID（唯一标记留言）
+	required uint32 typeId      = 3;//该留言类型id
+	required uint32 senderUid   = 4;//发该留言的玩家uid
+}
+
+//在别人家给他留言
+message LeaveMessageReq
+{
+	required uint32 masteruid	= 1;//主人的uid
+	required uint32 typeId      = 2;//留言类型id,私信：101，公开：201
+	required bytes  words		= 3;//留言的内容
+}
+
+//在自己家回复别人的留言 或者 在自己家给所有其他玩家留言
+message AnswerLeaveMessageReq
+{
+	required uint32 senderUid   = 1;//发该留言的玩家uid; 如果是在自家留言,senderUid就是自己的uid
+	required uint32 typeId      = 2;//源留言的类型id,私信：101，公开：201; 如果是在自家留言，固定为201
+	required bytes  words		= 3;//回复的内容
+}
+
+//响应玩家留言，后台推送刚才玩家的留言信息
+message LeaveMessageResp
+{
+	required MessageInfo newMsg	= 1;//玩家刚才的 留言内容或者回复的留言内容
+}
+
+//后台跨服发送留言 前端请忽略
+message SendLeaveMsgOverServerReq
+{
+	required uint32 model		=1;//model=1,在别人家留言；model=2，在自己家回复别人的留言
+	required uint32 sender		=2;//发送者uid
+	required uint32 receiver	=3;//接受者uid
+	required uint32 typeid		=4;//留言类型id
+	required bytes words		=5;//留言内容
+}
+
+//后台跨服访问 前端请忽略 获取别人家的留言消息
+message GetMasterVisiableMsgReq
+{
+	required uint32 myuid		=1;//访问者uid
+	required uint32 masteruid   =2;//主人的uid
+}
+
+//后台跨服删除留言 前端请忽略
+message DeleteMyMsgOverServerReq
+{
+	required uint32 myuid		=1;//访问者uid
+	required uint32 masteruid   =2;//主人的uid
+	required uint32 id 			=3;//该留言ID（唯一标记留言）
+}
+
+//玩家给系统的反馈消息
+message FeedbackInfo
+{
+	required uint32 id            = 1;//反馈消息的ID（唯一标记）
+	required uint32 ts            = 2;//反馈发生时间
+	required bytes  words		  = 3;//反馈的内容
+}
+
+//获取玩家所有的系统反馈消息
+message GetFeedbackReq
+{
+	
+}
+
+//响应获取玩家所有的系统反馈消息
+message GetFeedbackResp
+{
+	required uint32 restTimes			  = 1;//玩家当天剩余反馈次数
+	repeated FeedbackInfo arrayFeedback   = 2;
+}
+
+//玩家发送系统反馈请求
+message SendFeedbackReq
+{
+	required bytes  words		= 1;//玩家反馈的具体内容
+}
+
+//响应玩家发送系统反馈
+message SendFeedbackResp
+{
+	required FeedbackInfo yourFeedback 	= 1;//玩家刚才发的反馈消息
+}
+
+//删除反馈信息
+message DelFeedbackReq
+{
+	required uint32 id            = 1;//反馈消息的ID（唯一标记）
+}

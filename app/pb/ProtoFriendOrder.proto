@@ -1,0 +1,195 @@
+import "DataCommon.proto";
+package ProtoFriendOrder;
+
+
+//好友订单具体内容
+message FriendOrderInfo
+{
+	required uint32 status       = 1;	//订单状态
+	required uint32 senderUid    = 2;	//订单发送者
+	required uint32 deadtime     = 3;	//订单超时时间
+	required uint32 sourceId     = 4;	//源订单ID（唯一标记订单）
+	
+	optional uint32 HelperUid    = 5;	//帮助你完成订单的好友uid
+	
+	required uint32 productId	 = 6;	//请求物品id
+	required uint32 count		 = 7;	//请求物品数量
+	required uint32 coin		 = 8;	//价格
+	
+	required uint32 index		 = 9;	//订单索引arrayFoInfo[index]
+} 
+//订单状态status
+//我发起的订单状态（我发起的订单即源订单）
+//0：这是个空闲栏位
+//1：等待好友购买中
+//2：已过期
+//3：物品被好友购买
+//4：冷却中
+
+//好友订单状态
+//5：可以帮助好友完成该订单
+//6：该订单已被其他好友完成了
+//7：订单已超时
+//8：状态未知,等待玩家点击确认
+//9：成功帮助好友完成订单,获得金币,损失物品
+
+//获取好友订单
+message GetFriendOrderReq
+{
+
+}
+
+//响应获取好友订单
+message GetFriendOrderResp
+{
+	repeated FriendOrderInfo arrayFoInfo   = 1;	//所有订单(0-2:我发起的订单，3-n:好友订单)
+}
+
+//发起订单请求
+message SendFriendOrderReq
+{
+	required uint32 basket       = 1;	//订单栏位编号：0/1/2
+	required uint32 productId	 = 2;	//请求物品id
+	required uint32 count		 = 3;	//请求物品数量
+	required uint32 coin		 = 4;	//获取物品所获取的金币数
+	repeated uint32 arrayuid     = 5;	//求助好友的uid数组
+}
+
+//响应发起订单请求
+message SendFriendOrderResp
+{
+	required uint32 basket				 = 1;	//订单栏位编号：0/1/2,相当于订单索引index
+	required FriendOrderInfo newSourceFo = 2;	//创建一条源订单
+	
+	//玩家的金币数减少
+	optional DataCommon.CommonItemsCPP commons  = 3; //属性修改
+}
+
+//点击好友订单中的某个订单
+message ClickFriendOrderReq
+{
+	required uint32 index		= 1;	//订单索引arrayFoInfo[index]
+	required uint32 Status		= 2;	//该订单当前的状态
+}
+
+//响应点击好有订单的某个订单
+message ClickFriendOrderResp
+{
+	required uint32 index		= 1;	//订单索引arrayFoInfo[index]
+	required uint32 newStatus	= 2;	//该订单的最新状态
+}
+
+//点击“没问题”按钮 购买该条好友订单
+message BuyFriendOrderReq
+{
+	required uint32 index		= 1;	//订单索引arrayFoInfo[index]
+	required uint32 Status		= 2;	//该订单当前的状态
+	required uint32 sourceId  	= 3; 	//源订单id
+	required uint32 senderUid   = 4;	//源订单订单发送者
+	required uint32 productId   = 5;	//物品id
+	required uint32 count       = 6;	//数量
+	required uint32 coin		= 7;	//金币数
+}
+
+//响应购买好友订单
+message BuyFriendOrderResp
+{
+	required uint32 index		= 1;	//订单索引arrayFoInfo[index]
+	required uint32 newstatus	= 2;	//该订单的最新状态
+	
+	//玩家的金币数增加,物品减少
+	optional DataCommon.CommonItemsCPP commons  = 3; //属性修改
+}
+
+//回收发出的订单 后台给玩家增加物品，并改变该条源订单为冷却状态或者直接删除该条订单
+message GetOrderRewardsReq
+{
+	required uint32 basket		= 1;	//订单栏位编号：0/1/2,相当于订单索引index
+	required uint32 Status		= 2;	//该订单当前的状态
+	
+	required uint32 productId   = 3;	//物品id
+	required uint32 count       = 4;	//数量
+	required uint32 coin 		= 5;	//金币
+}
+
+//响应回收源订单
+message GetOrderRewardsResp
+{
+	required uint32 basket       = 1;	//订单栏位编号：0/1/2,相当于订单索引index
+	required uint32 newstatus	 = 2;	//该订单的最新状态
+	
+	//玩家金币数增加或者物品增加
+	optional DataCommon.CommonItemsCPP commons  = 3; //属性修改
+	
+	optional uint32 deadtime	 = 4;	//若newstatus是冷却中，会有该字段
+}
+
+//花费钻石清除冷却时间或者删除正在发送的订单
+message CostDiamondReq
+{
+	required uint32 basket      = 1;	//订单栏位编号：0/1/2,相当于订单索引index
+	required uint32 status		= 2;	//当前订单状态
+	required uint32 diamonds	= 3;	//钻石数量
+}
+
+//响应花钻请求
+message CostDiamondResp
+{
+	required uint32 basket		= 1;	//订单栏位编号：0/1/2,相当于订单索引index
+	required uint32 newstatus	= 2;	//该订单的最新状态
+	
+	//玩家钻石数减少,金币数可能增加
+	optional DataCommon.CommonItemsCPP commons  = 3; //属性修改
+}
+
+//后台跨服交互协议 前端请忽略这条
+message SendOtherServerReq
+{
+	required uint32 status       = 1;	//订单状态
+	required uint32 senderUid    = 2;	//订单发送者
+	required uint32 deadtime     = 3;	//订单超时时间
+	required uint32 sourceId     = 4;	//源订单ID（唯一标记订单）
+	
+	required uint32 productId	 = 5;	//请求物品id
+	required uint32 count		 = 6;	//请求物品数量
+	required uint32 coin		 = 7;	//价格
+	
+	required uint32 receiverUid  = 8;	//接收者
+}
+
+//后台跨服交互协议 前端请忽略这条
+message RecallSourceFoReq
+{
+	required uint32 myuid     = 1;	//跨服访问源订单
+	required uint32 myindex   = 2;
+	required uint32 sourceId  = 3;
+	optional uint32 senderUid = 4;
+}
+
+//后台跨服交互协议 前端请忽略这条
+message RecallCanBuyFoReq
+{
+	required uint32 myuid     = 1;	//跨服访问源订单
+	required uint32 myindex   = 2;
+	required uint32 sourceId  = 3;
+	optional uint32 senderUid = 4;
+}
+
+//后台跨服交互协议 前端请忽略这条 //跨服访问源订单后，改变状态
+message ChangeFoStatusReq
+{
+	required uint32 myuid		= 1;
+	required uint32 myindex		= 2;	//订单索引arrayFoInfo[index]
+	required uint32 newstatus	= 3;	//该订单的最新状态
+}
+
+//后台跨服交互协议 前端请忽略这条
+message AnswerWhetherCanBuyReq
+{
+	required uint32 result 	  = 1;		//1:成功购买 2：不能购买,已经被别人买走啦！
+	required uint32 myuid     = 2;		//跨服访问源订单
+	required uint32 myindex   = 3;
+	required uint32 sourceId  = 4;
+	optional uint32 senderUid = 5;
+}
+

@@ -1,0 +1,25 @@
+package ConfigFriendWorker;
+
+message FriendWorkerCPP
+{
+	required uint32 speedup_solt_max               = 1;//加速槽最大数目
+	required uint32 worker_time                    = 2;//长工工作的时间
+	required uint32 effective_login_days           = 3;//有效登录天数
+	required uint32 reward_friendly_value          = 4;//奖励的友情值
+	required uint32 invite_friend_reward_item_cnt  = 5;//奖励的物品数量
+}
+
+message FriendWorkerSpeedUpCPP
+{
+	required uint32 crops_speed_up_percent            = 1;//农作物加速百分比
+	required uint32 order_reward_percent              = 2;//订单奖励百分比
+	required uint32 animal_speed_up_percent           = 3;//动物加速百分比
+	required uint32 product_speed_up_percent          = 4;//设备加速百分比
+	required uint32 ship_speed_up_percent             = 5;//航宇加速百分比
+}
+
+message FriendWorkerCfg
+{
+	required FriendWorkerCPP worker           = 1;
+	required FriendWorkerSpeedUpCPP worker_speed_up  = 2;
+}

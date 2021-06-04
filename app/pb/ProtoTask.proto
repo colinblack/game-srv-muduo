@@ -1,0 +1,39 @@
+import "DataCommon.proto";
+package ProtoTask;
+
+message TaskCPP
+{
+	required uint32  id                   = 1;//任务id
+	required uint32  curtaskvalue         = 2;//当前任务数值
+	required uint32  curtaskstar          = 3;//当前任务星级
+	required uint32  rewardstatus         = 4;//领取状态(0:未领取奖励,1:已领取奖励)
+}
+
+//获取所有任务
+message GetTaskReq
+{
+}
+
+message GetTaskResp
+{
+	repeated TaskCPP     task             = 1;//任务信息
+}
+
+//领取任务奖励
+message RewardTaskReq
+{
+	required uint32     id     = 1;//任务id
+}
+
+message RewardTaskResp
+{
+	required TaskCPP    task   = 1;
+	required DataCommon.CommonItemsCPP commons  = 2;  //属性或者道具的通用修改
+}
+
+//推送完成的任务
+message PushComplteTask
+{
+	required TaskCPP   task   = 1;
+}
+

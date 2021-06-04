@@ -1,0 +1,157 @@
+package ProtoBuilding;
+
+import "DataCommon.proto";
+import "ProtoProduce.proto";
+
+//建筑
+message BuildingCPP
+{
+	required uint32 ud			 = 1;  //建筑ud
+	required uint32 buildId		 = 2;  //建筑id
+	repeated uint32 position	 = 3;  //
+	required uint32 direct		 = 4;  //朝向. 0-按照配置; 1-翻转
+	required uint32 doneTime	 = 5;  //建造结束时间
+	required uint32 level		 = 6;  //建筑等级。所有建筑，等级为0不可使用
+}
+
+//设备星级
+message EquipmentStarCPP
+{
+	required uint32 id			= 1;  //设备id
+	required uint32 star		= 2; //星级
+	required uint32 usedtime	= 3;  //使用时间
+}
+
+//建造
+message BuildReq
+{
+	required uint32 buildId	= 1;  //建筑id
+	repeated uint32 pos		= 2;  //坐标.[x,y]
+	required uint32 direct  = 3;  //建造方向(0:朝右,1:朝下)
+}
+
+message BuildResp
+{
+	required BuildingCPP 	building				= 1;  //建筑
+	required DataCommon.CommonItemsCPP commons  	= 2;  //属性或者道具的通用修改
+	optional ProtoProduce.ProduceProductCPP product	= 3; //生产线相关
+	optional EquipmentStarCPP 	equipmentstar		= 4;  //设备星级
+}
+
+//生产设备揭幕
+message UnveilBuildReq
+{
+	required uint32 ud = 1;  //建筑ud
+}
+
+message UnveilBuildResp
+{
+	optional ProtoProduce.ProduceProductCPP product	 = 1; //生产线相关
+	required DataCommon.CommonItemsCPP  commons		 = 2; //建造奖励	
+	required BuildingCPP	building				 = 3; //建筑
+}
+
+//移动
+message MoveReq
+{
+	required uint32 ud	= 1;  //建筑ud
+	repeated uint32 pos	= 2;  //新坐标.[x,y]
+	required uint32 direct = 3;//建造方向(0:朝右,1:朝下)
+}
+
+message MoveResp
+{
+	required bool result	= 1;  //移动结果
+}
+
+//翻转
+message FlipReq
+{
+	required uint32 ud	= 1;  //建筑ud
+}
+
+message FlipResp
+{
+	required bool result	= 1;  //翻转结果
+}
+
+//建筑(粮仓、货仓)升级
+message BuildingUpReq
+{
+	required uint32 ud	= 1;  //建筑ud
+}
+
+message BuildingUpResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //属性或者道具的通用修改
+	required BuildingCPP build                  = 2;  //建筑基本信息
+}
+
+//设备升星加速
+message UpgradeStarSpeedUpReq
+{
+	required uint32 id	= 1;  //设备id
+}
+
+message UpgradeStarSpeedUpResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //花钻
+	required EquipmentStarCPP  equipmentstar 	= 2;  //设备星级升高
+}
+
+//障碍物清除
+message RemoveBarrierReq
+{
+	required uint32 id	= 1;  //障碍物id
+}
+
+message RemoveBarrierResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //属性或者道具的通用修改
+	required bytes barrier				 		= 2;  //障碍物是否被移除的状态。位标志
+	required uint32 barrierid                   = 3;  //障碍物id
+}
+
+message SellDecorateReq
+{
+	required uint32 ud = 1;	//装饰物ud
+}
+
+message SellDecorateResq
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //属性或者道具的通用修改
+	required uint32 ud 							= 2;	//装饰物ud
+}
+
+message ExpandMapReq
+{
+	required uint32 id    = 1;//地块id
+}
+
+message ExpandMapResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //属性或者道具的通用修改
+	repeated bytes mapstaus                     = 2;//数组[0,1,2]元素值分别代表扩充地图1/2/3位标志
+}
+
+//看广告减少建筑cd时间
+message ViewAdReduceBuildTimeReq
+{
+	required uint32  ud         = 1;//建筑ud
+}
+
+message ViewAdReduceBuildTimeResp
+{
+	required uint32 remainCnt           = 1;//今日剩余看广告减cd的次数
+	required BuildingCPP 	building				= 2;  //建筑 
+}
+
+//每日看广告减少建筑cd的次数
+message GetViewAdReduceBuildTimeReq
+{
+}
+
+message GetViewAdReduceBuildTimeResp
+{
+	required uint32 remainCnt         = 1;//今日剩余看广告减cd的次数
+}

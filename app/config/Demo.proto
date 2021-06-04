@@ -1,0 +1,16 @@
+package Demo;
+
+message Server
+{
+	required uint32 begin		= 1;
+	required uint32 end			= 2;
+	required string host		= 3;
+	required uint32 port		= 4;
+	required string accesshost	= 5;
+	required uint32 accessport	= 6;
+}
+
+message Demo {
+		repeated Server battle		= 1;
+		repeated uint32 open		= 2;
+}

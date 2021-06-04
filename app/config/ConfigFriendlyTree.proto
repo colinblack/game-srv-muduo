@@ -1,0 +1,17 @@
+package ConfigFriendlyTree;
+
+message FriendlyTreeCPP
+{
+	required uint32 waterTreeReward         = 1;//浇水获得友情值
+	required uint32 rewardTreeReward        = 2;//被浇水获得友情值  
+	required uint32 wateredPersonMax        = 3;//被浇水人数的最大值
+	required uint32 treeCdTime              = 4;//浇完水后树的冷却时间	
+	required uint32 friendlyValueMax        = 5;//友情值存储的上线
+	required uint32 unlockLevel             = 6;//解锁等级
+	required uint32 regrowthCDTime          = 7;//再生长需要的cd时间
+}
+
+message FriendlyTreeCfg
+{
+	required FriendlyTreeCPP friendlytree    = 1;
+}

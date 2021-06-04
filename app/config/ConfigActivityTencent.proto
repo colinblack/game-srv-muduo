@@ -1,0 +1,13 @@
+package ConfigActivityTencent;
+
+import "CommonGiftConfig.proto";
+
+message ActivityInfo
+{
+	repeated CommonGiftConfig.CommonModifyItemSimple  normal_blue_daily = 1;	//蓝钻每日奖励
+	required CommonGiftConfig.CommonModifyItemNormal  super_blue_daily = 2;		//豪华蓝钻每日奖励
+	required CommonGiftConfig.CommonModifyItemNormal  year_blue_daily = 3;		//年费蓝钻每日奖励
+	repeated CommonGiftConfig.CommonModifyItemGrow blue_grow = 4;	// 蓝钻成长奖励
+	required CommonGiftConfig.CommonModifyItemNormal  qqgame_privilege_daily = 5;	//qqgame特权每日奖励
+	repeated CommonGiftConfig.CommonModifyItemGrow qqgame_privilege_grow = 6;	// qqgame特权成长奖励
+}

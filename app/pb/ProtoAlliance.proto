@@ -1,0 +1,1078 @@
+package ProtoAlliance;
+
+import "DataCommon.proto";
+
+//商会
+message AllianceCPP
+{
+	required uint32 allianceId 		= 1;  //商会id
+	required bytes name				= 2;  //商会名称
+	required uint32 flag			= 3; //商会标志. 后台用8位表示商会标志.高4位表示符号，中间2位表示样式，低2位表示背景。符号、样式、背景的值表示对应的序号
+	required uint32 createUid		= 4;  //创建者uid
+	required bytes  username		= 5; //创建者名称
+	required uint32 createTime		= 6;  //创建时间
+	required uint32 applyType		= 7;  //入会申请类型. 1-任何人可以加入 2-请求加入 3-仅限邀请加入
+	required uint32 applyLevelLimit = 8; //入会等级限制
+	optional bytes	description		= 9; //商会描述
+	required uint32 qqgroup			= 10; //qq群
+}
+
+//商会成员
+message AllianceMemberCPP
+{
+	required uint32 memberUid	= 1; //成员uid
+	optional bytes name			= 2; //成员名称
+	required uint32 position	= 3; //职位. 1-会长 2-理事 3-委员 4-成员
+	required uint32 authority	= 4; //权限值.位标志从低到高的权限依次是,0x1-参与竞赛,0x2-捐收物品 ,0x4-邀请入会,0x8-批准入会,0x10-竞赛编辑,0x20-升降委员,0x40-群发公告,0x80-踢出成员,0x100-升降理事,0x200-转任会长,0x400-编辑商会  
+	required uint32 helptimes	= 5; //帮助次数
+	required uint32 onlineTs	= 6; //在线时间戳
+	optional uint32 helpTs	= 7; //帮助时间戳
+	required uint32 level		= 8; //成员等级
+	optional bytes fig			= 9; //头像
+	optional uint32 joinTs			= 10; //加入时间
+}
+
+//商会申请列表
+message AllianceApplyCPP
+{
+	required uint32 applyUid  	= 1;  //申请者id
+	optional bytes name			= 2; //申请者名称
+	required bytes reason		= 3;  //申请原因
+	required uint32 applyts		= 4; //申请时间
+}
+
+//商会邀请列表
+message AllianceInvitedCPP
+{
+	required uint32 inviteUid 	= 1; //邀请者uid
+	required uint32 allianceId	= 2; //商会id
+	required bytes allianceName = 4; //商会名称
+	required uint32 flag		= 5;  //商会标志
+	required bytes  inviteName	= 6; //邀请者名称
+	required uint32 invitets	= 7; //邀请时间
+}
+
+//商会名称是否可用查询
+message CheckNameAvailableReq
+{
+	required bytes name = 1;
+}
+
+message CheckNameAvailableResp
+{
+	required bytes name			= 1;  //名称
+	required bool  isAvailable 	= 2;  //是否可用
+	optional bytes reason		= 3;  //原因
+}
+
+//创建商会
+message CreateAllianceReq
+{
+	required uint32 flag 			= 1;  	//商会标志
+	required bytes name				= 2;  	//商会名称
+	required bytes description		= 3;  //商会描述
+	required uint32 applyType 		= 4;  //入会申请类型
+	required uint32 applyLevelLimit = 5;  //入会等级条件
+}
+
+message CreateAllianceResp
+{
+	required AllianceCPP alliance 		= 1;  //商会
+	required AllianceMemberCPP member  = 2;  //成员
+	required DataCommon.CommonItemsCPP commons  = 3;  //消耗，包含新增的商会id
+}
+
+//商会推荐
+message RecommendllianceReq
+{
+
+}
+
+//商会的部分信息
+message PartAllianceCPP
+{
+	required uint32 allianceId 		= 1;  //商会id
+	required bytes name				= 2;  //商会名称
+	required uint32 flag			= 3; //商会标志. 后台用8位表示商会标志.高4位表示符号，中间2位表示样式，低2位表示背景。符号、样式、背景的值表示对应的序号
+	required uint32 applyType 		= 4;  //入会申请类型
+	required uint32 applyLevelLimit = 5;  //入会等级条件
+	required uint32 memberCount		= 6; //成员数量
+	optional bytes	description		= 7; //商会描述
+	optional uint32	onlineNum		= 8; //在线人数
+}
+
+message RecommendllianceResp
+{
+	repeated PartAllianceCPP allianceBrief  = 1;  //推荐的商会
+}
+
+//查询商会
+message GetPartAllianceInfoReq
+{
+	repeated uint32 allianceId = 1;
+}
+
+message GetPartAllianceInfoResp
+{
+	repeated PartAllianceCPP allianceBrief  = 1;  //查询的商会信息
+}
+
+//申请加入商会
+message ApplyJoinReq
+{
+	required uint32 allianceId 	= 1; //商会id
+	required bytes	reason		= 2; //申请理由
+}
+
+//跨服申请加入商会
+message RequestApplyJoinBC
+{
+	required uint32 allianceId 	= 1; //商会id
+	required bytes reason		= 2;//请求原因
+	required AllianceMemberCPP member	= 3;	// 成员数据
+}
+//跨服返回申请加入商会
+message ReplyApplyJoinBC
+{
+	required uint32 uid				= 1;//请求者
+	required uint32 allianceId		= 2;//请求者
+	required int32 ret					= 3;//请求结果
+	optional ApplyJoinResp alliance		= 4;
+}
+message ApplyJoinResp
+{
+	optional int32 ret							= 1;//请求结果(1:加入成功,2:申请成功)
+	optional AllianceApplyCPP  apply  			= 2;  //申请记录 
+	optional AllianceMemberCPP member 			= 3; //成员
+	optional DataCommon.CommonItemsCPP commons  = 4;  //用户的商会id
+	optional AllianceCPP		alliance	 	= 5;  //商会
+}
+
+
+
+//批准入会操作
+message ApproveJoinReq
+{
+	required uint32 applyUid = 1;  //申请者uid
+	required uint32 operate 	 = 2; //1-通过  2-拒绝
+}
+
+//跨服批准入会操作(联盟)
+message RequestApproveJoinAllianceBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 operate 	 = 3; //1-通过  2-拒绝
+	required AllianceMemberCPP member = 4; // 成员数据
+}
+//跨服批准入会操作(玩家)
+message RequestApproveJoinUserBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 applyUid = 3;  //申请者uid
+	required uint32 operate 	 = 4; //1-通过  2-拒绝
+}
+//跨服批准入会操作返回
+message ReplyApproveJoinBC
+{
+	required uint32 uid					= 1;//请求者
+	optional ApproveJoinResp alliance		= 2;
+}
+message ApproveJoinResp
+{
+	required uint32 applyUid			= 1; //申请者uid
+	required uint32 operate				= 2;  //批准入会的结果
+	optional AllianceMemberCPP member   = 3;  //成员
+}
+
+//退出商会
+message ExitAllianceReq
+{
+
+}
+
+//跨服退出商会
+message RequestExitAllianceBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+//跨服退出商会返回
+message ReplyExitAllianceBC
+{
+	required uint32 uid		= 1;//请求者
+	required uint32 aid		= 2;//请求的联盟
+	optional ExitAllianceResp alliance		= 3;
+}
+message ExitAllianceResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //用户的商会id改变
+}
+
+//职位变化的通知
+message PostionChangePushReq
+{
+	required uint32 oldpos 			= 1;  //旧职位. 1-会长 2-理事 3-委员 4-成员  5-平民.平民职位，即不在任何商会
+	required uint32 newpos 			= 2;  //新职位. 1-会长 2-理事 3-委员 4-成员  5-平民 .平民职位，即不在任何商会
+	optional AllianceCPP alliance  = 3; //完整的商会信息
+}
+
+//邀请入会
+message InviteJoinReq
+{
+	required uint32 invitedUid = 1;  //被邀请者uid
+}
+//跨服邀请入会
+message RequestInviteJoinBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 invitedUid = 3;  //被邀请者uid
+	required bytes name		= 4;  //邀请者名字
+}
+//跨服邀请玩家入会
+message RequestInviteJoinUserBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 invitedUid = 3;  //被邀请者uid
+	required uint32 allianceFlag = 4;  //联盟标志
+	required bytes name		= 5;  //邀请者名字
+	required bytes allianceName		= 6;  //联盟名字
+}
+//跨服邀请入会返回
+message ReplyInviteJoinBC
+{
+	required uint32 uid					= 1;//请求者
+	optional InviteJoinResp alliance		= 2;
+}
+
+message InviteJoinResp
+{
+	required uint32 invitedUid = 1;  //被邀请者uid
+}
+
+//邀请入会的通知
+message InvitedPushReq
+{
+	required AllianceInvitedCPP invite = 1; //邀请信息
+}
+
+//接收邀请
+message AcceptInviteReq
+{	
+	required uint32 allianceId = 1;  //商会id
+	required uint32 operate	   = 2;  //操作类型. 1-接受. 2-拒绝
+}
+
+//跨服接收邀请
+message RequestAcceptInviteBC
+{
+	required uint32 allianceId = 1;  //商会id
+	required uint32 inviteUid = 2;  //邀请者uid
+	required uint32 operate = 3;  //操作
+	optional AllianceMemberCPP member = 4;  //成员数据
+}
+//跨服接收邀请返回
+message ReplyAcceptInviteBC
+{
+	required uint32 uid					= 1;//请求者
+	optional AcceptInviteResp alliance		= 2;
+}
+message AcceptInviteResp
+{	
+	required uint32 allianceId 					= 1;  //商会id
+	required uint32 operate	   					= 2;  //操作类型. 1-接受. 2-拒绝
+	optional AllianceMemberCPP member  			= 3;  //成员
+	optional DataCommon.CommonItemsCPP commons  = 4;  //用户的商会id改变	
+	optional AllianceCPP 	alliance			= 5; //商会信息
+}
+
+//成员职位操作
+message ManipulateMemberReq
+{
+	required uint32 memberUid 	= 1;  //成员uid
+	required uint32 operate		= 2;  //操作类型. 1-升职   2-降职
+	required uint32 type		= 3;  //操作职位类型. 1-委员 2-理事
+	required uint32 destination	= 4; //最终职位. 2-理事  3-委员 4-普通成员
+}
+
+//跨服成员职位操作
+message RequestManipulateMemberBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required ManipulateMemberReq info = 3;
+}
+//跨服成员职位操作返回
+message ReplyManipulateMemberBC
+{
+	required uint32 uid					= 1;//请求者
+	optional ManipulateMemberResp alliance		= 2;
+}
+message ManipulateMemberResp
+{
+	required AllianceMemberCPP member   = 1;  //成员
+}
+
+//踢出成员
+message KickOutReq
+{
+	required uint32 memberUid 	= 1;  //成员uid	
+}
+
+//跨服踢出成员
+message RequestKickOutBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 memberUid 	= 3;  //成员uid	
+}
+//跨服踢出成员返回
+message ReplyKickOutBC
+{
+	required uint32 uid					= 1;//请求者
+	optional KickOutResp alliance		= 2;
+}
+//跨服踢出成员
+message RequestKickOutMemberBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 memberUid 	= 3;  //成员uid	
+}
+message KickOutResp
+{
+	required uint32 memberUid 	= 1;  //成员uid	
+}
+
+//转任会长
+message TransferReq
+{
+	required uint32 memberUid 	= 1;  //成员uid	
+	required bytes otherName		= 2;  //另一成员名字
+}
+
+//跨服转任会长
+message RequestTransferBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 memberUid 	= 3;  //成员uid	
+	required bytes otherName		= 4;  //另一成员名字
+}
+//跨服转任会长返回
+message ReplyTransferBC
+{
+	required uint32 uid					= 1;//请求者
+	optional TransferResp alliance		= 2;
+}
+message TransferResp
+{
+	required AllianceMemberCPP myself 	= 1;  //自身
+	required AllianceMemberCPP other 	= 2;  //另外个人
+	required AllianceCPP    alliance	= 3; //公会
+}
+
+//编辑商会
+message EditAllianceReq
+{
+	required uint32 flag 			= 1;  	//商会标志
+	required bytes description		= 2;  //商会描述
+	required uint32 applyType 		= 3;  //入会申请类型
+	required uint32 applyLevelLimit = 4;  //入会等级条件
+	optional uint32 qqgroup			= 5;  //qq群
+}
+
+//跨服编辑商会
+message RequestEditAllianceBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required EditAllianceReq info = 3; // 请求信息
+}
+//跨服返回编辑商会
+message ReplyEditAllianceBC
+{
+	required uint32 uid					= 1;//请求者
+	optional EditAllianceResp alliance		= 2;
+}
+message EditAllianceResp
+{
+	required AllianceCPP alliance = 1; //商会
+}
+
+//捐收
+message AllianceDonationCPP
+{
+	required uint32 applyUid 	= 1;  //申请者
+	required uint32 propsid		= 2; //物品id
+	required uint32 count	 	= 3; //需求数量
+	required uint32 donateCount	= 4; //捐助数量
+	required uint32 fetchCount	= 5; //提取数量
+	required uint32 status		= 6; //捐收状态. 0-捐收中 1-已完成
+	required bytes  name		= 7; //名称
+	repeated uint32 donateUid 	= 8; //捐赠者名单
+	repeated uint32 donateTimes = 9;  //捐赠数量
+	repeated bytes  donateName	= 10; //捐赠者名称
+	required uint32 applyts		= 11; //发出捐收的时间
+	required uint32 level		= 12; //发出捐收者等级
+}
+
+//发起捐收求助
+message SeekDonationReq
+{
+	required uint32 propsid = 1;  //物品id
+	required uint32 count	= 2; //数量
+}
+
+//跨服发起捐收帮助
+message RequestSeekDonationBC
+{
+	required uint32 uid					= 1;//请求者
+	required uint32 count 			= 2; //数量
+	required uint32 aid 					= 3; //联盟ID
+	required uint32 propsid			= 4;//物品ID
+	required uint32 cdtime			= 5;//发起捐收cd时间
+	required bytes  name 			= 6;  //名字
+	required uint32 level			= 7;//发起捐收者等级
+}
+//跨服发起捐收帮助
+message ReplySeekDonationBC
+{
+	required uint32 uid					= 1;//请求者
+	required uint32 cdtime					= 2;//请求者
+	optional SeekDonationResp alliance		= 3;
+}
+message SeekDonationResp
+{
+	required AllianceDonationCPP  donation  = 1;  //捐收
+	required uint32 nextDonationTs			= 2;  //用户的下次可捐收时间
+}
+
+//秒捐收cd
+message CutUpDonationCDReq
+{
+	optional uint32  type   = 1;//(1:花钻秒cd,2:看广告秒cd)
+}
+
+message CutUpDonationCDResp
+{
+	required uint32 nextDonationTs				= 1; //下次可捐助的时间
+	optional DataCommon.CommonItemsCPP commons  = 2;  //钻石消耗
+}
+
+//提供捐收帮助
+message OfferDonationReq
+{
+	required uint32 applyUid = 1; //申请者uid
+	required uint32 propsid = 2; //捐收物品ID
+}
+
+//跨服提供捐收帮助
+message RequestOfferDonationBC
+{
+	required uint32 uid					= 1;//请求者
+	required uint32 applyUid 			= 2; //申请者uid
+	required uint32 aid 					= 3; //联盟ID
+	required uint32 propsid			= 4;//物品ID
+	required bytes  name 					= 5;  //捐收者名字
+	required DataCommon.CommonItemsCPP commons  = 6;  //消耗玩家的物品
+}
+//跨服提供捐收帮助
+message ReplyOfferDonationBC
+{
+	required uint32 uid					= 1;//请求者
+	required uint32 aid 					= 2; //联盟ID
+	required uint32 propsid			= 3;//物品ID
+	optional OfferDonationResp alliance		= 4;
+}
+message OfferDonationResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //消耗玩家的物品
+	required AllianceDonationCPP  donation		= 2;  //捐收	
+}
+
+//收取捐助物品
+message FetchDonationReq
+{
+	
+}
+
+//跨服收取捐助物品
+message RequestFetchDonationBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+//跨服返回收取捐助物品
+message ReplyFetchDonationBC
+{
+	required uint32 uid					= 1;//请求者
+	required uint32 propsid					= 2;//物品ID
+	optional FetchDonationResp alliance		= 3;
+}
+message FetchDonationResp
+{
+	optional DataCommon.CommonItemsCPP commons  = 1;  //添加玩家物品
+	optional AllianceDonationCPP  donation		= 2;  //捐收		
+}
+
+//商会通知
+message AllianceNotifyCPP
+{
+	required uint32	id				= 1;  //通知id
+	required uint32 announcer 	  	= 2;  //发布者uid
+	required bytes  name 			= 3;  //发布者名称
+	required bytes  content			= 4; //内容
+	required uint32 createts		= 5;  //发布时间
+}
+
+//群发公告
+message SendNotifyReq
+{
+	required bytes content = 1;  //通知的内容
+}
+
+//跨服群发公告
+message RequestSendNotifyBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required bytes content = 3;  //通知的内容
+	required bytes name = 4;  //请求者名字
+}
+//跨服返回群发公告
+message ReplySendNotifyBC
+{
+	required uint32 uid					= 1;//请求者
+	optional SendNotifyResp alliance		= 2;
+}
+
+message SendNotifyResp
+{
+	required AllianceNotifyCPP notify = 1;  //通知
+}
+
+//删除公告
+message DelNotifyReq
+{
+	required uint32 id	= 1;  //通知id 
+}
+
+//跨服删除公告
+message RequestDelNotifyBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 id			= 3;//公告ID
+}
+//跨服返回删除公告
+message ReplyDelNotifyBC
+{
+	required uint32 uid					= 1;//请求者
+	optional DelNotifyResp alliance		= 2;
+}
+
+message DelNotifyResp
+{
+	required uint32 id	= 1;  //通知id 	
+}
+
+//援助成员信息
+message AidInfoCPP
+{
+	required uint32 uid	= 1;  //uid 
+	required bytes name	= 2; //玩家名称
+}
+
+//获取商会功能信息
+message GetAllianceFunctionReq
+{
+	required uint32 type = 1;  //1-申请列表. 2-捐收申请. 3-帮助列表. 4-邀请列表. 5-所有 
+}
+
+message GetAllianceFunctionResp
+{
+	repeated AllianceApplyCPP applyList 	= 1;  //申请列表
+	repeated AllianceDonationCPP donations 	= 2;  //捐收申请
+	repeated AidInfoCPP 		aidlist		= 3; //帮助列表
+	repeated AllianceInvitedCPP	invitelist	= 4; //邀请列表
+}
+
+
+//跨服请求商会功能信息
+message RequestAllianceFunctionBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 type		= 3;//请求类型
+}
+//跨服返回商会功能信息
+message ReplyAllianceFunctionBC
+{
+	required uint32 uid					= 1;//请求者
+	required uint32 type					= 2;//请求类型
+	optional GetAllianceFunctionResp alliance		= 3;
+}
+
+//获取商会通知
+message GetNotifyReq
+{
+
+}
+
+message GetNotifyResp
+{
+	repeated AllianceNotifyCPP notifies	= 1; //通知
+}
+
+//跨服请求商会通知
+message RequestAllianceNotifyBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+//跨服返回商会通知
+message ReplyAllianceNotifyBC
+{
+	required uint32 uid					= 1;//请求者
+	optional GetNotifyResp alliance		= 2;
+}
+
+
+//获取商会成员
+message GetMemberReq
+{
+	required uint32 allianceId	= 1;  //商会id
+}
+
+//跨服请求商会成员
+message RequestAllianceMemberBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+//跨服返回商会成员
+message ReplyAllianceMemberBC
+{
+	required uint32 uid					= 1;//请求者
+	optional GetMemberResp alliance		= 2;
+}
+
+message GetMemberResp
+{
+	repeated AllianceMemberCPP members = 1; //成员
+	required uint32 allianceId		   = 2;  //商会id
+}
+
+//请求自己的商会信息，返回是 ProtoAlliance.AllianceCPP 如果数据不同步商会无此玩家将会将玩家的商会清零
+message RequestAlliance
+{
+}
+//跨服请求商会信息
+message RequestAllianceBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+//跨服返回商会信息
+message ReplyAllianceBC
+{
+	required uint32 uid					= 1;//请求者
+	optional AllianceCPP alliance		= 2;
+}
+
+
+//跨服更新商会成员
+message RequestUpdateMemberBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	optional uint32 onlineTs = 3;//在线时间戳
+	optional uint32 helpTs	= 4;//帮助时间戳
+	optional uint32 level	= 5;//等级	
+	optional bytes name = 6; //成员名
+	optional uint32 vipLevel	= 7;//VIP等级	
+}
+message RequestAddMemberHelpTimesBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+
+
+
+//请求设置商会成员竞赛标志
+message RequestAllianceRaceSetFlag
+{
+	required uint32 id		= 1;//标志ID
+}
+//跨服请求设置商会成员竞赛标志
+message RequestAllianceRaceSetFlagBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 id		= 3;//标志ID
+}
+
+
+
+//请求商会竞赛订单完成进度
+message RequestAllianceRaceMemberProgress
+{
+}
+//跨服请求商会竞赛订单完成进度
+message RequestAllianceRaceMemberProgressBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+//响应请求商会竞赛订单完成进度
+message ReplyAllianceRaceMemberProgress
+{
+	required uint32 orderId		= 1;//订单ID
+	required uint32 finish		= 2;//是否完成(0:未完成,1:已完成)
+	required uint32 ts			= 3;//订单超时
+	repeated uint32 progress	= 4;//完成进度
+}
+
+
+
+
+
+//请求商会竞赛信息
+message RequestAllianceRaceInfo
+{
+}
+//跨服请求商会竞赛信息
+message RequestAllianceRaceInfoBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+//响应请求商会竞赛信息
+message ReplyAllianceRaceInfo
+{
+	required uint32 point		= 1;//积分
+	required uint32 raceLevel	= 2;//竞赛等级
+	required uint32 overTs		= 3;//竞赛倒计时
+	optional uint32 flag		= 4;//标志
+	optional uint32 inRace		= 5;//是否参与竞赛(0:没有,1:有)
+	optional uint32 memberPoint	= 6;//成员积分
+	required uint32 openRace	= 7;//是否开赛(0:没有,1:开始)
+}
+
+
+
+//商会竞赛订单信息
+message AllianceRaceOrder
+{
+	required uint32 id		= 1;//订单ID
+	required uint32 cdTs		= 2;//cd时间
+}
+//商会竞赛成员订单信息
+message AllianceRaceMemberOrder
+{
+	required uint32 uid		= 1;//玩家
+	required uint32 id		= 2;//订单ID
+	required uint32 ts		= 3;//订单超时
+	required uint32 level		= 4; //成员等级
+	required bytes name			= 5; //成员名称
+	required bytes fig			= 6; //头像
+}
+
+//请求商会竞赛订单信息
+message RequestAllianceRaceOrder
+{
+}
+//跨服请求商会竞赛订单信息
+message RequestAllianceRaceOrderBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+//响应商会竞赛订单信息
+message ReplyAllianceRaceOrder
+{
+	required uint32 point		= 1;//积分
+	required uint32 orderRecv		= 2;//已接任务数
+	required uint32 maxOrderRecv		= 3;//最多可接任务数
+	required uint32 flag		= 4;//标志
+	repeated AllianceRaceOrder order = 5; //订单
+	repeated AllianceRaceMemberOrder memberOrder = 6; //成员订单
+}
+
+
+
+//请求操作商会竞赛订单信息
+message RequestAllianceRaceOperateOrder
+{
+	required uint32 slot	= 1;//订单槽位
+	required uint32 operate	= 2;//操作类型(1:接受,2:拒绝,3:秒CD)
+	required uint32 cdTs	= 3;//cd时间
+}
+//跨服请求操作商会竞赛订单信息
+message RequestAllianceRaceOperateOrderBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 slot	= 3;//订单槽位
+	required uint32 operate	= 4;//操作类型(1:接受,2:拒绝,3:秒CD)
+}
+//响应操作商会竞赛订单信息
+message ReplyAllianceRaceOperateOrder
+{
+	required uint32 ret = 1; //返回结果
+	required uint32 uid = 2; //玩家ID
+	required uint32 operate = 3; //操作类型(1:接受,2:拒绝,3:秒CD)
+	required uint32 cdTs = 4; //CD时间
+	optional DataCommon.CommonItemsCPP commons  = 5;  //用户资源
+	optional ReplyAllianceRaceOrder order = 6; //订单
+}
+
+
+//删除商会成员竞赛订单
+message RequestAllianceRaceMemberDelOrder
+{
+	required uint32 type   = 1;//删除订单的方式(0:普通删除,1:看广告删除)
+}
+//跨服删除商会成员竞赛订单
+message RequestAllianceRaceMemberDelOrderBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 type    = 3;//删除订单的方式(0:普通删除,1:看广告删除)
+}
+
+//跨服更新商会成员竞赛订单
+message RequestAllianceRaceMemberUpdateOrderBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 orderType		= 3;//订单类型
+	required uint32 count		= 4;//数量
+	required uint32 target		= 5;//目标
+}
+
+//请求购买商会竞赛接单次数
+message RequestAllianceRaceBuyOrder
+{
+}
+//跨服请求购买商会竞赛接单次数
+message RequestAllianceRaceBuyOrderBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+//响应购买商会竞赛接单次数
+message ReplyAllianceRaceBuyOrder
+{
+	required uint32 ret = 1; //返回结果
+	required uint32 uid = 2; //玩家ID
+	optional DataCommon.CommonItemsCPP commons  = 3;  //用户资源
+}
+
+
+//请求看广告获得钻石奖励并增加商会积分
+message RequestAllianceRaceWatchAd
+{
+	required uint32 type 						= 1; //请求类型,0:请求是否可以观看广告,1:看完广告后领取奖励
+}
+//响应请求看广告
+message ReplyAllianceRaceWatchAd
+{
+	required uint32 ret 						= 1; //返回结果,0:可以观看,1:不可以观看,当天任务已经用完,2:成功领取奖励,3:不可以观看,商会竞赛还未开始,4:不可以观看,未参加商会竞赛
+	optional DataCommon.CommonItemsCPP commons  = 2; //用户资源
+	optional uint32 point						= 3; //获得的商会积分
+}
+//跨服请求看广告增加商会积分
+message RequestAllianceRaceWatchAdBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	required uint32 point   = 3;//积分
+}
+
+
+
+//请求商会竞赛奖励
+message RequestAllianceRaceReward
+{
+}
+//跨服请求商会竞赛奖励
+message RequestAllianceRaceRewardBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	repeated uint32 id 		= 3; //
+}
+//响应请求商会竞赛奖励
+message ReplyAllianceRaceReward
+{
+	required uint32 ret = 1; //返回结果
+	required uint32 uid = 2; //玩家ID
+	required uint32 rankId = 3; // 上一轮竞赛排行
+	required uint32 userLevel = 4; // 上一轮竞赛玩家等级
+	required uint32 olevel = 5; // 上一轮竞赛等级
+	required uint32 opoint = 6; // 上一轮竞赛积分
+	repeated uint32 gradeId = 7; //等级奖励ID
+	repeated uint32 stageId = 8; //阶段奖励ID
+}
+
+
+
+
+
+
+//请求领取商会竞赛等级奖励
+message RequestAllianceRaceTakeGradeReward
+{
+}
+//跨服请求领取商会竞赛等级奖励
+message RequestAllianceRaceTakeGradeRewardBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+//响应领取商会竞赛等级奖励
+message ReplyAllianceRaceTakeGradeReward
+{
+	required uint32 ret = 1; //返回结果
+	required uint32 uid = 2; //玩家ID
+	optional DataCommon.CommonItemsCPP commons  = 3;  //用户资源
+	optional uint32 userLevel = 4; // 上一轮竞赛玩家等级
+	optional uint32 rankId = 5; // 上一轮竞赛商会排名
+	repeated uint32 id = 6; //奖励ID
+}
+
+
+//请求领取商会竞赛阶段奖励
+message RequestAllianceRaceTakeStageReward
+{
+	repeated uint32 id = 1; //每个阶段选中的奖励ID
+}
+//跨服请求领取商会竞赛阶段奖励
+message RequestAllianceRaceTakeStageRewardBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	repeated uint32 id 		= 3; //每个阶段选中的奖励ID
+}
+//响应领取商会竞赛阶段奖励
+message ReplyAllianceRaceTakeStageReward
+{
+	required uint32 ret = 1; //返回结果
+	required uint32 uid = 2; //玩家ID
+	optional DataCommon.CommonItemsCPP commons  = 3;  //用户资源
+	optional uint32 userLevel = 4; // 上一轮竞赛玩家等级
+	repeated uint32 id = 5; //奖励ID
+}
+
+//请求刷新商会竞赛阶段奖励
+message RequestAllianceRaceRefreshStageReward
+{
+	repeated uint32 id = 1; //每个阶段选中的奖励ID
+}
+//跨服请求刷新商会竞赛阶段奖励
+message RequestAllianceRaceRefreshStageRewardBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+	repeated uint32 id 		= 3; //每个阶段选中的奖励ID
+}
+//响应刷新商会竞赛阶段奖励
+message ReplyAllianceRaceRefreshStageReward
+{
+	required uint32 ret = 1; //返回结果
+	required uint32 uid = 2; //玩家ID
+	optional DataCommon.CommonItemsCPP commons  = 3;  //用户资源
+	optional uint32 levelId = 4; // 等级ID
+	repeated uint32 id = 5; //奖励ID
+}
+
+
+
+//请求商会竞赛成员任务日志
+message AllianceRaceMemberOrderLogItem
+{
+	required uint32 uid			= 1;//玩家ID
+	required uint32 finish		= 2;//完成订单数
+	required uint32 max			= 3;//可用订单数
+	required uint32 cancel		= 4;//放弃订单数
+	required uint32 point		= 5;//积分
+	required uint32 level		= 6;//玩家等级
+	optional bytes fig			= 7; //头像
+}
+//请求商会竞赛成员任务日志
+message RequestAllianceRaceMemberOrderLog
+{
+}
+//跨服请求商会竞赛成员任务日志
+message RequestAllianceRaceMemberOrderLogBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+//响应请求商会竞赛成员任务日志
+message ReplyAllianceRaceMemberOrderLog
+{
+	repeated AllianceRaceMemberOrderLogItem member = 1; //成员日志
+}
+
+
+
+//请求商会竞赛个人任务日志
+message AllianceRacePersonOrderLogItem
+{
+	required uint32 id			= 1;//订单ID
+	required uint32 status		= 2;//订单状态(1:进行中,2:完成,3:取消)
+}
+//请求商会竞赛个人任务日志
+message RequestAllianceRacePersonOrderLog
+{
+}
+//跨服请求商会竞赛个人任务日志
+message RequestAllianceRacePersonOrderLogBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+//响应请求商会竞赛个人任务日志
+message ReplyAllianceRacePersonOrderLog
+{
+	repeated AllianceRacePersonOrderLogItem member = 1; //个人日志
+}
+
+//跨服设置商会竞赛分组积分
+message SetAllianceRaceGroupPointBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 point		= 2;//积分
+}
+
+
+
+//商会竞赛分组成员
+message AllianceRaceGroupMember
+{
+	required uint32 aid			= 1;//请求的联盟
+	required uint32 point		= 2;//积分
+	required uint32 count		= 3;//商会成员数量
+}
+//请求商会竞赛分组成员
+message RequestAllianceRaceGroupMember
+{
+}
+//跨服请求商会竞赛分组成员
+message RequestAllianceRaceGroupMemberBC
+{
+	required uint32 aid		= 1;//请求的联盟
+	required uint32 uid		= 2;//请求者
+}
+//响应请求商会竞赛分组成员
+message ReplyAllianceRaceGroupMember
+{
+	repeated AllianceRaceGroupMember member = 1; //个人日志
+}

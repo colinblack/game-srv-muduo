@@ -1,0 +1,196 @@
+package ProtoNPCUser;
+import "DataCommon.proto";
+
+message Base {
+	required uint32 uid					 = 1;
+	required uint32 registerPlatform	 = 2;
+	required uint32 registerTime		 = 3;
+	required uint32 lastLoginPlatform	 = 4;
+	required uint32 lastLoginTime		 = 5;
+	required uint32 loginTimes			 = 6;
+	required uint32 loginDays			 = 7;
+	required uint32 lastActiveTime 	 = 8;
+	required uint32 lastOffTime	 	 = 9;
+	required uint32 forbidTs			 = 10;
+	required bytes forbidReason		 = 11;
+	required uint32 tutorialStage		 = 12;
+	required bytes name					 = 13;
+	required bytes fig					 = 14;
+	required uint64 exp					 = 15;
+	required uint32 level				 = 16;
+	required uint32 acccharge			 = 17;
+	required uint32 viplevel			 = 18;
+	required uint32 cash				 = 19;
+	required uint32 coin				 = 20;
+	required uint32 firstRecharge 		 = 21;  //首充 1--可领取 2--已经领取
+	required uint32 allianceId			 = 22;
+	required bytes barrier				 = 23;  //障碍物是否被移除的状态。位标志
+	required uint32  lastcreateadts      = 24;  //上一次发广告的时间
+	required uint32 allianAllowTs		 = 25;  //下次允许加入商会的时间
+	required uint32 nextDonationTs	 	 = 26; //下次可捐收时间
+	required uint32 helptimes			 = 27; //帮助次数
+	required uint32 viprewarddailygiftts = 28;//VIP每日领取礼包的ts
+	required uint32 vipdailyspeedproductcnt = 29;//VIP每日已加速生产的次数
+	required uint32 vipdailyremoveordercdcnt = 30;//VIP每日已祛除订单cd的次数
+	required uint32 switchStatus		 = 31;	//开关状态
+}
+
+
+//建筑
+message BuildingCPP
+{
+	required uint32 ud			 = 1;  //建筑ud
+	required uint32 buildId		 = 2;  //建筑id
+	repeated uint32 position	 = 3;  //
+	required uint32 direct		 = 4;  //朝向. 0-按照配置; 1-翻转
+	required uint32 doneTime	 = 5;  //建造结束时间
+	required uint32 level		 = 6;  //建筑等级。所有建筑，等级为0不可使用
+}
+
+message CropLandCPP
+{
+	required uint32 ud				= 1;  //建筑ud中的农地
+	required uint32 plant 			= 2;  //农作物id
+	required uint32 status			= 3;  //状态. 0-空闲 1-生长中 2-可收获
+	required uint32 harvestTime 	= 4;  //收获时间
+}
+
+
+message OthProduceCPP
+{
+	required uint32 ud			= 1;  //设备ud，值是建筑ud
+	required uint32 status 		= 2;  //设备状态. 0-空闲 1-生产中 2.暂停生产
+}
+
+//----------------------动物生产
+message AnimalCPP
+{
+	required uint32 ud			= 1;  //动物ud
+	required uint32 residenceUd = 2; //住所ud
+	required uint32 animalId	= 3; //动物id
+	required uint32 status		= 4;  //动物状态. 0-饥饿 1-成长 2-饱腹
+	required uint32 fullTime	= 5;  //饱腹时间
+}
+
+//设备星级
+message EquipmentStarCPP
+{
+	required uint32 id			= 1;  //设备id
+	required uint32 star		= 2; //星级
+	required uint32 usedtime	= 3;  //使用时间
+}
+
+//----------------------果树生产
+message FruitCPP
+{
+	required uint32 ud 			 = 1;  //果树ud，即建筑ud
+	required uint32 treeid		 = 2; //果树id
+	required uint32 status		 = 3;  //果树状态. 1-生长中 2-可收获 3-枯萎 4-求助中 5-已援助
+	required uint32 stage		 = 4; //阶段
+	required uint32 fruitLeftNum = 5; //果实剩余个数
+	required uint32 harvestTime	 = 6;  //收获时间
+	optional bytes  name		 = 7;  //援助的玩家名称
+	optional bytes fig			 = 8;  //援助的玩家头像
+}
+
+//航运
+message ShippingCPP
+{
+	required uint32 badge 				= 1;  //徽章
+	required uint32 unlockEndts 		= 2;  //解锁结束时间
+	required uint32 arriveTs	 		=3;  //船到达的时间
+	required uint32 publicAidTimes 		= 4;  //公共援助已用次数
+	required uint32 commercialAidTimes 	= 5;  //商会援助已用次数
+	required uint32 status				= 6; //状态. 1-解锁中 2-等待揭幕 3-等待船到达 4-装货中
+	required uint32 playStatus			= 7;  //播放状态. 0-未播放 1-已播放
+}
+
+
+//箱子
+message ShippingBoxCPP
+{
+	required uint32 boxid		= 1;  //箱子id
+	required uint32 propsid 	= 2;  //物品id
+	required uint32 count		= 3;  //数量
+	required uint32 aidStatus 	= 4;  //援助状态.0-无援助 1-请求公共援助 2-请求公会援助 3-公共援助已完成 4-公会援助已完成
+	required uint32 status		= 5;  //箱子状态.0-空箱 1-装满
+	required uint32 coin		= 6;  //金币
+	required uint32 exp			= 7; //经验
+	optional bytes  fig		 	= 8;  //援助者头像
+	optional bytes  name	 	= 9;  //援助者名字
+}
+
+//商店基本信息
+message NPCShopCPP
+{
+	required uint32 ud               = 1;	//货架ud
+	required uint32 propsid          = 2;	//上架物品的道具id
+	required uint32 propscnt         = 3;	//上架物品数量
+	required uint32 sellflag         = 4;	//上架的商品是否已出售(0:未出售、1:已出售)
+}
+
+//友情树浇水者信息
+message FriendlyTreeBasicCPP
+{
+	required uint32   id               = 1;
+	required uint32   othuid           = 2;//浇水者的uid
+	required bytes    name             = 3;//浇水者名字
+	required bytes    head             = 4;//浇水者头像 
+	required uint32   ts               = 5;//对应浇水者下次可浇水的ts
+}
+
+//友情树信息
+message FriendlyTreeStatusCPP
+{
+	required uint32   treestatus       = 1;//友情树的状态(0:可浇水状态,1:可领取友情值状态,2:枯萎状态)
+	optional uint32   nextwaterts      = 2;//领取友情值奖励后下次可浇水的ts
+}
+
+message FriendlyTreeCPP
+{
+	repeated FriendlyTreeBasicCPP basictreeinfo = 1;
+	required FriendlyTreeStatusCPP statustreeinfo = 2;
+}
+
+
+//访问NPC好友
+message RequestNPCUser
+{
+}
+
+message NPCUser
+{
+	required Base base										= 1;  //基本信息
+	repeated BuildingCPP		builds			= 2; //建筑物
+	repeated CropLandCPP		cropland		= 3; //农地
+	repeated OthProduceCPP 					equipments		= 4; //生产设备		
+	repeated AnimalCPP 	animals				= 5; //动物	
+	repeated EquipmentStarCPP equipmentstars	= 6;  //设备星级
+	repeated FruitCPP		fruits				= 7;  //果树
+	required uint32    				shopStatus				= 8;  //商店状态。 0-空闲 1-有已出售商品
+	optional ShippingCPP  shipping			= 9;  //航运
+	repeated ShippingBoxCPP    shipboxes		= 10;  //航运箱子
+	required FriendlyTreeCPP friendlytree = 11;//友情树
+}
+
+//获取商店信息
+message GetNPCShopReq
+{
+}
+
+message GetNPCShopResp
+{
+	repeated NPCShopCPP  shop           = 1;
+}
+
+//购买物品
+message PurchaseReq
+{
+	required uint32 ud		= 1;  //货架ud
+}
+
+message PurchaseResp
+{
+	required DataCommon.CommonItemsCPP commons      = 1;  //花钱+获得物品
+	required NPCShopCPP 				npcshop		= 2;  //NPC商店数据
+}

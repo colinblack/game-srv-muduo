@@ -1,0 +1,36 @@
+package ConfigAccessAd;
+
+message AdReardItemLibCPP
+{
+	required uint32 itemid = 1;
+	required uint32 weight = 2;
+}
+message AdRewardCPP
+{
+	repeated uint32 level    = 1;//等级区间
+	repeated AdReardItemLibCPP itemlib = 2;//物品库
+}
+message ViewAdCPP
+{
+	required uint32 unlock_level       = 1;
+	required uint32 balloon_unlock_level       = 2;
+	required uint32 balloon_cd_time            = 3;
+	required uint32 daily_ballon_view_ad_cnt   = 4;
+	required uint32  reward_wait_time   = 5;
+	repeated AdRewardCPP  reward_item_lib = 6;
+}
+
+message ScarecrowCPP
+{
+	required uint32 bonus_time   = 1;
+	required uint32 bonus_percent = 2;
+	required uint32 cd_time  = 3;
+	required uint32 unlock_level = 4;
+	required uint32 daily_bonus_cnt = 5;
+}
+
+message AccessAdCfg
+{
+	required ViewAdCPP access_ad   = 1;
+	required ScarecrowCPP scarecrow_ad = 2;
+}

@@ -1,0 +1,39 @@
+package ConfigRotaryTable;
+
+
+message RotaryTableCPP
+{
+	required uint32 unlock_level = 1;//解锁等级
+	required uint32 daily_friendly_draw_cnt = 2;//每日友情值抽奖次数
+	required uint32 daily_free_draw_cnt = 3;//每日免费抽奖数
+	required uint32 daily_login_draw_cnt = 4;
+	required uint32 cost_friendly_value_draw = 5;
+}
+
+message RotaryTableGridCommonCPP
+{
+	required uint32 gridid    = 1;
+	required uint32 weight    = 2;
+	required uint32     type  = 3;
+}
+
+message RandomItemLib
+{
+	repeated uint32 itemid    = 1;
+}
+
+message RotaryTableItemCPP
+{
+	repeated uint32 diamondcnt          = 1;
+	repeated uint32 coinBaseK           = 2;
+	repeated uint32 speedcardcnt         = 3;
+	required uint32 cropbaseK            = 4;
+	repeated RandomItemLib randomitemlib      = 5;
+}
+
+message RotaryTableCfg
+{
+	required RotaryTableCPP rotarytablebase      = 1;
+	repeated RotaryTableGridCommonCPP gridcommon = 2;
+	required RotaryTableItemCPP  griditeminfo    = 3;
+}

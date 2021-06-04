@@ -1,0 +1,23 @@
+package ConfigNPCSeller;
+
+message NPCSellerMaterial
+{
+	repeated uint32 id      = 1;//出售的材料
+}
+
+message NPCSellerCPP
+{
+	required uint32 unlockLevel                             = 1;//NPC商人解锁等级
+	required float priceBase                                = 2;//价格系数
+	repeated uint32 priceDiscount                           = 3;//价格折扣
+	repeated uint32 visitInterval                           = 4;//来访时间隔时间点基数
+	required uint32 maxVisitInterval                        = 5;//最大来访时间间隔
+	repeated NPCSellerMaterial material		                = 6; //出售材料:分为两个等级库
+	repeated uint32 sellCount                               = 7;//出售材料的数量
+	required uint32 level                                   = 8;//根据玩家是否超过此等级来判定读取哪个material库
+}
+
+message NPCSellerCfg
+{
+	required NPCSellerCPP npcSeller       = 1;
+}

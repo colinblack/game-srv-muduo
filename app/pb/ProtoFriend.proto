@@ -1,0 +1,140 @@
+package ProtoFriend;
+
+message FolkCPP
+{
+	required uint32 folkUid 	= 1;  //uid
+	optional uint32 level		= 2;  //等级
+	optional bytes	fig			= 3; //头像
+	optional bytes	name		= 4; //名称
+	optional bool needhelp	= 5; //需要帮助
+	optional uint32 blueInfo	= 6; //蓝钻信息
+}
+
+//我关注的人
+message ConcernFolkCPP
+{
+	required FolkCPP concernfolk = 1;  //关注的人
+}
+
+//粉丝-关注了我的人
+message FansCPP
+{
+	required FolkCPP fan = 1;  //粉丝
+}
+
+//请求好友数据
+message GetAllFriendsReq
+{
+
+}
+
+message GetAllFriendsResp
+{
+	repeated ConcernFolkCPP concerns 	= 1;  //关注的人
+	repeated FansCPP 	fans 			= 2;  //粉丝
+	repeated FolkCPP helpers 			= 3;  //帮助过我的人
+}
+
+//关注
+message ConcernReq
+{
+	required uint32 othuid	= 1;  //关注的对象
+}
+
+message ConcernResp
+{
+	required ConcernFolkCPP   concern = 1;  //关注的人
+}
+
+//跨服拉取好友信息
+message CSGetFriendInfoReq
+{
+	required uint32 type    = 1;//记录此次获取类型;1:获取关注好友的信息 2:获取粉丝好友的信息、3：获取帮助过我的人的信息
+	required uint32 myuid   = 2;//自己的uid
+	repeated uint32 othuid  = 3;//需要获取信息的uid
+}
+
+message CSGetFriendInfoResp
+{
+	required uint32 type    = 1;//记录此次获取类型;1:获取关注好友的信息 2:获取粉丝好友的信息、3：获取帮助过我的人的信息
+	required uint32 myuid   = 2;//自己的uid
+	repeated FolkCPP folk   = 3;//好友信息
+	
+}
+
+
+//拉取好友帮助信息
+message GetFriendHelpInfoReq
+{
+}
+//跨服拉取好友帮助信息
+message CSGetFriendHelpInfoReq
+{
+	required uint32 myuid   = 1;//自己的uid
+	repeated uint32 othuid  = 2;//需要获取信息的uid
+}
+//跨服拉取好友帮助信息回包
+message CSGetFriendHelpInfoResp
+{
+	repeated uint32 othuid  = 1;//需要帮助玩家的uid
+}
+
+
+//跨服关注
+message CSConcernReq
+{
+	required uint32 myuid   = 1; //自己的uid
+	required uint32 othuid	= 2;  //需要关注的uid
+}
+message CSConcernResp
+{
+	required uint32 myuid          = 1;//自己的uid
+	required ConcernResp folkResp  = 2;//关注人信息
+}
+
+//粉丝推送
+message FansPushReq
+{
+	required FansCPP fan	= 1;  //粉丝
+}
+
+//取消关注
+message CancelConcernReq
+{
+	required uint32 othuid	= 1;  //已关注的对象	
+}
+
+message CancelConcernResp
+{
+	required uint32 deluid	= 1;  //删除的关注对象	
+}
+
+//跨服取消关注
+message CSCancelConcernReq
+{
+	required uint32 myuid   = 1;  //自己的uid
+	required uint32 othuid	= 2;  //已关注的对象	
+}
+
+message CSCancelConcernResp
+{
+	required uint32 myuid           = 1; //自己的uid
+	required CancelConcernResp resp	= 2;  //删除的关注对象	
+}
+
+//脱粉推送
+message StripFansPushReq
+{
+	required uint32 deluid	= 1;  //删除的粉丝uid
+}
+
+//删除粉丝
+message RemoveFansReq
+{
+	required uint32 deluid = 1;  //删除的粉丝对象
+}
+
+message RemoveFansResp
+{
+	required uint32 deluid = 1;  //删除的粉丝uid
+}

@@ -1,0 +1,42 @@
+package ConfigKeeper;
+
+import "CommonGiftConfig.proto";
+
+//助手升级
+message KeeperUpgradeItem
+{
+	required uint32 exp 			= 1;	//经验
+	required uint32 max 			= 2;	//最大目标数
+	required uint32 cap 			= 3;	//仓库额外容量
+	required CommonGiftConfig.CommonModifyItem  item = 4;	//升级消耗
+}
+
+//助手子任务
+message KeeperTaskTarget
+{
+	required uint32 id 				= 1;	//ID
+	required uint32 tid 			= 2;	//目标ID
+}
+//助手任务
+message KeeperTask
+{
+	required uint32 type 				= 1;	//助手ID
+	required uint32 bid 				= 2;	//建筑ID
+	repeated KeeperTaskTarget target	= 3;	// 目标
+}
+//助手信息
+message KeeperInfo
+{
+	required uint32 id 				= 1;	//助手ID
+	repeated KeeperTask item		= 2;  	//助手任务
+}
+
+//活动
+message KeeperCfg
+{
+	required int32 upgrade_cost 				= 1;	//升级消耗
+	required uint32 ad_reward_time 				= 2;	//看广告奖励时间
+	required uint32 upgrade_cost_reward_time 	= 3;	//消耗升级奖励时间
+	repeated KeeperUpgradeItem upgrade			= 4;  	//助手升级
+	repeated KeeperInfo keeper					= 5;  	//助手
+}

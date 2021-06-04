@@ -1,0 +1,53 @@
+package ProtoKeeper;
+
+import "DataCommon.proto";
+message KeeperTask{
+		required uint32 id 					= 1;	// 任务ID
+		required uint32 need 				= 2;	// 需要数量
+		required uint32 finish 				= 3;	// 完成数量
+		required uint32 status 				= 4;	// 状态(1:达到目标,2:正在生产,3:原料不足)
+}
+// 查询农场助手
+message KeeperInfoReq{
+		required uint32 id 					= 1;	// 助手ID
+}
+// 查询农场助手回包
+message KeeperInfoResp{
+		required uint32 id 					= 1;	// 助手ID
+		required uint32 level 				= 2;	// 等级
+		required uint32 exp 				= 3;	// 经验
+		required uint32 overTs 				= 4;	// 到期时间戳
+		required uint32 flag 				= 5;	// 标志位(0位:自动喂养,其他位数保留)
+		optional DataCommon.CommonItemsCPP commons  = 6;  //资源变化
+		repeated KeeperTask task			= 7;	// 任务
+}
+// 花钱购买时间
+message KeeperBuyTime{
+		required uint32 id 					= 1;	// 助手ID
+}
+// 看广告奖励
+message KeeperWatchAds{
+		required uint32 id 					= 1;	// 助手ID
+		optional uint32 isCostDimaond       = 2;//(1:表示需要花钻,非1不需要)
+}
+// 升级
+message KeeperUpgrade{
+		required uint32 id 					= 1;	// 助手升级
+}
+message KeeperTaskItem{
+		required uint32 taskId 				= 1;	// 任务ID
+		required uint32 need 				= 2;	// 需要数量
+}
+// 设置任务
+message KeeperSetTask{
+		required uint32 keeperId			= 1;	// 助手ID
+		repeated KeeperTaskItem task		= 2;	// 任务
+}
+// 设置自动喂养
+message KeeperSetAutoFeed{
+		required uint32 autoFeed			= 1;	// (0:关,1:开)
+}
+// 设置自动喂养
+message KeeperSetAutoFeedResp{
+		required uint32 ret			= 1;	// (0:成功)
+}

@@ -1,0 +1,53 @@
+package ProtoArchive;
+
+import "ProtoUser.proto";
+
+message UserData
+{
+	optional ProtoUser.Base base					= 1;
+	repeated ProtoUser.ChargeItem	charges			= 2;//累积充值.与累积充值活动无关。只保留7日充值数据
+	repeated ProtoUser.BuildingsCPP     builds		= 3; //建筑
+	repeated ProtoUser.EquipmentStarCPP	 equipstar	= 4; //设备星级
+	repeated ProtoUser.CropLandCPP     cropland		= 5; //地块
+	repeated ProtoUser.ProduceEquipCPP	equipments	= 6; //生产设备
+	repeated ProtoUser.FruitCPP		fruits			= 7; //果树
+	repeated ProtoUser.PropsItemCPP	 	item		= 8; //道具
+	repeated ProtoUser.AnimalCPP		animals		= 9; //动物
+	repeated ProtoUser.OrderCPP	 	orders			= 10; //订单
+	optional ProtoUser.TruckCPP		truck			= 11; //卡车
+	optional ProtoUser.ShippingCPP	 	shipping	= 12; //航运
+	repeated ProtoUser.ShippingBoxCPP	shipboxes	= 13; //箱子
+	repeated ProtoUser.ShopCPP	 	shop			= 14; //商店
+	repeated ProtoUser.TaskCPP	 	task			= 15; //任务
+	repeated ProtoUser.MissionCPP	 	mission	    = 16; //单线任务
+	repeated ProtoUser.ActivityCPP	 	activity	= 17; //活动数据
+	repeated ProtoUser.MaidDogCPP	 	maildog	    = 18; //报纸狗
+	repeated ProtoUser.FriendlyTreeBasicCPP	friendlytree	    = 19; //友情树
+	repeated ProtoUser.ShopSellCoinCPP	 	shopsellcoin	    = 20; //商店卖出金币
+	repeated ProtoUser.FriendWorkerCPP	 	friendworker	    = 21; //好友长工
+	repeated ProtoUser.UnlockPetCPP          pet                = 22;//宠物
+}
+
+//导入
+message ImportReq
+{
+	required uint32		uid  = 1;
+	required UserData	data = 2;
+}
+
+message ImportResp
+{	
+	optional bytes err_msg = 1;
+}
+
+//导出
+message ExportReq
+{
+	required uint32 uid	= 1;
+}
+
+message ExportResp
+{
+	optional UserData data = 1;	
+	optional string err_msg = 2;
+}

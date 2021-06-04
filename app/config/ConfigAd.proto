@@ -1,0 +1,15 @@
+package ConfigAd;
+
+message AdCPP
+{
+	required uint32  adCnt         = 1;//多少个广告位
+	required uint32  adTime        = 2;//广告持续的时间
+	required uint32  coolAdCost    = 3;//秒CD发广告耗钻
+	required uint32  delOrderCost  = 4;//删订单耗钻	 
+	required uint32  adCdTs        = 5;//广告cd时间
+}
+
+message AdInfo
+{
+	required AdCPP  adInfo   = 1;//广告配置
+}

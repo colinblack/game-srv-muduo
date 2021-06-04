@@ -1,0 +1,90 @@
+package ProtoAccessAd;
+import "DataCommon.proto";
+import "ProtoProduce.proto";
+
+//主城领取观看广告奖励
+message RewardViewAdReq
+{
+}
+
+
+message RewardViewAdResp
+{
+	required uint32  ts   = 1;//下一次可领取奖励的ts
+	required DataCommon.CommonItemsCPP commons  = 2;  //领取的物品
+}
+
+message GetLastViewAdTsReq
+{
+}
+
+message GetLastViewAdTsResp
+{
+	required uint32  ts   = 1;//上一次领奖的ts
+}
+
+
+//气球基本信息
+message BallonCPP
+{
+	required uint32  remainCnt                  = 1;//当天剩余次数
+	required uint32  nextTs                     = 2;//下一次可看广告的时间
+}
+
+//获取气球信息
+message GetBallonInfoReq
+{
+}
+
+message GetBallonInfoResp
+{
+	required BallonCPP ballon                   = 1;
+}
+
+//领取气球、升级界面看广告(通用看广告请求)
+message CommonlViewAdReq
+{
+	required uint32 type  = 1;//(0:气球,1:升级)
+}
+
+message CommonlViewAdResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //获得的物品
+	optional BallonCPP  ballon                  = 2;  //如果为气球看广告,返回对应的气球信息
+	
+}
+
+
+//稻草人基本信息
+message ScarecrowCPP
+{
+	required uint32 remainCnt     = 1;//今日剩余加成次数
+	required uint32 workEndTs     = 2;//当前稻草人工作加成结束ts(if(workEndTs == 0 || 当前时间>= workEndTs)稻草人空闲;else 稻草人处于加成中)
+	required uint32 nextShowTs    = 3;//稻草人下一次出现的ts(if(当前时间 >= nextShowTs)稻草人出现)
+}
+
+//获取稻草人信息
+message GetScarecrowInfoReq
+{
+}
+
+message GetScarecrowInfoResp
+{
+	required ScarecrowCPP scarecrow  = 1;
+}
+
+//稻草人看广告
+message ScarecrowViewAdReq
+{
+	optional uint32 isCostDimaond    = 1;//(1:表示需要花钻,非1不需要)
+}
+
+message ScarecrowViewAdResp
+{
+	required ScarecrowCPP scarecrow  = 1;
+	repeated ProtoProduce.CropLandCPP cropland    = 2; //农地信息
+	optional DataCommon.CommonItemsCPP commons  =  3;  
+}
+
+
+

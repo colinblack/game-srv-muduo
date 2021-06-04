@@ -1,0 +1,85 @@
+package ProtoFriendlyTree;
+
+//友情树浇水者信息
+message FriendlyTreeBasicCPP
+{
+	required uint32   id               = 1;
+	required uint32   othuid           = 2;//浇水者的uid
+	required bytes    name             = 3;//浇水者名字
+	required bytes    head             = 4;//浇水者头像 
+	required uint32   ts               = 5;//对应浇水者下次可浇水的ts
+}
+
+//友情树信息
+message FriendlyTreeStatusCPP
+{
+	required uint32   treestatus       = 1;//友情树的状态(0:可浇水状态,1:可领取友情值状态,2:枯萎状态)
+	optional uint32   nextwaterts      = 2;//领取友情值奖励后下次可浇水的ts
+}
+
+message FriendlyTreeCPP
+{
+	repeated FriendlyTreeBasicCPP basictreeinfo = 1;
+	required FriendlyTreeStatusCPP statustreeinfo = 2;
+}
+
+//获取友情树信息
+message GetFriendlyTreeReq
+{
+}
+
+message GetFriendlyTreeResp
+{
+	repeated FriendlyTreeBasicCPP  basictreeinfo              = 1;
+	required FriendlyTreeStatusCPP statustreeinfo             = 2;
+}
+
+//浇水
+message WaterFriendlyTreeReq
+{
+	required uint32   othuid    = 1;//被浇水uid
+}
+
+message WaterFriendlyTreeResp
+{
+	optional FriendlyTreeStatusCPP  statustreeinfo        = 1;
+	optional uint32  curfriendlyvalue                     = 2;//当前浇水者获得的友情值
+	optional FriendlyTreeBasicCPP basictreeinfo           = 3;
+	required uint32   code                                = 4;//浇水返回代码(0:成功,1:数处于枯萎状态/2:树处于收获状态3:个人浇水cd未到,4:个人等级未解锁,5:个人友情值已达上限)
+}
+
+//跨服处理浇水
+message CSWaterFriendlyTreeReq
+{
+	required uint32 myuid      = 1;
+	required bytes  myname     = 2;
+	required bytes  myhead     = 3;
+	required uint32 othuid     = 4;
+}
+
+message CSWaterFriendlyTreeResp
+{
+	optional uint32   myuid                               = 1;
+	optional FriendlyTreeStatusCPP  statustreeinfo        = 2;
+	optional FriendlyTreeBasicCPP basictreeinfo           = 3;
+	required uint32   code                                = 4;//浇水返回代码(0:成功,1:数处于枯萎状态/2:树处于收获状态3:个人浇水cd未到,4:个人等级未解锁,5:个人友情值已达上限)
+}
+
+//领取友情值
+message RewardFriendlyTreeReq
+{
+}
+
+message RewardFriendlyTreeResp
+{
+	repeated FriendlyTreeBasicCPP  basictreeinfo              = 1;
+	required FriendlyTreeStatusCPP statustreeinfo             = 2;
+	required uint32 friendlyValue                             = 3;//领取得到的友情值
+}
+
+//推送友情树浇水消息(从浇水状态到可领取状态进行推送)
+message PushFriendlyTreeMsg
+{
+	repeated FriendlyTreeBasicCPP  basictreeinfo              = 1;
+	required FriendlyTreeStatusCPP statustreeinfo             = 2;
+}

@@ -1,0 +1,29 @@
+package ProtoNotify;
+
+message NotifyItemCPP
+{
+	required uint32 id		= 1;  //通知id
+	required uint32 ts		= 2;   //时间
+	required bytes content	= 3; //内容
+}
+
+message NotifyItemCPPAll
+{
+	repeated NotifyItemCPP notify	= 1; //通知
+}
+
+message GetNotifyReq
+{
+	required uint32 id	= 1;
+}
+
+message GetNotifyResp
+{
+	required NotifyItemCPP  notify	= 1;  //通知
+}
+
+//通知的主动推送
+message PushNotifyReq
+{
+	required NotifyItemCPP  notify	= 1;  //通知
+}

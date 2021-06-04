@@ -1,0 +1,43 @@
+package ProtoActivityTencent;
+import "ProtoReward.proto";
+//奖励领取状态查询
+message RewardStatusReq
+{
+}
+//奖励领取状态查询回包
+message RewardStatusResp
+{
+	optional uint32 blueDaily              = 1;//蓝钻每日奖励领取(0:未领,1:已领)
+	optional uint32 blueGrow               = 2;//蓝钻成长奖励领取
+	optional uint32 qqgamePrivilegeDaily         = 3;//qqgame特权每日奖励领取(0:未领,1:已领)
+	optional uint32 qqgamePrivilegeGrow          = 4;//qqgame特权成长奖励领取
+}
+//领奖返回
+message GetRewardResp
+{
+	optional RewardStatusResp status = 1;	// 奖励领取状态查询
+	optional ProtoReward.RewardInfo reward = 2;	// 奖励
+}
+
+//蓝钻每日奖励
+message GetBlueDailyAward
+{
+	required uint32 type 		= 1;  //类型(1:贵族,2:豪华,3:年费)
+}
+
+//蓝钻成长奖励
+message GetBlueGrowAward
+{
+	required uint32 id 		= 1;  //奖励ID
+}
+
+//特权礼包每日奖励
+message GetQQgamePrivilegeDailyAward
+{
+}
+
+//特权礼包成长奖励
+message GetQQgamePrivilegeGrowAward
+{
+	required uint32 id 		= 1;  //奖励ID
+}

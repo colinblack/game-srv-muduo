@@ -1,0 +1,17 @@
+package LevelupUnlock;
+
+import "CommonGiftConfig.proto";
+
+
+
+message LevelRewards
+{
+	required uint32 level									= 1;
+	repeated CommonGiftConfig.CommonModifyItem 	prize		= 2;		
+}
+
+
+message LevelupUnlockCfg
+{
+	repeated LevelRewards levels		= 1;
+}
