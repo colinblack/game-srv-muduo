@@ -1,0 +1,14 @@
+package CdKey;
+
+import "CommonGiftConfig.proto";
+
+message RewardInfo
+{
+	required uint32 type									= 1;
+	repeated CommonGiftConfig.CommonModifyItem 	prize		= 2;
+}
+
+message CdKeyCfg
+{
+	repeated RewardInfo rewards = 1;
+}

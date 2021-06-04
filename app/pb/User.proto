@@ -1,0 +1,502 @@
+import "ProtoNotify.proto";
+import "ProtoActivity.proto";
+import "ProtoBuilding.proto";
+import "ProtoProduce.proto";
+import "DataCommon.proto";
+import "ProtoOrder.proto";
+import "ProtoShipping.proto";
+import "ProtoNPCSeller.proto";
+import "ProtoFriendlyTree.proto";
+import "ProtoTheme.proto";
+import "ProtoReward.proto";
+import "ProtoPet.proto";
+package User;
+
+message Base {
+	required uint32 uid					 = 1;
+	required uint32 registerPlatform	 = 2;
+	required uint32 registerTime		 = 3;
+	required uint32 lastLoginPlatform	 = 4;
+	required uint32 lastLoginTime		 = 5;
+	required uint32 loginTimes			 = 6;
+	required uint32 loginDays			 = 7;
+	required uint32 lastActiveTime 	 = 8;
+	required uint32 lastOffTime	 	 = 9;
+	required uint32 forbidTs			 = 10;
+	required bytes forbidReason		 = 11;
+	required uint32 tutorialStage		 = 12;
+	required bytes name					 = 13;
+	required bytes fig					 = 14;
+	required uint64 exp					 = 15;
+	required uint32 level				 = 16;
+	required uint32 acccharge			 = 17;
+	required uint32 viplevel			 = 18;
+	required uint32 cash				 = 19;
+	required uint32 coin				 = 20;
+	required uint32 firstRecharge 		 = 21;  //首充 1--可领取 2--已经领取
+	required uint32 allianceId			 = 22;
+	required bytes barrier				 = 23;  //障碍物是否被移除的状态。位标志
+	required uint32  lastcreateadts      = 24;  //上一次发广告的时间
+	required uint32 allianAllowTs		 = 25;  //下次允许加入商会的时间
+	required uint32 nextDonationTs	 	 = 26; //下次可捐收时间
+	required uint32 helptimes			 = 27; //帮助次数
+	required uint32 viprewarddailygiftts = 28;//VIP每日领取礼包的ts
+	required uint32 vipdailyspeedproductcnt = 29;//VIP每日已加速生产的次数
+	required uint32 vipdailyremoveordercdcnt = 30;//VIP每日已祛除订单cd的次数
+	required uint32 switchStatus		 = 31;	//开关状态
+	required uint32 sharerewarddailygiftts		 = 32;	//用户每日领取分享奖励的ts
+   	required uint32 AssistStartTs        = 33;  //物品助手使用时间
+    required uint32 AssistEndTs          = 34;  //物品助手使用截止时间
+	required bytes expandmap1				 = 35;  //地图扩充的状态。位标志
+	required bytes expandmap2				 = 36;  //地图扩充的状态。位标志
+	required bytes expandmap3				 = 37;  //地图扩充的状态。位标志
+	required uint32 nextrandomboxrefreshts   = 38;  //随机宝箱下一次刷新的ts
+	required uint32 flag   = 39;  //标志位
+	required uint32 friendlyvalue = 40;//友情值
+	optional uint32 version = 41;  //版本号
+	optional uint32 accthumbsup = 42;//累积点赞
+	optional uint32 isUnlockPetResidence  = 43;//宠物住所是否已解锁(0:未解锁,1:已解锁)
+	optional bytes  wxChannel             = 44;//微信平台用户的具体来源渠道(若无具体来源渠道,传"wechat")
+}
+
+message ActivityItem{
+	required uint32	id			= 1;
+	required uint32	bts			= 2;
+	required uint32	ets			= 3;
+	required uint32	ver			= 4;
+}
+message Activity{
+	repeated ActivityItem act	 = 1;
+}
+
+message User 
+{
+	required Base base										= 1;
+	required uint32 ts										= 2; //服务器时间
+	required Activity activity								= 3; //活动时间
+	optional ProtoNotify.NotifyItemCPPAll 	notifies		= 4; //活动的通知
+	required AccumulateCharge	       charges				= 5; //累积充值.与累积充值活动无关。只保留7日充值数据
+	required ProtoActivity.GameAcitivityAllCPP gameactivity	= 6; //已开启的活动
+	repeated DataCommon.PropsItemCPP	 item	            = 7; //物品
+	repeated ProtoBuilding.BuildingCPP		builds			= 8; //建筑物
+	repeated ProtoProduce.CropLandCPP		cropland		= 9; //农地
+	repeated ProtoProduce.ProduceEquipCPP equipments		= 10; //生产设备		
+	repeated ProtoProduce.AnimalCPP 	animals				= 11; //动物	
+	repeated ProtoBuilding.EquipmentStarCPP equipmentstars	= 12;  //设备星级
+	repeated ProtoProduce.FruitCPP		fruits				= 13;  //果树
+	repeated ProtoOrder.OrderCPP		orders				= 14;  //订单
+	optional ProtoOrder.TruckCPP		truck				= 15;  //卡车
+	optional ProtoShipping.ShippingCPP  shipping			= 16;  //航运
+	repeated ProtoShipping.ShippingBoxCPP    shipboxes		= 17;  //航运箱子
+	required ProtoNPCSeller.NPCSellerCPP    npcseller       = 18; //npc商人
+	required uint32 opents									= 19; //开服时间
+	optional bool hasNewDyInfo								= 20; //动态消息
+	optional ProtoTheme.ThemeInfoResp  theme				= 21;  //主题
+	optional bool hasNewMsgInfo								= 22; //留言板
+	repeated ProtoPet.UnlockPetCPP        pet               = 23;//宠物信息
+}
+
+message OthProduceCPP
+{
+	required uint32 ud			= 1;  //设备ud，值是建筑ud
+	required uint32 status 		= 2;  //设备状态. 0-空闲 1-生产中 2.暂停生产
+}
+
+message RequestOtherUser
+{
+	required uint32 othuid = 1;  //要访问的他人uid
+}
+
+message OtherUser
+{
+	required Base base										= 1;  //基本信息
+	repeated ProtoBuilding.BuildingCPP		builds			= 2; //建筑物
+	repeated ProtoProduce.CropLandCPP		cropland		= 3; //农地
+	repeated OthProduceCPP 					equipments		= 4; //生产设备		
+	repeated ProtoProduce.AnimalCPP 	animals				= 5; //动物	
+	repeated ProtoBuilding.EquipmentStarCPP equipmentstars	= 6;  //设备星级
+	repeated ProtoProduce.FruitCPP		fruits				= 7;  //果树
+	required uint32    				shopStatus				= 8;  //商店状态。 0-空闲 1-有已出售商品
+	optional ProtoShipping.ShippingCPP  shipping			= 9;  //航运
+	repeated ProtoShipping.ShippingBoxCPP    shipboxes		= 10;  //航运箱子
+	required ProtoFriendlyTree.FriendlyTreeCPP friendlytree = 11;//友情树
+	optional ProtoTheme.ThemeInfoResp  theme				= 12;  //主题
+	repeated ProtoPet.UnlockPetCPP  arraypet                = 13;//宠物
+}
+
+//跨服访问
+message RequestOtherUserBC
+{
+	required uint32 othuid = 1;  //要访问的他人uid
+	required uint32 myuid = 2;  //访问者的uid
+}
+
+//获取自身数据
+message FetchSelfReq
+{
+	
+}
+
+message FetchSelfResp
+{
+	required User player	= 1;  //玩家数据
+}
+
+message Tutorialstage{	
+	required uint32 tutorialStage		 = 1;
+}
+
+message SwitchStatus{
+	required uint32 switchStatus		= 1;
+}
+
+message ServerTime{	
+	required uint32 ts					 = 1;
+}
+
+//////////////////////////////////
+//消耗钻石
+message CostCashReq {
+	required uint32  cash 	 	= 1;  //消耗钻石数
+	required string  opCode 	= 2;  //操作备注（不能为空,勿用中文）
+	required uint32	 operation 	= 3;  //用于区分客户端逻辑
+}
+
+message CostCashResp {
+	required uint32  cash 		= 1;  //最新钻石数
+	required uint32	 operation 	= 2;  //用于区分客户端逻辑
+}
+//////////////////////////////////
+
+//7天内的充值数据
+message ChargeItem
+{
+	required uint32 cash = 1;  //充值金额
+	required uint32 ts 	 = 2;   //充值时间
+}
+
+message AccumulateCharge
+{
+	repeated ChargeItem accumulateCharge	= 1;   //累积充值
+}
+
+//充值后的推送
+message PushAccumulateChangeReq
+{
+	required AccumulateCharge  changeAcccharge = 1;  //改变后的累积充值
+}
+
+//加速
+message SpeedUpReq
+{
+	required uint32 type 	= 1;  //加速的功能类型. 1-建筑和各生产线  2-订单  3-卡车  4-航运
+	optional uint32 ud		= 2; //ud.适合于同一类型下的多个ud.当只有一个ud时，可不填
+	optional uint32 method  = 3; //加速方法(0:非看广告加速，1:看广告加速,2:同类一键加速)
+} 
+
+message SpeedUpResp
+{
+	optional DataCommon.CommonItemsCPP commons  = 1; //钻石或收获
+}
+
+message BuyMaterialInfo
+{
+	required uint32 propsid  = 1;
+	required uint32 propscnt = 2;
+}
+
+message BuyMaterialReq
+{
+	repeated BuyMaterialInfo buyinfo = 1;
+	required uint32 seq              = 2;//前端输入的序列号
+}
+
+message BuyMaterialResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //属性或者道具的通用修改
+	required uint32 seq                         = 2; //返回前端传入的序列号
+}
+
+message CriticalRewardsResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1; 
+}
+
+message LevelRewardsResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1; 
+}
+
+message DaliyShareReq
+{
+
+}
+
+//每日分享
+message DaliyShareResp
+{
+    required uint32 days                        = 1; //累计天数
+    required uint32 rewardts                    = 2; //当前分享的ts
+}
+
+//每日分享奖励
+message ShareRewardsReq
+{
+}
+
+message ShareRewardsResp
+{
+    required DataCommon.CommonItemsCPP commons  = 1; 
+    required uint32 rewardts                    = 2; //领取物品的ts
+}
+
+//累计分享奖励
+message ShareTotalRewardsReq
+{
+    required uint32 day                          = 1;
+}
+
+//累计分享奖励
+message ShareTotalRewardsResp
+{
+    required DataCommon.CommonItemsCPP commons  = 1; 
+    required uint32                    marks    = 2;
+}
+
+
+//金币购买
+message PurchaseCoinReq
+{
+	required uint32 id	= 1;  //选项
+}
+
+message PurchaseCoinResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //扣钻与金币获得
+}
+
+message SignInRewardsReq
+{
+    required uint32 day                         = 1; //第几天签的到
+}
+
+message SignInRewardsResp
+{
+    optional DataCommon.CommonItemsCPP       commons  = 1; 
+    required uint32  marks     = 2; //记录哪些天已被领取
+}
+//设置版本号
+message SetVersion
+{
+	required uint32 version	= 1;  //版本号
+}
+//设置标志位
+message SetFlag
+{
+	required uint32 flagId	= 1;  //标志位ID(8:设备加速,9:仙人加速)
+	optional uint32 isCostDimaond    = 2;//(1:表示需要花钻,非1不需要)
+}
+//获取标志位
+message GetFlagResp
+{
+	required uint32 flag	= 1;  //标志位(8:设备加速,9:仙人加速)
+	optional DataCommon.CommonItemsCPP commons  =  2; 
+}
+
+//点赞信息
+message ThumbsUpCPP
+{
+	repeated uint32 index            = 1;//被点赞的榜单索引[高十六位存储榜单索引,低十六位存储对应榜单下的某一个索引]
+}
+
+//获取点赞信息(登录时获取)
+message GetThumbsUpReq
+{
+}
+
+message GetThumbsUpResp
+{
+	required ThumbsUpCPP thumbsup   = 1;
+}
+
+//排行榜点赞
+message RankThumbsUpReq
+{
+	required uint32 othuid          = 1;//被点赞的人
+	required uint32 index1          = 2;//榜单索引,索引从1开始
+	required uint32 index2          = 3;//某个榜单下的具体索引位置,索引从1开始
+}
+
+message RankThumbsUpResp
+{
+	required ThumbsUpCPP thumbsup   = 1;
+	required DataCommon.CommonItemsCPP       commons  = 2;
+}
+
+//跨服记录被点赞
+message CSRankThumbsUpReq
+{
+	required uint32 myuid           = 1;
+	required uint32 othuid          = 2;//被点赞的人
+	required uint32 index1          = 3;//榜单索引
+	required uint32 index2          = 4;//某个榜单下的具体索引位置
+}
+
+message CSRankThumbsUpResp
+{
+	required uint32 myuid           = 1;
+	required uint32 index1          = 2;//榜单索引
+	required uint32 index2          = 3;//某个榜单下的具体索引位置
+}
+
+//获取世界频道帮助请求信息(登录时获取)
+message GetWorldChannelHelpCntReq
+{
+}
+message GetWorldChannelHelpCntResp
+{
+	required uint32 remainCnt = 1;//今日剩余请求帮助次数
+}
+
+//请求帮助
+message WorldChannelHelpReq
+{
+}
+
+message WorldChannelHelpResp
+{
+	required uint32 remainCnt   = 1;//今日剩余请求帮助次数
+}
+
+
+message SysMail
+{
+	required uint32 ts 					= 1;
+	required uint32 stat 				= 2;//0未读 1已读未领奖 2已读已领奖
+	required bytes sys					= 3;
+	required bytes reward				= 4;
+}
+// 查询系统邮件
+message RequestSysMail
+{	
+}
+// 查询系统邮件回包
+message ReplySysMail
+{
+	repeated SysMail mail				= 1;
+}
+// 读取系统邮件
+message RequestMailRead
+{
+	required uint32 ts 					= 1;
+}
+// 读取系统邮件回包
+message ReplyMailRead
+{
+	required uint32 ts 					= 1;
+	required uint32 stat 				= 2;
+}
+// 提取邮件附件
+message RequestMailGet
+{
+	required uint32 ts 					= 1;
+}
+// 提取邮件附件回包
+message ReplyMailGet
+{
+	required uint32 ts 					= 1;
+	required uint32 stat 				= 2;
+	optional ProtoReward.RewardInfo reward	= 3;
+}
+// 删除邮件
+message RequestMailDel
+{
+	required uint32 ts 					= 1;
+}
+// 提取所有附件
+message RequestMailAllGet
+{
+}
+// 提取所有附件回包
+message ReplyMailAllGet
+{
+	optional ProtoReward.RewardInfo reward	= 1;
+}
+// 删除所有邮件
+message RequestMailAllDel
+{
+}
+// 请求新消息
+message ReqNewMsg
+{
+}
+// 请求新消息回包
+message ReplyNewMsg
+{
+	repeated uint32 type = 1;	// 类型(1:系统邮件) 
+}
+// 跨服发送邮件
+message ReqSendMailBC
+{
+	required uint32 uid 				= 1;
+	required uint32 ts 					= 2;
+	required bytes sys					= 3;	// 留言
+	required bytes reward				= 4;	// 奖励
+}
+
+//向邀请者推送上线信息
+message PushLoginMsg
+{
+	required uint32 loginTs  = 1;//登录的ts
+	required uint32 uid      = 2;//玩家uid
+}
+
+//跨服推送
+message CSPushLoginMsg
+{
+	required uint32 inviteUid  = 1;
+	required uint32 loginTs    = 2;
+	required uint32 uid      = 3;//玩家uid
+}
+
+//看广告获取加速卡
+message ViewAdGetSpeedUpCardReq
+{
+}
+
+message ViewAdGetSpeedUpCardResp
+{
+	required DataCommon.CommonItemsCPP       commons  = 1;//奖励
+}
+
+//新手引导分享
+message NewUserGuideShareReq
+{
+	required uint32 id   = 1;
+	required uint32 type = 2;//(type:1单倍奖励,type:2,双倍奖励)
+}
+
+message NewUserGuideShareResp
+{
+	required DataCommon.CommonItemsCPP       commons  = 1;//奖励
+}
+
+//cdkey
+message UseCdKeyReq
+{
+	required string number = 1;
+}
+
+message UseCdKeyResp
+{
+	required DataCommon.CommonItemsCPP       commons  = 1;//奖励
+}
+
+//心跳包
+message HeartBeatReq
+{
+}
+
+message HeartBeatResp
+{
+}

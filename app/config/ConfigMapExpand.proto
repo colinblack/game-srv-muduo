@@ -1,0 +1,29 @@
+package ConfigMapExpand;
+import "CommonGiftConfig.proto";
+
+//解锁地块配置
+message UnLockLandCPP
+{
+	required uint32 id                                     = 1;//地块id
+	repeated uint32 pos                                    = 2;//地块坐上角坐标
+	required uint32 type                                   = 3;//地块类型
+	repeated uint32 footprint                              = 4;//地块范围、记录[宽,高]占几个格子
+}
+
+message MapExpandCPP
+{
+	required uint32 unLockLevel    = 1;//解锁地块需要的等级
+	repeated UnLockLandCPP land    = 2;//地块解锁信息
+}
+
+message UnlockLandCostCPP
+{
+	required uint32 type = 1;//地块类型
+	required  CommonGiftConfig.CommonModifyItem cost = 2; //解锁消耗 
+}
+
+message MapExpandInfo
+{
+	required MapExpandCPP landInfo  = 1;
+	repeated UnlockLandCostCPP unLockCost = 2;
+}

@@ -1,0 +1,28 @@
+package ProtoMailDog;
+import "DataCommon.proto";
+
+message MaidDogCPP
+{
+	required uint32 id                        = 1;//统计项(1:当日牛车发出次数,2:记录当日被访问次数,3:当日商店收入,4:当日船发出次数)具体可查看配置mailDog.json
+	required uint32 value                     = 2;//统计值
+}
+
+//繁荣度信息
+message ProsperityValueCPP
+{
+	required uint32 prosperity   = 1;//繁荣度值
+	optional uint32 rewardts     = 2;//领取的ts(只保留到小时)
+}
+
+//获取邮件狗信息
+message GetMailDogInfoReq
+{
+	
+}
+
+message GetMailDogInfoResp
+{
+	repeated MaidDogCPP  dog                    = 1;
+	required ProsperityValueCPP prosperity      = 2;
+	optional DataCommon.CommonItemsCPP commons  = 3;  //属性或者道具的通用修改
+}

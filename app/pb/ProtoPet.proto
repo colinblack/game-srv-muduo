@@ -1,0 +1,103 @@
+package ProtoPet;
+import "DataCommon.proto";
+
+
+//解锁宠物住所
+message UnlockPetResidenceReq
+{
+}
+
+message UnlockPetResidenceResp
+{
+	required DataCommon.CommonItemsCPP  common = 1;//解锁消耗 
+}
+
+//宠物住所是否已解锁标志会在User.base包里返回
+
+//解锁宠物信息
+message UnlockPetCPP
+{
+	required uint32 petid            = 1;//宠物id
+	required uint32 teaseEndts       = 2;//逗养结束ts
+	required uint32 normalEndts      = 3;//宠物正常结束ts
+	optional uint32 teaseFlag        = 4;//(逗养过:1,未逗养过:0)
+	optional bytes name              = 5;//名字
+}
+
+//注:宠物状态切换判定
+//if(teaseEndts < 当前ts)
+//	  if(normalEndts > 当前时间)
+//		  正常状态
+//    else
+//		 饥饿状态
+//else
+//	if(teaseFlag == 1)
+//		逗养状态
+//	else
+//		喂养状态
+
+//获取解锁宠物信息
+message GetUnlockPetInfoReq
+{
+}
+
+message GetUnlockPetInfoResp
+{
+	repeated UnlockPetCPP arrayPet  = 1;
+}
+
+//解锁宠物
+message UnlockPetReq
+{
+	required uint32 petid       = 1;//解锁宠物id
+}
+
+message UnlockPetResp
+{
+	required UnlockPetCPP pet                  = 1;
+	required DataCommon.CommonItemsCPP  common = 2;//解锁消耗 
+}
+
+//喂养宠物
+message FeedPetReq
+{
+	required uint32 petid       = 1;
+}
+
+message FeedPetResp
+{
+	required UnlockPetCPP pet                  = 1;
+	required DataCommon.CommonItemsCPP  common = 2;//喂养消耗 
+	optional DataCommon.CommonItemsCPP  reward = 3;//随机奖励 
+}
+
+//挑逗宠物
+message TeasePetReq
+{
+	required uint32 petid       = 1;
+}
+
+message TeasePetResp
+{
+	required UnlockPetCPP pet                  = 1;
+	required DataCommon.CommonItemsCPP  common = 2;//挑逗消耗 
+	optional DataCommon.CommonItemsCPP  reward = 3;//随机奖励
+}
+
+//更改名字
+message ChangePetNameReq
+{
+	required uint32 petid       = 1;
+	required bytes name         = 2;
+}
+
+message ChangePetNameResp
+{
+	required UnlockPetCPP pet       = 1;
+}
+
+//推送宠物信息
+message PushPetMsg
+{
+	required UnlockPetCPP pet = 1;
+}

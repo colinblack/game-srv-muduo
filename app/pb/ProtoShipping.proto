@@ -1,0 +1,184 @@
+package ProtoShipping;
+
+import "DataCommon.proto";
+
+//航运
+message ShippingCPP
+{
+	required uint32 badge 				= 1;  //徽章
+	required uint32 unlockEndts 		= 2;  //解锁结束时间
+	required uint32 arriveTs	 		=3;  //船到达的时间
+	required uint32 publicAidTimes 		= 4;  //公共援助已用次数
+	required uint32 commercialAidTimes 	= 5;  //商会援助已用次数
+	required uint32 status				= 6; //状态. 1-解锁中 2-等待揭幕 3-等待船到达 4-装货中
+	required uint32 playStatus			= 7;  //播放状态. 0-未播放 1-已播放
+	optional uint32 viewAdPackCnt       = 8;//看广告装修次数
+}
+
+//箱子
+message ShippingBoxCPP
+{
+	required uint32 boxid		= 1;  //箱子id
+	required uint32 propsid 	= 2;  //物品id
+	required uint32 count		= 3;  //数量
+	required uint32 aidStatus 	= 4;  //援助状态.0-无援助 1-请求公共援助 2-请求公会援助 3-公共援助已完成 4-公会援助已完成
+	required uint32 status		= 5;  //箱子状态.0-空箱 1-装满
+	required uint32 coin		= 6;  //金币
+	required uint32 exp			= 7; //经验
+	optional bytes  fig		 	= 8;  //援助者头像
+	optional bytes  name	 	= 9;  //援助者名字
+}
+
+//满箱点券奖励
+message FullBoxShipCPP
+{
+	required uint32 propsid                   = 1;  //满箱时返回的点券物品id
+	required uint32 propscnt                  = 2;  //满箱时返回的点券物品数量
+}
+
+//解锁码头
+message UnlockDockReq
+{
+
+}
+
+message UnlockDockResp
+{
+	required ShippingCPP shipping 				= 1;  //航运
+	required DataCommon.CommonItemsCPP commons  = 2;  //消耗
+}
+
+//揭幕
+message UnveilDockReq
+{
+
+}
+
+message UnveilDockResp
+{
+	required ShippingCPP shipping = 1;  //航运
+	repeated ShippingBoxCPP	shipboxes =2;  //箱子
+}
+
+//装箱
+message PackBoxReq
+{
+	required uint32 boxid	= 1;  //箱子id
+	required uint32 type    = 2;//装箱方式(1:普通装箱,2:看广告装箱)
+}
+
+message PackBoxResp
+{
+	optional DataCommon.CommonItemsCPP commons  = 1;  //扣去的物品，装箱奖励
+	required ShippingBoxCPP	boxes				= 2;  //箱子
+	optional FullBoxShipCPP  point              = 3;//满箱点券信息
+	optional uint32 viewAdPackCnt               = 4;//同艘船使用看广告装箱的次数
+}
+
+//发出援助
+message SeekAidReq
+{
+	required uint32 boxid 	= 1;  //箱子id
+	required uint32 type 	= 2;  //援助类型。1-公共援助。 2-商会援助
+}
+
+message SeekAidResp
+{
+	required ShippingCPP shipping = 1;  //航运
+	required ShippingBoxCPP	boxes = 2;  //箱子	
+}
+
+//提供援助
+message OfferAidReq
+{
+	required uint32 othuid 	= 1;  //求助的玩家的uid
+	required uint32 boxid 	= 2;  //箱子id
+	required uint32 propsid = 3; //物品id
+	required uint32 propscnt = 4;//物品数量
+	required uint32 coin     = 5;//扣除金币
+	required uint32 exp      = 6;//经验
+}
+
+message OfferAidResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //扣去的物品以及得到的奖励
+	required ShippingCPP selfshipping 			= 2;  //自身航运，徽章得到改变
+	optional ShippingBoxCPP	othboxes 			= 3;  //对方箱子
+	optional uint32 othboxid                    = 4; //对方箱子id	
+}
+
+//跨服提供援助
+message CSOfferAidReq
+{
+	required uint32 myuid            = 1;
+	required uint32 othuid 	         = 2;  //求助的玩家的uid
+	required ShippingBoxCPP box 	 = 3;  //箱子信息
+	required uint32 myallianceid     = 4;//自己的联盟id
+	
+}
+
+message CSOfferAidResp
+{
+	required uint32 myuid  = 1;//自己的uid
+}
+
+
+//离港
+message LeaveDockReq
+{
+
+}
+
+message LeaveDockResp
+{
+	required ShippingCPP shipping		 		= 1;  //航运
+	repeated ShippingBoxCPP	shipboxes			= 2;  //下一次的箱子
+	required DataCommon.CommonItemsCPP commons  = 3;  //航运奖励
+	optional ShipVIPBonusCPP  vipshipbonus      = 4; //vip航运加成信息
+}
+
+//设置动画播放状态
+message SetPlayStatusReq
+{
+	
+}
+
+message SetPlayStatusResp
+{
+	required ShippingCPP shipping		 		= 1;  //航运	
+}
+
+//推送援助的箱子
+message PushShipBox
+{
+	required ShippingBoxCPP box     = 1;
+}
+
+//航运vip加成
+message ShipVIPBonusCPP
+{
+	required uint32 remaincnt  = 1;//今日vip订单加成剩余的次数
+}
+
+//获取航运加成信息(打开船时获取)
+message GetShipBonusInfoReq
+{
+}
+
+message GetShipBonusInfoResp
+{
+	required ShipVIPBonusCPP  vipshipbonus   = 1;
+	optional FullBoxShipCPP  point           = 2;//点券信息
+}
+
+//船自动离港时,推送VIP航运加成信息
+message PushShipBonusInfoMsg
+{
+	required ShipVIPBonusCPP vipshipbonus = 1;
+}
+
+//援助装箱，满箱后进行推送
+message PushFullBoxShipMsg
+{
+	required FullBoxShipCPP point    = 1;
+}

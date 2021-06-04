@@ -1,0 +1,47 @@
+package ConfigVIP;
+
+import "CommonGiftConfig.proto";
+
+message VIPGiftCPP
+{
+	required uint32            viplevel                                   = 1; //VIP等级
+	repeated CommonGiftConfig.CommonModifyItem material 	              = 2; //材料库
+	required CommonGiftConfig.CommonModifyItem reward 	                  = 3; //金币
+}
+
+message VIPOrderBonus
+{
+	repeated         uint32                    bonusCnt                   = 1;//每天加成次数
+	repeated         uint32                    orderBonus                 = 2;//订单加成 
+}
+
+message VIPShipRewardBonus
+{
+	repeated         uint32                    bonusCnt                   = 1;//每天加成次数
+	repeated         uint32                    shipRewardBonus            = 3;//航运加成
+}
+
+message VIPBase
+{
+	repeated         uint32                    vipChargeLevel             = 1;//VIP充值等级
+	repeated 		 VIPGiftCPP                vipGift 	                  = 2; //VIP礼包
+	repeated         uint32                    productFreeDiamond         = 3;//生产设备秒钻次数
+	repeated         float                     shipWaitTime               = 4;//船运等待时间缩减x%
+	repeated         uint32                    orderFreeWaitCnt           = 5;//撕单免等待次数
+	repeated         uint32                    shopAddShelfCnt            = 6;//商店增加的货架数
+	repeated         uint32                    storageAddCnt              = 7;//粮仓货仓增加的容量
+	repeated         uint32                    productAddBoxCnt           = 8;//生产设备增加的格子数
+	repeated         uint32                    vipPlatCropsSpeedUp           = 9;//种植农作物加成
+	repeated         uint32                    vipProduceSpeedUp             = 10;//生产设备加成
+	required         VIPOrderBonus             vipOrderBonus                 = 11;//订单加成
+	required         VIPShipRewardBonus        vipShipRewardBonus            = 12;//航运加成
+	repeated         uint32                    vipAllianceTaskAddCnt         = 13;//联盟竞赛任务添加次数
+	repeated         uint32                    vipAnimalSpeedUp              = 14;//动物加速
+	repeated         uint32                    vipCompetitionIntegral        = 15;//商会竞赛积分倍数
+}
+
+message VIPCfgInfo
+{
+	required  VIPBase  vipInfo   = 1;//VIP配置信息
+}
+

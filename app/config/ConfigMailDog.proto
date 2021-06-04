@@ -1,0 +1,25 @@
+package ConfigMailDog;
+
+message MailDogInfoCPP
+{
+	required uint32 unlockLevel  = 1;//解锁等级
+	repeated uint32 staticId     = 2;//统计项
+}
+
+message ProsperityInfoCPP
+{
+	required uint32 buildK      = 1;
+	required uint32 croplandK   = 2;
+	required uint32 buildbase   = 3;
+	required uint32 prosperitybase = 4;
+	required uint32 maxhourdiff   = 5;
+	required uint32 firstrewardhours = 6;
+	required uint32 rewardbase    = 7;
+	repeated uint32 cointoexp   = 8;
+}
+
+message MailDogInfoCfg
+{
+	required MailDogInfoCPP maildog = 1;
+	required ProsperityInfoCPP prosperity = 2;
+}

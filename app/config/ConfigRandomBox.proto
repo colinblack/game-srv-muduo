@@ -1,0 +1,44 @@
+package ConfigRandomBox;
+
+import "CommonGiftConfig.proto";
+
+//免费随机宝箱物品信息
+message FreeRandomBoxCPP
+{
+	required uint32  type                                       = 1;//物品类型(1:物品/2:钻石/3:金币)
+	required uint32  value                                      = 2;//物品数量
+	optional uint32  itemid                                     = 3;//物品id
+	required uint32  weight                                     = 4;//权重
+}
+
+//收费随机宝箱物品信息
+message ChargeRandomBoxCPP
+{
+	required uint32 giftid                                      = 1;//礼包id
+	required  CommonGiftConfig.CommonModifyItem 	gift		= 2;//礼包的物品信息
+	required uint32  weight                                     = 3;//权重
+	optional uint32  unlocklevel                                = 4;//礼包解锁等级
+}
+
+message RandomBoxTypeCPP
+{
+	required uint32    type                                     = 1;//箱子类型(1:免费道具/2:随机礼包)
+	required uint32    weight                                   = 2;//权重(用于随机到哪种类型的箱子)
+}
+
+message RandomBoxCPP
+{
+	required uint32    cdtime                                   = 1;//箱子刷新的cd时间(单位秒)
+	repeated uint32    freeboxcoinbase                          = 2;//免费盒子获取金币的基数
+	required uint32    giftboxdiscount                          = 3;//礼包盒子折扣
+	required uint32    giftdimaonddiscount                      = 4;//礼包现价折扣
+	repeated RandomBoxTypeCPP  boxtype                          = 5;            	
+}
+
+message RandomBoxInfo
+{
+	required RandomBoxCPP randombox                              = 1;
+	repeated FreeRandomBoxCPP freeboxgift                        = 2;
+	repeated ChargeRandomBoxCPP chargeboxgift                    = 3;
+}
+

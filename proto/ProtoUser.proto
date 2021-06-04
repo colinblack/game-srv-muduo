@@ -1,0 +1,227 @@
+package ProtoUser;
+
+message Base 
+{
+	required uint32 uid					 = 1;
+	required uint64 exp					 = 2;
+	required uint32 level				 = 3;
+	required uint32 acccharge			 = 4;
+	required uint32 viplevel			 = 5;
+	required uint32 cash				 = 6;
+	required uint32 coin				 = 7;
+	required uint32 firstRecharge 		 = 8;  //首充 1--可领取 2--已经领取
+	required uint32 allianceId			 = 9;
+	repeated uint32  barrier		     = 10;  //障碍物是否被移除的状态。位标志
+	required uint32  lastcreateadts      = 11;  //上一次发广告的时间
+	required uint32 flag                 = 12;
+}
+
+//7天内的充值数据
+message ChargeItem
+{
+	required uint32 cash = 1;  //充值金额
+	required uint32 ts 	 = 2;   //充值时间
+}
+
+//建筑
+message BuildingsCPP
+{
+	required uint32 ud			 = 1;  //建筑ud
+	required uint32 buildId		 = 2;  //建筑id
+	repeated uint32 position	 = 3;  //
+	required uint32 direct		 = 4;  //朝向. 0-按照配置; 1-翻转
+	required uint32 doneTime	 = 5;  //建造结束时间
+	required uint32 level		 = 6;  //建筑等级。所有建筑，等级为0不可使用
+}
+
+//道具
+message PropsItemCPP
+{
+	required uint32 ud			= 1;  //道具ud
+	required uint32 propsId		= 2;  //道具id
+	required uint32 itemCnt 	= 3;  //道具数目
+}
+
+//设备星级
+message EquipmentStarCPP
+{
+	required uint32 id			= 1;  //设备id
+	required uint32 star		= 2; //星级
+	required uint32 usedtime	= 3;  //使用时间
+}
+
+//地块生产
+message CropLandCPP
+{
+	required uint32 ud				= 1;  //建筑ud中的农地
+	required uint32 plant 			= 2;  //农作物id
+	required uint32 status			= 3;  //状态. 0-空闲 1-生长中 2-可收获
+	required uint32 harvestTime 	= 4;  //收获时间
+}
+
+//----------------设备生产
+message ProduceEquipCPP
+{
+	required uint32 ud			= 1;  //设备ud，值是建筑ud
+	required uint32 status 		= 2;  //设备状态. 0-空闲 1-生产中 2.暂停生产
+	required uint32 queuenum 	= 3;  //队列数目
+	repeated uint32 queuedata 	= 4;  //生产队列中的产品id
+	repeated uint32 shelfdata	= 5;  //展示架中的产品id
+	required uint32 finishtime = 6;  //生产结束时间
+	repeated uint32 shelfsource = 7; //货架来源字段(0:非VIP渠道获取,1:VIP渠道获取)
+	optional uint32 keeper = 8;		//是否为助手任务
+}
+
+//----------------------果树生产
+message FruitCPP
+{
+	required uint32 ud 			 = 1;  //果树ud，即建筑ud
+	required uint32 treeid		 = 2; //果树id
+	required uint32 status		 = 3;  //果树状态. 1-生长中 2-可收获 3-枯萎 4-求助中 5-已援助
+	required uint32 stage		 = 4; //阶段
+	required uint32 fruitLeftNum = 5; //果实剩余个数
+	required uint32 harvestTime	 = 6;  //收获时间
+	optional bytes  name		 = 7;  //援助的玩家名称
+	optional bytes fig			 = 8;  //援助的玩家头像
+}
+
+//----------------------动物生产
+message AnimalCPP
+{
+	required uint32 ud			= 1;  //动物ud
+	required uint32 residenceUd = 2; //住所ud
+	required uint32 animalId	= 3; //动物id
+	required uint32 status		= 4;  //动物状态. 0-饥饿 1-成长 2-饱腹
+	required uint32 fullTime	= 5;  //饱腹时间
+	optional uint32 keeper 		= 6; //是否为助手任务(0:不是,1:是)
+}
+
+//订单
+message OrderCPP
+{
+    required uint32 slot         = 1;  //槽位号 1~10
+	required uint32 storageid   = 2;  //槽位号 1~10
+	required uint32 levelid     = 3;  //槽位号 1~10
+    required bytes orderid     = 4;  //订单ID
+	required uint32 coin		 = 5;
+	required uint32 exp			 = 6;
+    required uint32 end_ts       = 7;  //撕单结束的时间戳
+}
+
+//卡车
+message TruckCPP
+{
+	required uint32 state        = 1;  //卡车状态   0:空闲 1:运输中 2:已达到(可领取奖励)
+	required uint32 end_ts       = 2;  //结束时间
+	required uint32 coin		 = 3; //金币
+	required uint32 exp			 = 4;  //经验
+}
+
+//航运
+message ShippingCPP
+{
+	required uint32 badge 				= 1;  //徽章
+	required uint32 unlockEndts 		= 2;  //解锁结束时间
+	required uint32 arriveTs	 		=3;  //船到达的时间
+	required uint32 publicAidTimes 		= 4;  //公共援助已用次数
+	required uint32 commercialAidTimes 	= 5;  //商会援助已用次数
+	required uint32 status				= 6; //状态. 1-解锁中 2-等待揭幕 3-等待船到达 4-装货中
+	required uint32 playStatus			= 7;  //播放状态. 0-未播放 1-已播放
+	required uint32 viewAdPackCnt       = 8; //看广告装箱次数
+}
+
+//箱子
+message ShippingBoxCPP
+{
+	required uint32 boxid		= 1;  //箱子id
+	required uint32 propsid 	= 2;  //物品id
+	required uint32 count		= 3;  //数量
+	required uint32 aidStatus 	= 4;  //援助状态.0-无援助 1-请求公共援助 2-请求公会援助 3-公共援助已完成 4-公会援助已完成
+	required uint32 status		= 5;  //箱子状态.0-空箱 1-装满
+	required uint32 coin		= 6;  //金币
+	required uint32 exp			= 7; //经验
+	optional bytes  fig		 	= 8;  //援助者头像
+	optional bytes  name	 	= 9;  //援助者名字
+}
+
+//商店基本信息
+message ShopCPP
+{
+	required uint32 ud               = 1;	//货架ud
+	required uint32 propsid          = 2;	//上架物品的道具id
+	required uint32 propscnt         = 3;	//上架物品数量
+	required uint32 propsprice       = 4;	//上架的物品价格
+	required uint32 adflag           = 5;	//上架的商品有无广告(0:无广告、1:有广告)
+	required uint32 sellflag         = 6;	//上架的商品是否已出售(0:未出售、1:已出售)
+	optional bytes buyerfig			 = 7;	//购买者头像
+	optional bytes buyername         = 8;	//购买者名称
+	required uint32 vipshelfflag     = 9;   //VIP专属货架标识.0-非VIP专属货架,1-VIP专属货架
+	optional uint32 buyeruid         = 10;  //购买者uid
+}
+
+//任务
+message TaskCPP
+{
+	required uint32  id                   = 1;//任务id
+	required uint32  curtaskvalue         = 2;//当前任务数值
+	required uint32  curtaskstar          = 3;//当前任务星级
+	required uint32  rewardstatus         = 4;//领取状态(0:未领取奖励,1:已领取奖励)
+}
+
+//单线任务
+message MissionCPP
+{
+	required uint32  id                   = 1;//任务id
+	required uint32  value                = 2;//当前任务数值
+}
+
+//活动数据
+message ActivityCPP
+{
+	required uint32 id                   = 1;//活动id
+	required uint32 version              = 2;//活动版本
+	repeated uint32 data                 = 3;//活动数据
+}
+
+//报纸狗
+message MaidDogCPP
+{
+	required uint32 id                        = 1;//统计项(1:当日牛车发出次数,2:记录当日被访问次数,3:当日商店收入,4:当日船发出次数)具体可查看配置mailDog.json
+	required uint32 value                     = 2;//统计值
+}
+
+//友情树浇水者信息
+message FriendlyTreeBasicCPP
+{
+	required uint32   id               = 1;
+	required uint32   othuid           = 2;//浇水者的uid
+	required bytes    name             = 3;//浇水者名字
+	required bytes    head             = 4;//浇水者头像 
+	required uint32   ts               = 5;//对应浇水者下次可浇水的ts
+}
+
+//商店金币售出记录
+message ShopSellCoinCPP
+{
+	required uint32 id                        = 1;//统计日期
+	required uint32 value                     = 2;//当天卖出的金币
+}
+
+//好友长工
+message FriendWorkerCPP
+{
+	required uint32 workerUid            = 1;//好友长工uid
+	required uint32 workerEndTs          = 2;//(0:空闲;当前时间<workerEndTs:工作中;当前时间>=workerEndTs:工作完成)
+	required uint32 workerSlotPos        = 3;//被安置在哪个加速槽(0:未被安置,1-5分别对应安置的五个槽位)
+	optional uint32 workerInvitedTs      = 4;//长工被邀请进游戏的ts
+}
+
+//宠物信息
+message UnlockPetCPP
+{
+	required uint32 petid            = 1;//宠物id
+	required uint32 teaseEndts       = 2;//逗养结束ts
+	required uint32 normalEndts      = 3;//宠物正常结束ts
+	optional uint32 teaseFlag        = 4;//是否逗养过(1:逗养过,0:未逗养过)
+	optional bytes name             = 5;//名字
+}

@@ -1,0 +1,137 @@
+package ConfigBuilding;
+import "CommonGiftConfig.proto";
+
+message BuildFoot
+{
+	required uint32 	id 		= 1;
+	repeated uint32 footprint 	= 2;  //格子数。长*宽
+}
+
+message House
+{
+	required uint32 id	= 1;
+}
+
+message StorageHouse
+{
+	required uint32 id		= 1;
+	repeated CommonGiftConfig.CommonModifyItem need_cost = 2; //升级消耗
+	repeated uint32 level_storage	= 3; //库存值
+}
+
+message CropLand
+{
+	required uint32 id		= 1;
+	repeated CommonGiftConfig.CommonModifyItem need_cost = 2; //解锁消耗
+	repeated uint32 need_level	= 3;  //要求的解锁等级
+	repeated uint32 gain_num	= 4;
+	repeated uint32 wait_time	= 5;  //可不配置
+	required CommonGiftConfig.CommonModifyItem build_reward = 6; //建筑奖励
+}
+
+message AnimalResidence
+{
+	required uint32 id		= 1;
+	repeated CommonGiftConfig.CommonModifyItem need_cost = 2; //解锁消耗
+	repeated uint32 need_level	= 3;  //要求的解锁等级
+	repeated uint32 gain_num	= 4;
+	repeated uint32 wait_time	= 5;
+	required uint32 animal_id	= 6;
+	required uint32 capacity	= 7;
+	required uint32 speed_price = 8;  //立即完成价格。1钻的秒数
+	required CommonGiftConfig.CommonModifyItem build_reward = 9; //建筑奖励	
+}
+
+message Animal
+{
+	required uint32 id		= 1;
+	repeated CommonGiftConfig.CommonModifyItem need_cost = 2; //解锁消耗
+	repeated uint32 need_level	= 3;  //要求的解锁等级
+	repeated uint32 gain_num	= 4;
+	required CommonGiftConfig.CommonModifyItem build_reward = 5; //建筑奖励	
+}
+
+message UpgradeStar
+{
+	required uint32 need_time	= 1;  //熟练时间
+	required uint32 need_price	= 2;  //需要的总价格
+	required uint32 ptype		= 3;  //属性类型
+	required uint32 value		= 4;  //属性值
+}
+
+message ProduceEquipment
+{
+	required uint32 id		= 1;
+	repeated CommonGiftConfig.CommonModifyItem need_cost = 3; //解锁消耗
+	repeated uint32 need_level	= 4;  //要求的解锁等级
+	repeated uint32 gain_num	= 5;
+	repeated uint32 wait_time	= 6;
+	repeated UpgradeStar upgrade_star	= 7;
+	required uint32 init_queue	= 8;
+	required uint32 speed_price = 9;  //立即完成价格。1钻的秒数
+	required CommonGiftConfig.CommonModifyItem build_reward = 10; //建筑奖励	
+}
+
+message FruitTree
+{
+	required uint32 							id		 = 1;
+	repeated CommonGiftConfig.CommonModifyItem need_cost = 2; //解锁消耗
+	repeated uint32 						need_level	 = 3;  //要求的解锁等级
+	repeated uint32 						gain_num	 = 4;
+	repeated uint32 						wait_time	 = 5;  //可不配置
+	required CommonGiftConfig.CommonModifyItem cut_tree_props	= 6;	
+}
+
+message Decoration
+{
+	required uint32 							id			= 1;
+	repeated CommonGiftConfig.CommonModifyItem need_cost 	= 2;  //解锁消耗
+	repeated uint32 						need_level		= 3;  //要求的解锁等级
+	repeated uint32 						wait_time	 	= 4;  //可不配置
+	repeated uint32 						gain_num		= 5;  //建造数量上限
+	required uint32							factor			= 6;  //系数
+	
+}
+
+message ViewAdReduceTimeCPP
+{
+	required uint32 base_time        = 1;
+	required uint32 reduce_percent   = 2;
+	required uint32 view_ad_max_cnt  = 3;
+}
+
+message Buildings
+{
+	required House 						house	= 1;  //房子
+	repeated StorageHouse 		storagehouse    = 2;  //仓库
+	repeated CropLand 				cropland	= 3;  //农地
+	repeated AnimalResidence animal_residence	= 4;  //动物住所
+	repeated ProduceEquipment produce_equipment	= 5;  //生产设施
+	repeated FruitTree			fruit_tree		= 6;  //果树
+	repeated Decoration 		decorate		= 7;  //装饰物
+	repeated BuildFoot 			build_print		= 8;  //地块相关信息
+	repeated Animal				 animal			= 9;  //动物
+	required uint32 unlock_upgardestar_level	= 10; //升星功能解锁等级
+	required ViewAdReduceTimeCPP   view_ad_cfg  = 11;//看广告配置
+}
+
+message Barrier
+{
+	required uint32 id		= 1;
+	required uint32	type	= 2;
+	repeated uint32 pos		= 3;
+	repeated uint32 footprint 	= 4; 
+}
+
+message DestoryBarrier
+{
+	required uint32 								type	= 1;
+	required CommonGiftConfig.CommonModifyItem need_props	= 2;
+}
+
+message Barriers
+{
+	repeated Barrier barriers				 = 1;  //障碍物
+	repeated DestoryBarrier barriers_destory = 2;  //障碍物清除
+}
+

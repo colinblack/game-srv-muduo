@@ -1,0 +1,84 @@
+package ConfigAllianceRace;
+
+import "CommonGiftConfig.proto";
+
+message RaceGradeRank
+{
+	required   uint32  id                                = 1;//排名
+	required   uint32  point                             = 2;//积分
+}
+message RaceGrade
+{
+	required   uint32  race_level                   = 1;//竞赛等级
+	repeated   RaceGradeRank rank					= 2;//排名对应积分
+}
+message RaceTaskCond
+{
+	required   uint32  type                              = 1;//任务类型
+	required   uint32  id                                = 2;//目标ID
+	required   uint32  count                             = 3;//目标数量
+}
+message RaceTaskStorageItem
+{
+	required   uint32  id                                = 1;//ID
+	required   uint32  point                             = 2;//完成任务可获得积分
+	required   uint32  time                              = 3;//限时
+	required   uint32  level                             = 4;//等级限制
+	repeated   RaceTaskCond cond						 = 5;//任务条件
+}
+message RaceTaskStorage
+{
+	required   uint32  storage_id       			            = 1;//库ID
+	repeated   RaceTaskStorageItem  items                   	= 2;//任务项
+}
+message RaceTaskChance
+{
+	required   uint32  race_level                   = 1;//竞赛等级
+	required   uint32  value                   		= 2;//任务次数
+}
+message RaceTask
+{
+	required   uint32  cdtime                               = 1;//任务cd时间
+	required   uint32  buy_cd_time                          = 2;//花费钻石可以减少的cd时长
+	required   uint32  buy_cd_cost                          = 3;//买cd时长消耗钻石
+	required   uint32  buy_chance_cost                     	= 4;//买一次任务机会消耗钻石
+	repeated   RaceTaskChance chance						= 5;//接任务次数
+	repeated   RaceTaskStorage storage						= 6;//任务库
+}
+message RaceRewardRank
+{
+	required   uint32  id                                = 1;//ID
+	required   float  rate                              = 2;//名次系数
+}
+message RaceRewardStage
+{
+	required   uint32  id                                = 1;//ID
+	required   uint32  race_level                        = 2;//竞赛等级
+	required   uint32  point                        	 = 3;//积分
+	repeated   CommonGiftConfig.CommonModifyItemRate reward				 = 4;//阶段奖励
+}
+message RaceReward
+{
+	required   uint32  id                                = 1;//ID
+	required   uint32  min_level                         = 2;//玩家等级下限
+	required   uint32  max_level                         = 3;//玩家等级上限
+	repeated   RaceRewardRank rank						 = 4;//名次系数
+	repeated   CommonGiftConfig.CommonModifyItemRate grade_reward				 = 5;//等级奖励
+	repeated   RaceRewardStage stage					 = 6;//阶段奖励
+}
+message RaceInfo
+{
+	required uint32  stage_reward_refresh_cost = 1;	//刷新阶段奖励消耗钻石
+	required uint32  start_ts = 2;	// 竞赛开始时间(距离本周一零点时长)
+	required uint32  end_ts = 3;	// 竞赛结束时间(距离本周一零点时长)
+	repeated RaceGrade grade = 4;	// 等级
+	required RaceWatchAdReward watch_ad_reward = 5;	//看广告任务奖励
+	required RaceTask task = 6;		//段位
+	repeated RaceReward rewards = 7;	// 奖励
+}
+message RaceWatchAdReward
+{
+	required uint32 diamond = 1; //钻石奖励
+	required uint32 point   = 2; //积分奖励
+	required uint32 count   = 3; //完成任务的次数限制
+}

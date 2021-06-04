@@ -1,0 +1,174 @@
+import "DataCommon.proto";
+package ProtoShop;
+
+//商店基本信息
+message ShopCPP
+{
+	required uint32 ud               = 1;	//货架ud
+	required uint32 propsid          = 2;	//上架物品的道具id
+	required uint32 propscnt         = 3;	//上架物品数量
+	required uint32 propsprice       = 4;	//上架的物品价格
+	required uint32 adflag           = 5;	//上架的商品有无广告(0:无广告、1:有广告)
+	required uint32 sellflag         = 6;	//上架的商品是否已出售(0:未出售、1:已出售)
+	optional bytes buyerfig			 = 7;	//购买者头像
+	optional bytes buyername         = 8;	//购买者名称
+	required uint32 vipshelfflag     = 9;   //VIP专属货架标识.0-非VIP专属货架,1-VIP专属货架
+	optional uint32 buyeruid         = 10; //购买者uid
+}
+
+//获取商店信息
+message GetShopReq
+{
+}
+
+message GetShopResp
+{
+	repeated ShopCPP  shop           = 1;
+}
+
+//物品上架
+message ShelfPropsReq
+{
+	required uint32 ud               = 1;//货架ud
+	required uint32 propsid          = 2;//上架物品的道具id
+	required uint32 propscnt         = 3;//上架物品数量
+	required uint32 propsprice       = 4;//上架的物品价格
+	required uint32 adflag           = 5;//上架的商品有无广告(0:无广告、1:有广告)
+}
+
+message ShelfPropsResp
+{
+	required ShopCPP shop                       = 1;
+	required DataCommon.CommonItemsCPP commons  = 2;  //属性或者道具的通用修改
+	optional   uint32  ts                       = 3;  //下一次可以发广告的ts
+}
+
+//货架解锁(新增货架)
+message ShelfUnLockReq
+{
+	required uint32 costdiamond    = 1;//解锁需要消耗的钻石
+}
+message ShelfUnLockResp
+{
+	required ShopCPP shop                       = 1;  //新解锁的货架信息
+	required DataCommon.CommonItemsCPP commons  = 2;  //属性或者道具的通用修改
+}
+
+//确认收钱
+message ConfirmPaymentReq
+{
+	required uint32 ud     = 1; //货架的ud
+	optional uint32 type   = 2; //(0:普通收钱,1:看广告收钱)
+}
+
+message ConfirmPaymentResp
+{
+	required ShopCPP shop 						= 1;  //确认收钱后的货架信息
+	required DataCommon.CommonItemsCPP commons  = 2;  //收钱
+}
+
+//访问别人商店
+message VisitOtherShopReq
+{
+	required uint32 othuid = 1;  //对方uid
+}
+
+message VisitOtherShopResp
+{
+	required uint32 othuid	 = 1;  //对方uid
+	repeated ShopCPP othshop = 2;  //对方商店数据
+}
+
+//跨服访问商店
+message CSVisitOtherShopReq
+{
+	required uint32 visitUid = 1; //访问者uid
+	required uint32 visitedUid = 2;  //被访问者uid
+}
+
+message CSVisitOtherShopResp
+{
+	required uint32 visitUid                       = 1;  //访问者uid
+	required VisitOtherShopResp visitedShopResp    = 2;  //被访问者商店消息
+}
+
+//购买物品
+message PurchaseReq
+{
+	required uint32 othuid           = 1;  //对方uid
+	required uint32 ud		         = 2;  //货架ud
+	required uint32 propsid          = 3;	//上架物品的道具id
+	required uint32 propscnt         = 4;	//上架物品数量
+	required uint32 propsprice       = 5;	//上架的物品价格
+	required uint32 sellflag         = 6;	//上架的商品是否已出售(0:未出售、1:已出售)
+}
+
+message PurchaseResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //花钱+获得物品
+	required uint32 othuid						= 2;  //对方uid
+	required ShopCPP 				othshop		= 3;  //对方商店数据
+}
+
+//跨服修改商店货架购买信息
+message CSPurchaseReq
+{
+	required uint32 othuid           = 1;  //对方uid
+	required uint32 ud		         = 2;  //货架ud
+	required uint32 propsid          = 3;	//上架物品的道具id
+	required uint32 propscnt         = 4;	//上架物品数量
+	required uint32 propsprice       = 5;	//上架的物品价格
+	required uint32 sellflag         = 6;	//上架的商品是否已出售(0:未出售、1:已出售)
+	optional uint32 buyeruid         = 7;  //购买者uid
+	optional bytes buyerfig           = 8; //购买者头像
+	optional bytes buyername          = 9; //购买者名称
+}
+
+message CSPurchaseResp
+{
+	required uint32 visitUid                    = 1;//购买者uid
+	required uint32 visitedUid                  = 2;//被购买者uid
+	required ShopCPP 			visitedshop		= 3;  //对方商店数据
+}
+
+//修改货架信息
+message ModifyShelfInfoReq
+{
+	required uint32  ud      = 1;//货架ud
+	required uint32  flag    = 2;//(1:发广告、2:删除订单)
+}
+message ModifyShelfInfoResp
+{
+	required ShopCPP shop                       = 1;//货架信息
+	optional DataCommon.CommonItemsCPP commons  = 2; //属性修改
+	optional   uint32  ts                       = 3;  //下一次可以发广告的ts
+}
+
+//商店消息推送
+message PushShopMsg
+{
+	required ShopCPP shop   = 1;
+}
+
+//看广告回收物品
+message ViewAdRecycleItemReq
+{
+	required uint32 ud  = 1;//货架ud
+}
+
+message ViewAdRecycleItemResp
+{
+	required ShopCPP shop                       = 1;//货架信息
+	required DataCommon.CommonItemsCPP commons  = 2; //属性修改
+}
+
+//系统购买
+message BuyShopItemBySystemReq
+{
+	required uint32 ud		         = 1;  //货架ud
+}
+
+message BuyShopItemBySystemResp
+{
+	required ShopCPP shop             = 1;//货架信息
+}

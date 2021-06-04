@@ -1,0 +1,14 @@
+package ConfigFriend;
+
+message LevelNums
+{
+	required uint32 level 		 = 1;  //vip等级
+	required uint32 concern_nums = 2; //关注数量上限
+	required uint32 fans_num	 = 3; //粉丝数量上限
+}
+
+message Friend
+{
+	repeated LevelNums nums = 1;  //等级数量数组
+}
+

@@ -1,0 +1,32 @@
+import "DataCommon.proto";
+
+package ProtoGM;
+
+/*
+ * GM指令格式   @cmd 参数1 参数2 参数3 ...
+ * @ 说明：$$代表在使用时用实际数值替换    
+ *    $positive$--正数;  
+ *    $value$--正负数 
+ * 1. NPC关卡 ##赋值  	 "pass $positive$"; 
+ * 2. cash ##增量 		"cash $value$";	   
+ * 3. coin ##增量		"coin $value$";		
+ * 4. wood ##增量			"wood $value$";
+ * 5. food	##增量		"food $value$";		
+ * 6. iron ##增量			"iron $value$";
+ * 7. level	##赋值		"level $positive$";
+ * 8. exp ##增量			"exp $positive$";
+ * 9. 累计充值 ##增量			"acccharge $value$";
+ * 10.点券     ##增量			"ticket $value$";
+ * 11.加装备  ##增量		"equip $id$ $positive$";
+ * 12.英雄解锁 			"hero unlock $id$";
+ */
+
+message GMCmdReq
+{
+	required string cmd = 1;
+}
+
+message SyncInfo
+{
+	optional  DataCommon.CommonItemsCPP common  = 1; //通用处理
+}

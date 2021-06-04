@@ -1,0 +1,27 @@
+package ConfigAlliance;
+
+import "CommonGiftConfig.proto";
+
+message TypeStorage
+{
+	required uint32 limitnum = 1;  //捐收数目上限
+	required uint32 type	 = 2; //类型
+	repeated uint32 products = 3; //产品库
+}
+
+message Donation
+{
+	required uint32 cdtime				= 1; //cd时间
+	required uint32 cdprice				= 2; //cd总价
+	repeated TypeStorage type_storge	= 3; //类别库
+}
+
+message Alliance
+{
+	required uint32 create_level							= 1;  //创建等级
+	required CommonGiftConfig.CommonModifyItem create_cost 	= 2; //创建消耗
+	required uint32 member_num_limit						= 3;  //成员上限
+	required uint32 director_num_limit						= 4;  //理事上限
+	required uint32 committee_num_limit						= 5;  //委员上限	
+	required Donation donation								= 6;  //捐收
+}

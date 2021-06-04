@@ -1,0 +1,26 @@
+import "DataCommon.proto";
+package ProtoRandomBox;
+
+//打开箱子
+message OpenBoxReq
+{
+}
+
+message OpenBoxResp
+{
+	required uint32  ts                         = 1;//下一次可刷新箱子的ts
+	required uint32  type                       = 2;//箱子类型(1:免费道具/2:礼包)
+	optional DataCommon.CommonItemsCPP commons  = 3;//(若箱子为免费道具,则返回物品增加的道具
+	optional uint32 giftid                      = 4;//若箱子为礼包,则返回礼包id
+}
+
+//购买礼包
+message BuyBoxGiftReq
+{
+	optional uint32 type = 1;//(0:花钻购买,1:看广告或分享)
+}
+
+message BuyBoxGiftResp
+{
+	required DataCommon.CommonItemsCPP commons  = 3;//增加的道具信息
+}

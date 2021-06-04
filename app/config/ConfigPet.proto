@@ -1,0 +1,39 @@
+package ConfigPet;
+
+import "CommonGiftConfig.proto";
+
+//宠物住所
+message PetResidenceCPP
+{
+	required uint32           unlock_level                       = 1;//解锁等级
+	required CommonGiftConfig.CommonModifyItem unlock_cost       = 2;//动物住所解锁消耗
+}
+
+//宠物
+message PetCPP
+{
+	required uint32           petid                              = 1;//宠物id
+	required uint32           unlock_level                       = 2;//解锁等级
+	required uint32           normal_cd                          = 3;//动物正常状态cd
+	required CommonGiftConfig.CommonModifyItem feed_cost         = 4;//喂养消耗
+	required uint32           tease_cd                           = 5;//挑逗cd
+	required CommonGiftConfig.CommonModifyItem tease_cost        = 6;//挑逗消耗
+	required CommonGiftConfig.CommonModifyItem  unlock_cost      = 7;//解锁消耗
+	required bytes            comment                            = 8;//名字
+}
+
+//操作宠物奖励
+message PetRewardCPP
+{
+	required uint32  weight     = 1;//权重
+	optional CommonGiftConfig.CommonModifyItem reward         = 2;//奖励
+}
+
+//动物园配置
+message PetGardenCfg
+{
+	required PetResidenceCPP pet_residence     = 1;//宠物住所
+	repeated PetCPP          pet               = 2;//宠物
+	repeated PetRewardCPP    pet_feed_reward        = 3;//宠物喂养奖励
+	repeated PetRewardCPP    pet_tease_reward        = 4;//宠物挑逗奖励
+}

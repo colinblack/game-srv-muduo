@@ -1,0 +1,23 @@
+package ConfigNPCCustomer;
+
+message LevleTs
+{
+	repeated uint32 level           = 1;//等级区间
+	required uint32 ts              = 2;//需等待的ts
+}
+message NPCCustomerCPP
+{
+	required uint32 unlocklevel         = 1;//解锁等级
+	required uint32 npcMaxCnt           = 2;//最多NPC个数
+	required uint32 npcComeMaxCnt       = 3;//npc到来的最大数目
+	repeated uint32 npcItemCntPercnt    = 4;//随机npc物品数量时的一个百分比区间
+	required float  priceBase           = 5;//价格基数
+	required uint32 exp                 = 6;//经验值
+	repeated uint32 notIncludeItem      = 7;//不会随机到的物品库
+	repeated LevleTs levelts             = 8;//等级段对应的ts
+}
+
+message NPCCustomerInfo
+{
+	required NPCCustomerCPP npccustomer  = 1;
+}

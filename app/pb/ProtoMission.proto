@@ -1,0 +1,36 @@
+import "DataCommon.proto";
+package ProtoMission;
+
+message MissionCPP
+{
+	required uint32  id                   = 1;//任务id
+	required uint32  value                = 2;//当前任务数值
+}
+
+//获取所有任务
+message GetCurMissionReq
+{
+}
+
+message GetCurMissionResp
+{
+	repeated MissionCPP     misssion             = 1;//任务信息
+}
+
+//领取任务
+message RewardMissionReq
+{
+	required uint32 ud         = 1;//当前任务ud
+	required uint32 type       = 2;//0:普通领取,1:看广告后领取
+}
+
+message RewardMissionResp
+{
+	repeated MissionCPP missions     = 1;//下一任务信息
+	required DataCommon.CommonItemsCPP commons  = 2;  //属性或者道具的通用修改
+}
+
+message PushMission
+{
+	required MissionCPP mission   = 1;
+}

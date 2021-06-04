@@ -1,0 +1,35 @@
+package ProtoTheme;
+
+import "DataCommon.proto";
+//查询主题
+message ThemeInfoReq
+{
+}
+//购买主题
+message ThemeBuyReq
+{
+	required uint32 themeId		= 1;  //主题id
+	required uint32 itemType	= 2;  //子项ID
+}
+//购买主题回包
+message ThemeBuyResp
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //消耗，包含新增的商会id
+	required ThemeInfoResp themeInfo			= 2;  //主题信息
+	optional uint32 themeId		= 3;  //主题id
+	optional uint32 itemType	= 4;  //子项ID
+}
+//应用主题
+message ThemeUseReq
+{
+	required uint32 themeId		= 1;  //主题id
+	repeated uint32 itemType	= 2;  //子项ID
+}
+
+//主题信息
+message ThemeInfoResp
+{
+	repeated uint32 use		= 1;  //使用中的主题
+	repeated uint32 own		= 2;  //拥有的主题
+}
+

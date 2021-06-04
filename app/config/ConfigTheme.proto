@@ -1,0 +1,18 @@
+package ConfigTheme;
+
+import "CommonGiftConfig.proto";
+
+message ThemeInfoItem
+{
+	required uint32 type = 1;	//ID
+	required CommonGiftConfig.CommonModifyItem  cost = 2;	//消耗
+}
+message ThemeInfo
+{
+	required uint32 themeid = 1;	//主题ID
+	repeated ThemeInfoItem item = 2;	// 主题内容
+}
+message Conf
+{
+	repeated ThemeInfo theme = 1;	// 主题
+}

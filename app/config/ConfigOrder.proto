@@ -1,0 +1,59 @@
+package ConfigOrder;
+
+message Order
+{
+	required uint32 propsid  = 1;
+	required uint32 weight   = 2;
+	required int32  count    = 3; 
+}
+
+message Level
+{
+	required uint32 level_id = 1;
+	required uint32 level = 2;
+	required uint32 discard_cdtime = 3;
+	repeated Order orders = 4;
+}
+
+message Storage
+{
+	required uint32 storage_id = 1;
+	required uint32 ratio = 2;
+	repeated Level levels = 3;
+}
+
+message Parameter
+{
+	required uint32 level = 1;
+	required float random_min = 2;
+	required float random_max = 3;
+	required uint32 discard_cdtime = 4;
+}
+
+//订单槽位对应仓库id配置
+message OrderSolt
+{
+	required uint32 solt            = 1;
+	repeated uint32 storageid       = 2;
+	required uint32 orderMax        = 3;
+}
+
+//订单加成配置
+message OrderBonusCPP
+{
+	required uint32 adbonus         = 1;//广告加成百分比(adbonus:只配置百分之多少)
+	required uint32 ad_bonus_cnt_daily      = 2;//每天能使用看广告加成的次数
+	required uint32 cost_diamond    = 3;//钻石加成需要消耗的钻石
+	required uint32 diamond_bonus_cnt_daily = 4;//每天能使用钻石加成的次数
+	required uint32 diamond_bonus_day   = 5;//钻石加成可使用的天数
+	required uint32 diamondbonus          = 6;//订单加成
+}
+
+message Base
+{
+	repeated Storage storages 		= 1;
+	repeated Parameter parameters 	= 2;
+	required uint32  discard_price  = 3;  //撕单总价
+	repeated OrderSolt ordersolt    = 4;
+	required OrderBonusCPP orderbonus = 5;
+}

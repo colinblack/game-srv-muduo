@@ -1,0 +1,50 @@
+import "DataCommon.proto";
+package ProtoNPCSeller;
+
+message NPCSellerCPP
+{
+	required uint32 propsId            = 1;//物品id
+	required uint32 propsCnt           = 2;//物品数量
+	required uint32  propsDiscount     = 3;//物品折扣(折扣率=此折扣值/100)
+	required uint32 npcNextVisitTs     = 4;//NPC下一次可以访问的ts(十级前初始化为0)
+	required uint32 npcSellerStatus    = 5;//NPC商人状态(0:未播过来时动画,1:已播过来时动画)
+}
+
+//获取折扣
+message GetPropsDiscountReq
+{
+	
+}
+
+message GetPropsDiscountResp
+{
+	required NPCSellerCPP npcSeller  = 1;
+}
+
+//回应npc商人
+message ResponseNPCSellerReq
+{
+	required uint32 responseFlag  = 1;//(1:购买,2:不购买)
+}
+
+message ResponseNPCSellerResp
+{
+	required NPCSellerCPP npcSeller = 1;//下一次NPC商人访问时的基本信息
+	optional DataCommon.CommonItemsCPP commons  = 2; //消耗与收获
+}
+
+//改变NPC状态
+message ChangeNPCSellerStatusReq
+{
+}
+
+message ChangeNPCSellerStatusResp
+{
+	required NPCSellerCPP npcSeller = 1;
+}
+
+//推送NPC商人信息
+message PushNPCSellerInfo
+{
+	required NPCSellerCPP npcSeller = 1;
+}

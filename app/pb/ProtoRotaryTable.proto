@@ -1,0 +1,54 @@
+import "DataCommon.proto";
+package ProtoRotaryTable;
+
+message RotaryTableCPP
+{
+	required uint32 gridid              = 1;//转盘格子id(标号1-10)
+	required uint32 griditemtype        = 2;//转盘格子物品类型(1:钻石,2:金币,3:物品)
+	optional uint32 griditemid          = 3;//如果转盘里为物品,则标明物品id
+	required uint32 griditemcnt         = 4;//转盘格子物品数量
+}
+
+//抽奖次数信息
+message DrawCntCPP
+{
+	required uint32 freeDrawCnt             = 1;//今日免费抽奖次数
+	required uint32 usedFreeDrawCnt         = 2;//今日已使用免费抽奖的次数
+	required uint32 usedFriendlyDrawCnt     = 3;//今日已使用友情值抽奖的次数
+}
+
+//获取转盘信息
+message GetRotaryTableInfoReq
+{
+}
+
+message GetRotaryTableInfoResp
+{
+	repeated RotaryTableCPP rotarytable   = 1;
+	required DrawCntCPP    drawinfo       = 2;
+}
+
+
+//抽奖
+message DrawRotaryTableReq
+{
+}
+
+message DrawRotaryTableResp
+{
+	required uint32  gridid                       = 1;//表明抽中的格子id
+	required DataCommon.CommonItemsCPP commons    = 2; //奖励
+	required DrawCntCPP    drawinfo               = 3;
+	required uint32 curfriendlyvalue              = 4;//当前友情值
+}
+
+//分享
+message ShareReq
+{
+	
+}
+
+message ShareResp
+{
+	required DrawCntCPP    drawinfo       = 1;//抽奖次数信息
+}

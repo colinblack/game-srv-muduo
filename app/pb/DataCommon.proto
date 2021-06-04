@@ -1,0 +1,43 @@
+package DataCommon;
+
+message BaseItemCPP
+{
+	required uint32 type		= 1;  //属性类型
+	required int32  change 		= 2;  //改变值
+	required uint64 totalValue 	= 3;  //最新值
+	//required uint32 id			= 4;  //关联的操作
+}
+
+//通用的玩家属性档修改
+message UserBaseChangeCPP
+{
+	repeated BaseItemCPP baseItem = 1;
+}
+
+//道具
+message PropsItemCPP
+{
+	required uint32 ud			= 1;  //道具ud
+	required uint32 propsId		= 2;  //道具id
+	required uint32 itemCnt 	= 3;  //道具数目
+}
+
+message PropsChangeCPP
+{
+	required int32 change		= 1;  //修改值
+	required PropsItemCPP props = 2;  //道具的最新信息
+}
+
+//设计的通用道具操作
+message PropsAllChangeCPP
+{
+	repeated PropsChangeCPP	propsitem	 = 1;  //道具
+}
+
+//通用整合大礼包
+message CommonItemsCPP
+{
+	optional UserBaseChangeCPP 	userbase	 = 1;  //玩家属性
+	optional PropsAllChangeCPP		props	 = 2;  //玩家道具
+	optional uint32 from 					 = 3;  //来源(1:
+}

@@ -1,0 +1,53 @@
+package Common;
+
+message Login {
+		required uint32 uid 				= 1;
+		required string openid				= 2;
+		required string openkey				= 3;
+		required uint32 ts 					= 4;
+		required string sig					= 5;
+		required bool 	isnew				= 6;
+		required uint32 platform 			= 7;
+		optional bytes fig					= 8;
+		optional bytes name					= 9;
+		optional uint32 isBlueVip 		= 10;
+		optional uint32 isBlueYearVip 	= 11;
+		optional uint32 isSuperBlueVip	= 12;
+		optional uint32 blueVipLevel 		= 13;
+		optional bytes  wxChannel           = 14;//微信平台用户的具体来源渠道(若无具体来源渠道,传"wechat")
+}
+message Kick{
+		required string reason				= 1;
+}
+message ChangeName {
+		required uint32 uid 				= 1;
+		required bytes name				 	= 2;
+		required bytes fig				 	= 3;
+}
+message ReplyChangeName {
+		required bytes name				 	= 1;
+		required bytes fig				 	= 2;
+}
+message Pay {
+		required uint32 uid 				= 1;
+		required uint32 cash 				= 2;
+		required uint32 ts 					= 3;
+		optional uint32 itemid              = 4;
+		optional uint32 currency            = 5;//充值金额
+		optional bytes tradeNo              = 6;//充值订单号
+		optional bytes channelTradeNo       = 7;//充值项目 
+}
+message ReplyPay {
+		required uint32 ret 				= 1;
+		optional bytes name				 	= 2;
+}
+message NoticePay {
+		required uint32 cash 				= 1;
+		required uint32 viplevel			= 2; 
+		required uint32	accrecharge		= 3;
+}
+
+message ShutDown {
+		required uint32 ts					= 1;
+		required string sign				= 2;
+}

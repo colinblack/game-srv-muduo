@@ -1,0 +1,30 @@
+package ConfigReward;
+import "CommonGiftConfig.proto";
+
+message FirstRechargeRewardCPP
+{
+	required CommonGiftConfig.CommonModifyItem common 	= 1; //奖励礼包
+}
+
+message FollowPublicRewardCPP
+{
+	required CommonGiftConfig.CommonModifyItem common 	= 1; //奖励礼包
+}
+message FetchProductWatchAdsItem
+{
+	required uint32 id		= 1; //物品ID
+	required uint32 rate	= 2; //概率
+	required uint32 count	= 3; //数量
+}
+message FetchProductWatchAds
+{
+	required uint32 minTime         = 1;
+	required uint32 cd              = 2;
+	repeated FetchProductWatchAdsItem reward 	= 3; //奖励
+}
+message RewardList
+{
+	required FirstRechargeRewardCPP firstRecharge     = 1;//首充奖励
+	required FollowPublicRewardCPP followPublic     = 2;//关注公众号
+	required FetchProductWatchAds fetchProductWatchAds	= 3;//获取物品看广告奖励
+}

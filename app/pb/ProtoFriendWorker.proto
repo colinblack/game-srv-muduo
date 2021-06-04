@@ -1,0 +1,79 @@
+package ProtoFriendWorker;
+import "DataCommon.proto";
+
+message FriendWorkerCPP
+{
+	required uint32 workerUid            = 1;//好友长工uid
+	required uint32 workerEndTs          = 2;//(0:空闲;当前时间<workerEndTs:工作中;当前时间>=workerEndTs:工作完成)
+	required uint32 workerSlotPos        = 3;//被安置在哪个加速槽(0:未被安置,1:农田加速槽,2:订单加速,3:动物加速,4:航宇奖励,5:设备加速)
+	optional uint32 workerInvitedTs      = 4;//长工被邀请进游戏的ts
+}
+
+//设置好友长工
+message SetFriendWorkerReq
+{
+	required uint32 othuid    = 1;//设置为谁的好友长工
+	optional uint32 propsid   = 2;//传入的物品id
+	repeated uint32 source    = 3;//有效邀请来源（数据中传入两位  第一位表示什么建筑，第二位传UD唯一标识  商店【1,0】动物园【2,0】）
+}
+
+message SetFriendWorkerResp
+{
+	required uint32 status   = 1;//状态(0:设置成功,1:之前已设置过,2:设置失败)
+}
+
+//推送物品信息
+message PushInviteReardMsg
+{
+	required DataCommon.CommonItemsCPP commons  = 1;  //属性或者道具的通用修改 
+}
+
+//跨服设置好友长工
+message CSSetFriendWorkerReq
+{
+	required uint32 othuid    = 1;//设置为谁的好友长工
+	required uint32 myuid     = 2;
+	required uint32 propisid  = 3;
+	required uint32 sourceType    = 4;
+	required uint32 sourceFlag    = 5; 
+}
+
+message CSSetFriendWorkerResp
+{
+	required uint32 othuid    = 1;//设置为谁的好友长工
+	required uint32 myuid     = 2;
+	required uint32 stauts    = 3;//执行状态
+}
+
+//获取长工加速信息(打开专属长工UI时请求)
+message GetWorkerSpeedUpReq
+{
+}
+
+message GetWorkerSpeedUpResp
+{
+	repeated FriendWorkerCPP friendworker = 1;
+}
+
+//对应加速槽选择长工
+message SelectWorkerReq
+{
+	required uint32 workerUid    = 1;//选择长工的uid
+	required uint32 pos          = 2;//对应加速槽位的位置(1-5)
+}
+
+message SelectWorkerResp
+{
+	required FriendWorkerCPP friendworker = 1;
+}
+
+//感谢长工
+message ThanksWorkerReq
+{
+	required uint32 workerUid    = 1;//选择长工的uid
+}
+
+message ThanksWorkerResp
+{
+	required FriendWorkerCPP friendworker = 1;
+}

@@ -1,0 +1,40 @@
+import "DataCommon.proto";
+package ProtoAdvertise;
+
+//广告基本信息
+message AdInfoCPP
+{
+	required uint32 id            = 1;//广告id
+	required uint32 uid           = 2;//玩家uid
+	required bytes  headUrl       = 3;//玩家头像url
+	required uint32 level         = 4;//玩家等级
+	required bytes  name          = 5;//玩家名
+	required uint32  propsId      = 6;//物品id
+	required uint32 propsCnt      = 7;//物品数量
+	required uint32 propsPrice    = 8;//物品价格
+	required uint32 helpFlag      = 9;//有无帮助信息
+	required uint32 ts            = 10;//广告发布时间
+	
+}
+//获取广告信息
+message GetAdInfoReq
+{
+
+}
+
+message GetAdInfoResp
+{
+	repeated AdInfoCPP adInfo   = 1;
+}
+
+//更新广告cd
+message UpdateAdCdReq
+{
+
+}
+
+message UpdateAdCdResp
+{
+	required uint32  ts                         = 1;//下一次可以发广告的时间
+	required DataCommon.CommonItemsCPP commons  = 2; 
+}

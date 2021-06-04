@@ -1,0 +1,7 @@
+package ErrorRet;
+
+message ErrorRet {
+	required uint32 errorret		 	= 1;
+	required string errormsg			= 2;
+	required string requestmsg			= 3;
+}

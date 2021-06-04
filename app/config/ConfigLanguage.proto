@@ -1,0 +1,5 @@
+package ConfigLanguage;
+message LanguageCfg
+{
+	optional bytes worker_reward   = 1;	// 长工奖励
+}

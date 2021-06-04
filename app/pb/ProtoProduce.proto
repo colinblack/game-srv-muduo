@@ -1,0 +1,248 @@
+package ProtoProduce;
+
+import "DataCommon.proto";
+
+message CropLandCPP
+{
+	required uint32 ud				= 1;  //建筑ud中的农地
+	required uint32 plant 			= 2;  //农作物id
+	required uint32 status			= 3;  //状态. 0-空闲 1-生长中 2-可收获
+	required uint32 harvestTime 	= 4;  //收获时间
+}
+
+//种植
+message PlantCropReq
+{
+	repeated uint32 uds 	= 1 ; //农地ud集合
+	required uint32 plant	= 2; //农作物ud
+}
+
+message PlantCropResp
+{
+	repeated CropLandCPP cropland 				= 1; //农地信息
+	required DataCommon.CommonItemsCPP commons  = 2; //农作物
+}
+
+//收割
+message ReapCropReq
+{
+	repeated uint32 uds 	= 1 ; //农地ud集合
+}
+
+message ReapCropResp
+{
+	repeated CropLandCPP cropland 				= 1; //农地信息
+	required DataCommon.CommonItemsCPP commons  = 2; //农作物
+	required bool 		isfull					= 3;  //是否满仓
+}
+
+//----------------设备生产
+message ProduceEquipCPP
+{
+	required uint32 ud			= 1;  //设备ud，值是建筑ud
+	required uint32 status 		= 2;  //设备状态. 0-空闲 1-生产中 2.暂停生产
+	required uint32 queuenum 	= 3;  //队列数目
+	repeated uint32 queuedata 	= 4;  //生产队列中的产品id
+	repeated uint32 shelfdata	= 5;  //展示架中的产品id
+	required uint32 finishtime = 6;  //生产结束时间
+	repeated uint32 shelfsource = 7; //货架来源字段(0:非VIP渠道获取,1:VIP渠道获取)
+	optional uint32 keeper = 8;		//是否为助手任务
+}
+
+//扩建队列
+message ExpandQueueReq
+{
+	required uint32 equipud = 1;  //设备ud
+}
+
+message ExpandQueueResp
+{
+	required ProduceEquipCPP equipment 			= 1;  //设备信息
+	required DataCommon.CommonItemsCPP commons  = 2; //消耗
+}
+
+//加入生产队列
+message JoinQueueReq
+{
+	required uint32 propsid	= 1;  //产品id
+	required uint32 equipud = 2;  //设备ud
+}
+
+message JoinQueueResp
+{
+	required ProduceEquipCPP equipment 			= 1;  //设备信息
+	required DataCommon.CommonItemsCPP commons  = 2; //消耗
+}
+
+//取回仓库
+message FetchProductReq
+{
+	required uint32 pos		= 1;  //展示架索引
+	required uint32 equipud = 2;  //设备ud
+}
+
+message FetchProductResp
+{
+	required ProduceEquipCPP equipment 			= 1;  //设备信息
+	optional DataCommon.CommonItemsCPP commons  = 2; //产品
+	required bool 		isfull					= 3;  //是否满仓
+}
+
+//----------------------动物生产
+message AnimalCPP
+{
+	required uint32 ud			= 1;  //动物ud
+	required uint32 residenceUd = 2; //住所ud
+	required uint32 animalId	= 3; //动物id
+	required uint32 status		= 4;  //动物状态. 0-饥饿 1-成长 2-饱腹
+	required uint32 fullTime	= 5;  //饱腹时间
+	optional uint32 keeper = 6;		//是否为助手任务
+}
+
+//领养动物
+message AdoptAnimalReq
+{
+	required uint32 buildud		= 1;  //动物住所ud
+}
+
+message AdoptAnimalResp
+{
+	required AnimalCPP   animal 				= 1;  //动物信息
+	required DataCommon.CommonItemsCPP commons  = 2; //消耗
+}
+
+//喂养动物
+message FeedAnimalReq
+{
+	required uint32 animalud	= 1; //动物ud
+	required uint32 fodderud	= 2; //饲料ud
+}
+
+message FeedAnimalResp
+{
+	required AnimalCPP   animal 				= 1;  //动物信息
+	required DataCommon.CommonItemsCPP commons  = 2; //消耗
+}
+
+//获取产品
+message ObtainProductReq
+{
+	required uint32 animalud	= 1; //动物ud
+}
+
+message ObtainProductResp
+{
+	required bool 		isfull					= 1;  //是否满仓
+	optional AnimalCPP   animal 				= 2;  //动物信息
+	optional DataCommon.CommonItemsCPP commons  = 3; //产品	
+}
+
+//推送获得的随机材料奖励
+message PushRandomRewardReq
+{
+	required uint32 propsid  = 1; //随机物品奖励	
+	optional DataCommon.CommonItemsCPP commons  = 2; //物品		
+}
+
+//----------------------果树生产
+message FruitCPP
+{
+	required uint32 ud 			 = 1;  //果树ud，即建筑ud
+	required uint32 treeid		 = 2; //果树id
+	required uint32 status		 = 3;  //果树状态. 1-生长中 2-可收获 3-枯萎 4-求助中 5-已援助
+	required uint32 stage		 = 4; //阶段
+	required uint32 fruitLeftNum = 5; //果实剩余个数
+	required uint32 harvestTime	 = 6;  //收获时间
+	optional uint32  helpUid     = 7; //援助者uid
+}
+
+message PushFruitInfo
+{
+	required FruitCPP fruit    = 1;//果树信息
+	required uint32   uid      = 2;//推送人的uid
+}
+
+//收割
+message ReapFruitReq
+{
+	required uint32 treeud 	= 1 ; //果树ud
+}
+
+message ReapFruitResp
+{
+	required FruitCPP 	fruit 					= 1; //果树信息
+	required DataCommon.CommonItemsCPP commons  = 2; //收获的果子
+}
+
+//求助
+message SeekHelpReq
+{
+	required uint32 treeud 	= 1 ; //果树ud
+}
+
+message SeekHelpResp
+{
+	required FruitCPP 	fruit 					= 1; //果树信息
+}
+
+//砍树
+message CutFruitTreeReq
+{
+	required uint32 treeud 	= 1 ; //果树ud
+}
+
+message CutFruitTreeResp
+{
+	required uint32 destroyud = 1;  //销毁的建筑和果树ud
+	required DataCommon.CommonItemsCPP commons  = 2; //消耗的工具信息
+}
+
+//提供帮助
+message OfferHelpReq
+{
+	required uint32 othuid = 1;  //发出请求的uid
+	required uint32 treeud = 2; //果树ud
+}
+
+message OfferHelpResp
+{
+	required uint32 		othuid			 	= 1;  //帮助的uid
+	required FruitCPP 	othfruit 				= 2; //对方果树信息
+	required DataCommon.CommonItemsCPP commons  = 3; //获得的奖励
+}
+
+//跨服提供帮助
+message CSOfferHelpReq
+{
+	required uint32 myuid  = 1; //自己的uid
+	required uint32 othuid = 2;  //发出请求的uid
+	required uint32 treeud = 3; //果树ud
+	optional uint32 allianceid = 4;//用户所在联盟id
+}
+
+message CSOfferHelpResp
+{
+	required uint32        myuid                = 1; //提供帮助的uid
+	required uint32 	   othuid			 	= 2;  //被帮助的uid
+	required FruitCPP 	othfruit 				= 3; //对方果树信息
+}
+
+//确认帮助
+message ConfirmHelpReq
+{
+	required uint32	 treeud = 1;
+}
+
+message ConfirmHelpResp
+{
+	required FruitCPP fruit	= 1; //果树信息	
+}
+
+//生产线结构整合
+message ProduceProductCPP
+{
+	optional CropLandCPP 	cropland 	= 1;
+	optional ProduceEquipCPP equipment  = 2;
+	optional AnimalCPP 		animal		= 3;
+	optional FruitCPP		fruit		= 4;
+}

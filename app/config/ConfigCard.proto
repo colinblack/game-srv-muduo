@@ -1,0 +1,24 @@
+package ConfigCard;
+import "CommonGiftConfig.proto";
+
+
+message MonthCardCPP
+{
+	required uint32 cost = 1;//购买月卡人民币
+	required uint32 effective_day = 2;//月卡有效天数
+	required CommonGiftConfig.CommonModifyItem first_reward = 3;//首次奖励
+	required CommonGiftConfig.CommonModifyItem reward = 4;//每日领取奖励
+}
+
+message LifeCardCPP
+{
+	required uint32 cost = 1;//购买月卡人民币
+	required CommonGiftConfig.CommonModifyItem first_reward = 2;//首次奖励
+	required CommonGiftConfig.CommonModifyItem reward = 3;//每日领取奖励
+}
+
+message CardCfg
+{
+	required MonthCardCPP monthcard = 1;
+	required LifeCardCPP lifecard   = 2;
+}

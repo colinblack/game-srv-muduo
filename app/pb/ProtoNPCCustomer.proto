@@ -1,0 +1,45 @@
+import "DataCommon.proto";
+package ProtoNPCCustomer;
+
+//npc顾客基本信息
+message NPCCustomerCPP
+{
+	optional uint32 propsId       = 1;//物品id
+	optional uint32 propsCnt      = 2;//物品数量
+	required uint32 nextts        = 3;//下一次访问的ts
+}
+
+//获取NPC顾客信息
+message GetNPCCustomerReq
+{
+}
+
+message GetNPCCustomerResp
+{
+	repeated NPCCustomerCPP customer  = 1;
+}
+
+//出售物品给npc顾客
+message SellPropsReq
+{
+	required uint32  propsId   = 1;//购买的物品id
+}
+
+message SellPropsResp
+{
+	optional DataCommon.CommonItemsCPP commons  = 1;  //通用道具属性修改
+	required uint32 ts                          = 2;//npc顾客下一次可访问的ts
+	required uint32 npcid         = 3;//需要更新ts的npcid 
+}
+
+//拒绝出售物品
+message RefuseSellPropsReq
+{
+	required uint32  propsId   = 1;//拒绝购买的物品id
+}
+
+message RefuseSellPropsResp
+{
+	required uint32 ts                          = 1;//npc顾客下一次可访问的ts
+	required uint32 npcid         = 2;//需要更新ts的npcid 
+}

@@ -1,0 +1,47 @@
+package ProtoPush;
+
+import "ProtoBuilding.proto";
+import "ProtoProduce.proto";
+import "DataCommon.proto";
+import "ProtoOrder.proto";
+import "ProtoShipping.proto";
+
+//建筑相关推送
+message PushBuildingsCPP
+{
+	repeated ProtoBuilding.BuildingCPP buildings	 		= 1;  //建筑
+	repeated ProtoProduce.CropLandCPP croplands		 		= 2; //农地
+	repeated ProtoProduce.ProduceEquipCPP equipments 		= 3; //生产设备
+	repeated ProtoProduce.AnimalCPP		 animals	 		= 4;  //动物
+	repeated ProtoBuilding.EquipmentStarCPP equipmentstar 	= 5;  //设备星级
+	repeated ProtoProduce.FruitCPP 			fruits			= 6;  //果树
+	repeated ProtoOrder.OrderCPP          orders            = 7;  //订单
+	optional ProtoOrder.TruckCPP          truck             = 8;  //卡车
+	optional ProtoShipping.ShippingCPP	shipping			= 9; //航运
+	repeated ProtoShipping.ShippingBoxCPP  shipboxes		= 10; //航运箱子
+	optional DataCommon.CommonItemsCPP commons				= 11;  //道具的获得
+}
+
+//用户升级了
+message PushUserUpLevel
+{
+	required DataCommon.CommonItemsCPP commons	= 1;
+}
+
+//用户升级奖励
+message RewardLevelUpReq
+{
+	required uint32 type = 1;//(0:单倍奖励,1:双倍奖励)
+}
+
+message RewardLevelUpResp
+{
+	required DataCommon.CommonItemsCPP commons	= 1;
+}
+
+//整点推送
+message PushOnceEveryDayReward
+{
+	
+}
+
