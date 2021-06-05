@@ -19,7 +19,9 @@
  */
 #define API_RETURE_ERROR_CODE_BASE       1000
 
-using namespace std;
+
+using std::vector;
+using std::string;
 
 /**
  * T_UserInfo - 用户登录信息

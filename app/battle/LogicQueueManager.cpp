@@ -82,7 +82,7 @@ void LogicQueueManager::OnTimer1()
 	        try
 	        {
 	        	TaskDone(pRoutine);
-	        }catch (exception & e)
+	        }catch (std::exception & e)
 	        {
 	            error_log("task done fail msg=%s", e.what());
 	        }

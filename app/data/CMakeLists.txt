@@ -53,7 +53,7 @@ link_libraries(sg17common)
 link_libraries(sg17pb)
 link_libraries(sg17config)
 link_libraries(sg17kernel)
-#add_definitions(-std=c++11)
+#add_definitions()
 
 aux_source_directory(. DIR_LIB_SRCS)
 # 生成链接库

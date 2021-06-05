@@ -31,5 +31,16 @@
 #include "ConfigPB.h"
 #include "ConfigInc.h"
 
+using std::runtime_error;
+using std::deque;
+using std::map;
+using std::string;
+using std::vector;
+using std::set;
+using std::list;
+using std::min;
+using std::max;
+using std::bitset;
+
 
 #endif //__KERNEL_H__

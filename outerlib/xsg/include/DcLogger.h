@@ -7,7 +7,10 @@
 #include "model.h"
 #include "FileLogger.h"
 
-using namespace std;
+using std::map;
+using std::list;
+using std::thread;
+using std::mutex;
 
 class DcLogger
 {

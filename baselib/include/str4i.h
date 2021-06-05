@@ -56,7 +56,10 @@ namespace Sgi = std;
 #endif
 
 using namespace Sgi;
-using namespace std;
+
+using std::set;
+using std::vector;
+using std::string;
 
 struct str_hash_str4i
 {

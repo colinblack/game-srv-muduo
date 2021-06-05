@@ -25,7 +25,8 @@
 #include <stdio.h>
 
 #include <string>
-using namespace std;
+using std::string;
+
 #define INVALID_SOCKET  -1
 
 /*

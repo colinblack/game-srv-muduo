@@ -31,6 +31,7 @@ bool CBufferWriter::Detach()
 
 #define NOTHING(value) value
 
+
 #define IMPLEMENT_BUFFER_WRITE(TypeName, Type)	\
 	bool CBufferWriter::Append##TypeName(Type value)	\
 	{	\
@@ -127,37 +128,6 @@ bool CBufferWriter::AppendPBMsg(const Message* msg)
 	return true;
 }
 
-bool CBufferWriter::AppendBuffer(const IBuffer *value)
-{
-#if 0
-	if(m_pBuffer == NULL || value == NULL)
-	{
-		return false;
-	}
-	uint16_t size = (uint16_t)value->GetSize();
-	if(m_bSwapByte)
-	{
-		uint16_t tempSize = htons(size);
-		if(!m_pBuffer->Append((byte *)&tempSize, sizeof(tempSize)))
-		{
-			return false;
-		}
-	}
-	else
-	{
-		if(!m_pBuffer->Append((byte *)&size, sizeof(size)))
-		{
-			return false;
-		}
-	}
-	if(!m_pBuffer->AppendBuffer(value))
-	{
-		m_pBuffer->SetSize(m_pBuffer->GetSize() - sizeof(size));
-		return false;
-	}
-#endif 
-	return true;
-}
 
 bool CBufferWriter::AppendBytes(const byte *value, uint32_t size)
 {

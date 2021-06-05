@@ -9,7 +9,7 @@
 #define CONFIG_H_
 
 #include <string>
-using namespace std;
+using  std::string;
 
 namespace Config
 {

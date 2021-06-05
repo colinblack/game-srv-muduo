@@ -12,6 +12,10 @@
 #include "DBCBase.h"
 #include "ErrorUtil.h"
 
+
+using std::fstream;
+using std::ios;
+
 /*
  * 数据管理器的基类，继承该类后会在LogicManager中调用各个函数和虚函数
  */
@@ -725,7 +729,7 @@ public:
 	bool Load()
 	{
 		string path = GetSavePath();
-		fstream input(path.c_str(), ios::in | ios::binary);
+		std::fstream input(path.c_str(), std::ios::in | std::ios::binary);
 		if(!input)
 		{
 			error_log("no proto %s",path.c_str());
@@ -747,7 +751,7 @@ public:
 		string path = GetSavePath();
 		T3* msg = new T3;
 		Serialize(msg);
-		fstream output(path.c_str(), ios::out | ios::trunc | ios::binary);
+		fstream output(path.c_str(), std::ios::out | std::ios::trunc | std::ios::binary);
 		if(!msg->SerializeToOstream(&output))
 			error_log("serialize %s fail",path.c_str());
 		delete msg;

@@ -23,7 +23,7 @@
 
 #define MAXSIZE          4096
 
-using namespace std;
+using  std::string;
 
 struct LogMsg {
 	string srvId;

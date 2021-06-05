@@ -9,11 +9,23 @@
 #define _LIP_FIRE_PACKET_H_
 
 #include "Common.h"
-#include "IPacket.h"
 
 #define PACKET_HEADER_SIZE sizeof(BattleHead)
 #define MAX_PROTOCOL_BODY_SIZE 0x20000
 #define MAX_PACKET_SIZE (PACKET_HEADER_SIZE + MAX_PROTOCOL_BODY_SIZE + sizeof(byte))
+
+
+#define PACKET_ENCODE(type, ...)	if(!writer.Append##type(__VA_ARGS__)) return false
+#define PACKET_DECODE(type, ...)	if(!reader.Get##type(__VA_ARGS__)) return false
+
+
+#define IMPLEMENT_TO_STRING(format, ...)	\
+	 string ToString() const	\
+	{	\
+		string s;	\
+		String::Format(s, format, __VA_ARGS__);	\
+		return s;	\
+	}	\
 
 
 // 协议包头数据
@@ -43,10 +55,6 @@ public:
 	}
 
 	IMPLEMENT_TO_STRING("cid=%d&len=%u&cmd=%u&fd=%u&time=%u&microTime=%u",channelId, bodyLen,cmd,fd,time,microTime);
-/* 	auto f = [&]{
-		std::cout << uid << std::endl;
-	}; */
-
 
 	Message* m_msg;
 	bool EncodePB(Buffer *pBuffer);

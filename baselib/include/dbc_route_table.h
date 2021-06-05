@@ -10,8 +10,13 @@
 #include "markupstl.h"
 #include "dbcapi.h"
 
-using namespace std;
-typedef map<DBC::Server *, int, less<DBC::Server *> > DBCConnectMap;
+using std::string;
+using std::vector;
+using std::list;
+using std::map;
+
+
+typedef map<DBC::Server *, int, std::less<DBC::Server *> > DBCConnectMap;
 
 //记录信息
 struct UIN_DBC
@@ -49,10 +54,6 @@ struct BATCH_DBC
 class CDBCRouteTable
 {
 public:
-
-
-
-
 	CDBCRouteTable(char *xml );
 	static CDBCRouteTable * GetInstance(char * xml);
 	int init(char *xml_config);

@@ -10,7 +10,11 @@
 #include <map>
 #include <ext/hash_map>
 #include <stdio.h>
-using namespace std;
+
+using std::map;
+using std::vector;
+using std::string;
+
 using namespace __gnu_cxx;
 
 //extern int Log(const char* fmt, ...);

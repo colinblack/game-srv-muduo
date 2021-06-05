@@ -74,7 +74,7 @@ void LogicAllianceManager::OnRaceSettle()
 
 	string path = Config::GetPath("tools/");
 	string file = path + "racepoint.txt";
-	ofstream fout(file.c_str(), ios_base::out | ios_base::trunc);
+	ofstream fout(file.c_str(), std::ios_base::out | std::ios_base::trunc);
 
 //	Json::Value globalRank(Json::arrayValue); // allianceId -> point
 	for(map<uint32_t, pair<uint32_t, uint32_t> >::iterator iter = rank.begin(); iter != rank.end(); ++iter)
@@ -151,7 +151,7 @@ void LogicAllianceManager::OnRaceSettle()
 			error_log("load alliance fail aid=%u %s", aid, e.what());
 		}
 	}
-	fout << endl;
+	fout << std::endl;
 	/*
 	string cmd = "cd " + path + " && nohup ./SaveRankPoint 1 &";
 	File::Write(file, Json::ToString(globalRank));

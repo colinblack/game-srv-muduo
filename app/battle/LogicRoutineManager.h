@@ -39,11 +39,11 @@ private:
     const static long sequenceBits = 10L;
 
     // 区域标志ID最大值
-     const static long maxRegionId = -1L ^ (-1L << regionIdBits);
+     const static long maxRegionId = -1UL ^ (-1UL << regionIdBits);
     // 机器ID最大值
-     const static long maxWorkerId = -1L ^ (-1L << workerIdBits);
+     const static long maxWorkerId = -1UL ^ (-1UL << workerIdBits);
     // 序列号ID最大值
-     const static long sequenceMask = -1L ^ (-1L << sequenceBits);
+     const static long sequenceMask = -1UL ^ (-1UL << sequenceBits);
 
      // 机器ID偏左移10位
      const static long workerIdShift = sequenceBits;

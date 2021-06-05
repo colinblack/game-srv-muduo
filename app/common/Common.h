@@ -32,6 +32,7 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
+#include <bitset>
 
 using std::string;
 using std::pair;
@@ -114,9 +115,8 @@ using namespace muduo::net;
 #include "IShareMemory.h"
 #include "SemaphoreLock.h"
 #include "ShareMemory.h"
-#include "IBuffer.h"
-#include "IMessageQueue.h"
-#include "Buffer.h"
+//#include "IBuffer.h"
+//#include "IMessageQueue.h"
 #include "BufferReader.h"
 #include "BufferWriter.h"
 #include "FileToJson.h"

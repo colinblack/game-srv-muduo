@@ -7,7 +7,11 @@
 #include "model.h"
 #include "cJSON.h"
 
-using namespace std;
+using std::map;
+using std::list;
+using std::thread;
+using std::mutex;
+using std::ofstream;
 
 class FileLogger
 {

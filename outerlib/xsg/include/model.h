@@ -1,6 +1,9 @@
 #include <string>
 #include <map>
-using namespace std;
+
+using std::map;
+using std::string;
+
 
 #ifndef MODEL__H
 #define MODEL__H

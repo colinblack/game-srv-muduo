@@ -59,7 +59,7 @@ link_libraries(sg17kernel)
 link_libraries(sg17data)
 link_libraries(muduo_base)
 link_libraries(muduo_net)
-add_definitions(-std=c++11)
+add_definitions()
 
 aux_source_directory(. DIR_LIB_SRCS)
 # 生成链接库

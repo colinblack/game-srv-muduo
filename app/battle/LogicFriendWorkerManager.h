@@ -3,7 +3,7 @@
 
 #include "Common.h"
 #include "Kernel.h"
-#include <bitset>
+
 #include "DataInc.h"
 #include "ConfigInc.h"
 

@@ -9,7 +9,7 @@
 #define KERNELUTIL_H_
 
 #include "Kernel.h"
-using namespace std;
+using std::string;
 
 namespace Kernel
 {

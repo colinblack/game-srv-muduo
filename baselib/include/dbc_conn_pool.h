@@ -14,7 +14,9 @@
 #include <string>
 #include <memory>
 #include "dbcapi.h"
-using namespace std;
+using  std::string;
+using  std::list;
+
 class CDBCConnPool
 {
 	public:

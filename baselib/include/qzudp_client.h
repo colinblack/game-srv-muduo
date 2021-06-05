@@ -12,7 +12,7 @@
 
 #include "qzone_protocol.h"
 
-using namespace std;
+using std::string;
 
 namespace QZONE
 {

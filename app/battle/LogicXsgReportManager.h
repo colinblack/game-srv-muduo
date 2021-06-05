@@ -4,7 +4,7 @@
 #include "DcLogger.h"
 #include "Common.h"
 #include "Kernel.h"
-#include <bitset>
+
 
 class LogicXsgReportManager:public BattleSingleton, public CSingleton<LogicXsgReportManager>
 {

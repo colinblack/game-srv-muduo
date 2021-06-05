@@ -277,12 +277,12 @@ void ConfigManager::Init()
 			{
 				uint32_t taskId = task.target(id).id();
 				uint32_t productId = task.target(id).tid();
-				m_keeperTarget.insert(make_pair(taskId, productId));
-				m_rKeeperTarget.insert(make_pair(productId, taskId));
-				m_targetKeeper.insert(make_pair(productId, ki.id()));
+				m_keeperTarget.insert(std::make_pair(taskId, productId));
+				m_rKeeperTarget.insert(std::make_pair(productId, taskId));
+				m_targetKeeper.insert(std::make_pair(productId, ki.id()));
 				if(m_productBuild.find(productId) != m_productBuild.end())
 				{
-					m_keeperBuild.insert(make_pair(taskId, m_productBuild[productId]));
+					m_keeperBuild.insert(std::make_pair(taskId, m_productBuild[productId]));
 				}
 			}
 		}

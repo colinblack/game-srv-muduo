@@ -55,7 +55,7 @@
 #endif
 ///end add by geminiguan
 
-using namespace std;
+using std::string;
 
 // -----------------------------------------------------------------------------
 //

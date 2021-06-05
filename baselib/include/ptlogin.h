@@ -13,7 +13,8 @@
 
 #define FARMLAND_PTLOGIN_CONF "/data/release/farmland/conf/cgi/farmland_ptlogin.xml"
 
-using namespace std;
+using std::string;
+
 class CPtLogin
 {
 	public:

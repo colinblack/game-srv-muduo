@@ -6,6 +6,7 @@
  */
 
 #include "UserManager.h"
+#include <string_view>
 
 /********************************calc level exp by day***************************************/
 /*MODIFY WITH ADDUSER.CPP*/
@@ -645,6 +646,8 @@ int UserManager::OnNewUser(unsigned uid, Common::Login* msg)
 
 int UserManager::OnUserLogin(unsigned uid, Common::Login* msg)
 {
+	std::string_view good("a string literal");
+
 	ProtoManager::m_CurCMD = e_CMD_login;
 
 	unsigned index = BaseManager::Instance()->GetIndex(uid);

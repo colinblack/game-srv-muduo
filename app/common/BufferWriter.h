@@ -29,7 +29,6 @@ public:
 	bool AppendDouble(double value);
 	bool AppendString(const string &value);
 	bool AppendPBMsg(const Message* msg);
-	bool AppendBuffer(const IBuffer *value);
 	bool AppendBytes(const byte *value, uint32_t size);
 
 private:

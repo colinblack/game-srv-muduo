@@ -260,7 +260,7 @@ void MemoryAllianceRaceGroupManager::Rank(map<uint32_t, pair<uint32_t, uint32_t>
 	for(uint32_t i = 0; i < m_data->size; ++i)
 	{
 		DataAllianceRaceGroupItem& item = m_data->item[i];
-		sort(item.member, item.member + MEMORY_ALLIANCE_RACE_GROUP_SIZE);
+		std::sort(item.member, item.member + MEMORY_ALLIANCE_RACE_GROUP_SIZE);
 	}
 	for(uint32_t i = 0; i < m_data->size; ++i)
 	{
@@ -271,7 +271,7 @@ void MemoryAllianceRaceGroupManager::Rank(map<uint32_t, pair<uint32_t, uint32_t>
 			uint32_t aid = member.allianceId;
 			if(IsAllianceId(aid) && !CMI->IsNeedConnectByAID(aid))
 			{
-				rank[aid] = make_pair(j+1, member.count);
+				rank[aid] = std::make_pair(j+1, member.count);
 			}
 		}
 	}

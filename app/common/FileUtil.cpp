@@ -176,7 +176,7 @@ int File::RecursiveMkdir(const char * pPath)
 
         strncpy(szLocalPath, pPath, len);  // 需要头文件<string.h>支持
         szLocalPath[len+1] = '\0';
-        cout<<"递归创建的路径是"<<szLocalPath<<endl;
+        std::cout<<"递归创建的路径是"<<szLocalPath<<std::endl;
         RecursiveMkdir(szLocalPath);
         return RecursiveMkdir(pPath);
     }

@@ -210,6 +210,16 @@ void *
 	return sha1_finish_ctx (&ctx, resblock);
 }
 
+
+#if !_STRING_ARCH_unaligned
+template <typename Type>
+struct S{
+   char c;
+   Type x;
+};
+#endif
+
+
 void
 	sha1_process_bytes (const void *buffer, size_t len, struct sha1_ctx *ctx)
 {
@@ -242,7 +252,7 @@ void
 	if (len >= 64)
 	{
 #if !_STRING_ARCH_unaligned
-# define alignof(type) offsetof (struct { char c; type x; }, x)
+# define alignof(type) offsetof (S<type>, x)
 # define UNALIGNED_P(p) (((size_t) p) % alignof (uint32_t) != 0)
 		if (UNALIGNED_P (buffer))
 			while (len > 64)

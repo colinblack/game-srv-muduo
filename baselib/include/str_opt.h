@@ -8,7 +8,8 @@
 #include <string>
 #include <iconv.h>
 
-using namespace std;
+
+using std::string;
 
 void StrReplace( std::string & strBig, const std::string & strsrc, const std::string &strdst );
 int StrSeparate( const char* sSrc, const char* sSep, int* n, int iMaxNum );

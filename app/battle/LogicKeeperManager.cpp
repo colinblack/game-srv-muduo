@@ -92,7 +92,7 @@ int LogicKeeperManager::Process(unsigned uid, ProtoKeeper::KeeperSetTask* req, P
 		uint32_t type = GetKeeperTaskType(taskItem.taskid());
 		if(typeSize.find(type) == typeSize.end())
 		{
-			typeSize.insert(make_pair(type, 0));
+			typeSize.insert(std::make_pair(type, 0));
 		}
 		uint32_t curSize = typeSize[type] + taskItem.need();
 		if(curSize > maxTarget)

@@ -14,7 +14,9 @@
 /*!
  * \brief 基础库类，实现一些公共函数，一般以静态成员方式提供
 */
-using namespace std;
+using  std::string;
+using  std::vector;
+
 class CBasic
 {
 public:

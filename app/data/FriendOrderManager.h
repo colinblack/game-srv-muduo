@@ -11,6 +11,9 @@
 
 #include "Kernel.h"
 
+
+
+
 struct FoInfoItem
 {
 	unsigned status;		//订单状态
@@ -89,7 +92,7 @@ public:
 
 	unsigned GetFreeIndex();								//获取未被使用的index
 
-	map<unsigned,deque<unsigned> > & GetFoInfoMap();		//获取好友订单map uid和foidx映射
+	map<unsigned,deque<unsigned>> & GetFoInfoMap();		//获取好友订单map uid和foidx映射
 
 	bool AddFoInfo(uint32_t uid,FoInfoItem &foItem,int basket);	//重要接口 增加一条好友订单 考虑替换算法
 

@@ -27,7 +27,7 @@ long LogicRoutineManager::GetNextRid(bool isPadding, long busId)
         try
         {
             throw runtime_error("Clock moved backwards.  Refusing to generate id for milliseconds");
-        }catch (exception & e)
+        }catch (std::exception & e)
         {
             e.what();
         }

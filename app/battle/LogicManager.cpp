@@ -683,7 +683,7 @@ void LogicManager::preOffline(CFirePacket* packet)
 		return;
 
 	info_log("kick pre offline, uid=%u, fd=%u", Getuid(packet->fd), packet->fd);
-	m_leaveList.push_back(make_pair(Time::GetGlobalTime(), Getuid(packet->fd)));
+	m_leaveList.push_back(std::make_pair(Time::GetGlobalTime(), Getuid(packet->fd)));
 	Erasefd(packet->fd);
 }
 

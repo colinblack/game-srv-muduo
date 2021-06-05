@@ -6,7 +6,7 @@
 #include <vector>
 #include "Kernel.h"
 
-using namespace std;
+using std::vector;
 
 #define MAP_MOVEABLE 0x8000
 struct Rect;
