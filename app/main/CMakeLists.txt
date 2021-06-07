@@ -67,6 +67,6 @@ add_definitions()
 aux_source_directory(. DIR_SRCS)
 # 指定生成目标
 add_executable(battled  ${DIR_SRCS})
-target_link_libraries(battled pthread protobuf)
+target_link_libraries(battled pthread protobuf redis++ hiredis)
 
 

@@ -1,8 +1,6 @@
 #include "BattleServer.h"
 
-
 int main(int argc,char** argv){
-
 	if(!BattleServer::Instance()->Initialize())
 	{
 		printf("battle Server Initialize Error\n");

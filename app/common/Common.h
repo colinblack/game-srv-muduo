@@ -43,6 +43,8 @@ using std::set;
 using std::queue;
 using std::stack;
 
+
+
 #include <google/protobuf/stubs/common.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/message.h>
@@ -82,7 +84,10 @@ using google::protobuf::DescriptorPool;
 using google::protobuf::MessageFactory;
 using google::protobuf::Reflection;
 
-using namespace muduo::net;
+
+#include <sw/redis++/redis++.h>
+
+using namespace sw::redis;
 
 #include "basic.h"
 #include "trans.h"
